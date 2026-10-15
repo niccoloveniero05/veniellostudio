@@ -395,7 +395,22 @@ a.recapito:hover{background:rgba(255,255,255,.1)}
   .cella.terzo{grid-column:span 2}
   .chiusura-griglia{grid-template-columns:1.2fr .8fr;gap:72px}
 }
-@media (prefers-reduced-motion:reduce){.btn,.domande-elenco summary::after,.recapito{transition:none}}
+.partner-griglia{display:grid;gap:18px;margin-top:2.6rem;grid-template-columns:1fr}
+@media (min-width:880px){.partner-griglia{grid-template-columns:2fr 1fr}}
+.partner-carta{position:relative;border-radius:24px;overflow:hidden;background:var(--notte-2);box-shadow:inset 0 0 0 1px var(--linea-scura);min-height:420px;display:flex}
+.partner-foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.partner-testo{position:relative;z-index:1;margin-top:auto;width:100%;padding:120px 28px 28px;background:linear-gradient(0deg,rgba(7,11,24,.97) 45%,rgba(7,11,24,0))}
+.partner-logo{width:190px;height:auto;margin-bottom:.9rem}
+.partner-tipo{color:var(--sbiadito);font-size:1.02rem}
+.partner-lavori{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:1rem 0 1.5rem;padding:0}
+.partner-lavori li{font:500 .8rem/1 var(--mono);padding:.6rem .8rem;border-radius:999px;background:rgba(255,255,255,.09);color:#fff}
+.partner-tu{flex-direction:column;justify-content:flex-end;gap:.5rem;padding:28px;min-height:260px;color:#fff;text-decoration:none;background:var(--notte-3);transition:background .2s ease}
+.partner-tu:hover{background:#1d2547}
+.partner-piu{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:30px;line-height:1;background:var(--grad-blu);margin-bottom:auto}
+.partner-tu h3{font-size:1.6rem;letter-spacing:-.02em}
+.partner-tu p{color:var(--sbiadito)}
+.partner-link{margin-top:.8rem;font-weight:600;color:#FFB08F}
+@media (prefers-reduced-motion:reduce){.btn,.domande-elenco summary::after,.recapito,.partner-tu{transition:none}}
 </style>
 </head>
 <body>
@@ -420,7 +435,7 @@ a.recapito:hover{background:rgba(255,255,255,.1)}
 <header class="testata">
   <div class="wrap">
     <a class="marchio" href="#inizio" aria-label="Veniello Studio, torna all'inizio"><svg aria-hidden="true"><use href="#i-marchio"/></svg><b>Veniello <span>Studio</span></b></a>
-    <nav aria-label="Menu principale"><a href="#servizi">Servizi</a><a href="#come">Come funziona</a><a href="#prezzi">Prezzi</a><a href="#domande">Domande</a></nav>
+    <nav aria-label="Menu principale"><a href="#servizi">Servizi</a><a href="#come">Come funziona</a><a href="#partner">Partner</a><a href="#prezzi">Prezzi</a><a href="#domande">Domande</a></nav>
     <a class="btn btn-arancio" href="https://wa.me/393273331949?text=Ciao%2C%20vorrei%20informazioni%20per%20la%20mia%20attivit%C3%A0" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-wa"/></svg><span>Scrivici</span></a>
   </div>
 </header>
@@ -593,6 +608,31 @@ a.recapito:hover{background:rgba(255,255,255,.1)}
         <li class="punto entra"><span class="icona"><svg class="i" aria-hidden="true"><use href="#i-chiave"/></svg></span><h3>Il dominio è tuo</h3><p>Il nome del sito, per esempio latuaattivita.it, è intestato a te.</p></li>
         <li class="punto entra"><span class="icona"><svg class="i" aria-hidden="true"><use href="#i-foto"/></svg></span><h3>Solo foto vere</h3><p>Usiamo foto della tua attività, mai immagini prese a caso da internet.</p></li>
       </ul>
+    </div>
+  </section>
+
+  <section class="partner scuro" id="partner" aria-labelledby="t-partner">
+    <div class="wrap">
+      <p class="etichetta">Partner</p>
+      <h2 id="t-partner">Chi ha scelto <span class="grad">Veniello Studio.</span></h2>
+      <p class="intro">Le attività della Valdinievole con cui lavoriamo ogni mese.</p>
+      <div class="partner-griglia">
+        <article class="partner-carta entra">
+          <img class="partner-foto" src="img/partner-jue.jpg" alt="La parete di fiori del Jué Club" width="1400" height="1400" loading="lazy">
+          <div class="partner-testo">
+            <img class="partner-logo" src="img/partner-jue-logo.png" alt="Jué Club" width="480" height="184" loading="lazy">
+            <p class="partner-tipo">Cocktail bar · Bistrot · DJ set · Montecatini Terme</p>
+            <ul class="partner-lavori"><li>Sito jueclub.it</li><li>Video delle serate</li><li>Social</li></ul>
+            <a class="btn btn-vetro" href="https://jueclub.it" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-sito"/></svg>Visita jueclub.it</a>
+          </div>
+        </article>
+        <a class="partner-carta partner-tu entra" href="#contatti">
+          <span class="partner-piu" aria-hidden="true">+</span>
+          <h3>La tua attività, qui.</h3>
+          <p>Ti prepariamo l&rsquo;anteprima gratis: se ti piace, entri anche tu.</p>
+          <span class="partner-link">Scrivici &rarr;</span>
+        </a>
+      </div>
     </div>
   </section>
 
