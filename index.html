@@ -410,6 +410,19 @@ a.recapito:hover{background:rgba(255,255,255,.1)}
 .partner-tu h3{font-size:1.6rem;letter-spacing:-.02em}
 .partner-tu p{color:var(--sbiadito)}
 .partner-link{margin-top:.8rem;font-weight:600;color:#FFB08F}
+.loghi{padding:30px 0;background:var(--notte);border-top:1px solid var(--linea-scura);overflow:hidden;position:relative}
+.loghi::before,.loghi::after{content:"";position:absolute;top:0;bottom:0;width:14%;z-index:1;pointer-events:none}
+.loghi::before{left:0;background:linear-gradient(90deg,var(--notte),rgba(7,11,24,0))}
+.loghi::after{right:0;background:linear-gradient(-90deg,var(--notte),rgba(7,11,24,0))}
+.loghi-nastro{display:flex;width:max-content;animation:loghi 36s linear infinite;animation-play-state:paused}
+.loghi.attivo .loghi-nastro{animation-play-state:running}
+.loghi:hover .loghi-nastro{animation-play-state:paused}
+.loghi-fila{display:flex;align-items:center;gap:72px;padding:0 72px 0 0;margin:0;list-style:none}
+.loghi-fila img{height:44px;width:auto;display:block}
+.loghi-fila .vuoto{font:500 .85rem/1 var(--mono);color:rgba(255,255,255,.45);border:1px dashed rgba(255,255,255,.25);border-radius:12px;padding:.85rem 1.15rem;white-space:nowrap}
+@keyframes loghi{to{transform:translateX(-50%)}}
+@media (max-width:600px){.loghi{padding:24px 0}.loghi-fila{gap:40px;padding-right:40px}.loghi-fila img{height:36px}.loghi-fila .vuoto{font-size:.78rem;padding:.75rem 1rem}}
+@media (prefers-reduced-motion:reduce){.loghi-nastro{animation:none}}
 @media (prefers-reduced-motion:reduce){.btn,.domande-elenco summary::after,.recapito,.partner-tu{transition:none}}
 </style>
 </head>
@@ -732,6 +745,10 @@ a.recapito:hover{background:rgba(255,255,255,.1)}
       </div>
     </div>
   </section>
+  <section class="loghi" id="loghi" aria-label="I nostri partner">
+    <!-- Barra dei partner: per aggiungerne uno, metti il suo logo accanto a quello del Jué (stessa riga ripetuta nelle due file) -->
+    <div class="loghi-nastro"><ul class="loghi-fila"><li><a href="https://jueclub.it" target="_blank" rel="noopener"><img src="img/partner-jue-logo.png" alt="Jué Club" width="480" height="184" loading="lazy"></a></li><li class="vuoto">Il tuo logo qui</li><li><a href="https://jueclub.it" target="_blank" rel="noopener"><img src="img/partner-jue-logo.png" alt="Jué Club" width="480" height="184" loading="lazy"></a></li><li class="vuoto">Il tuo logo qui</li><li><a href="https://jueclub.it" target="_blank" rel="noopener"><img src="img/partner-jue-logo.png" alt="Jué Club" width="480" height="184" loading="lazy"></a></li><li class="vuoto">Il tuo logo qui</li><li><a href="https://jueclub.it" target="_blank" rel="noopener"><img src="img/partner-jue-logo.png" alt="Jué Club" width="480" height="184" loading="lazy"></a></li><li class="vuoto">Il tuo logo qui</li></ul><ul class="loghi-fila" aria-hidden="true"><li><a tabindex="-1" href="https://jueclub.it" target="_blank" rel="noopener"><img src="img/partner-jue-logo.png" alt="Jué Club" width="480" height="184" loading="lazy"></a></li><li class="vuoto">Il tuo logo qui</li><li><a tabindex="-1" href="https://jueclub.it" target="_blank" rel="noopener"><img src="img/partner-jue-logo.png" alt="Jué Club" width="480" height="184" loading="lazy"></a></li><li class="vuoto">Il tuo logo qui</li><li><a tabindex="-1" href="https://jueclub.it" target="_blank" rel="noopener"><img src="img/partner-jue-logo.png" alt="Jué Club" width="480" height="184" loading="lazy"></a></li><li class="vuoto">Il tuo logo qui</li><li><a tabindex="-1" href="https://jueclub.it" target="_blank" rel="noopener"><img src="img/partner-jue-logo.png" alt="Jué Club" width="480" height="184" loading="lazy"></a></li><li class="vuoto">Il tuo logo qui</li></ul></div>
+  </section>
 </main>
 
 <footer class="piede">
@@ -774,6 +791,11 @@ document.getElementById('anno').textContent = new Date().getFullYear();
   if (!('IntersectionObserver' in window)) { r.classList.add('va'); return; }
   new IntersectionObserver(function (e, o) { if (e[0].isIntersecting) { r.classList.add('va'); o.disconnect(); } }, { threshold: 0.3 }).observe(r);
 })();
+</script>
+<script>
+// Barra dei partner: si muove solo quando è sullo schermo
+(function(){var b=document.getElementById('loghi');if(!b||!('IntersectionObserver' in window))return;
+new IntersectionObserver(function(e){b.classList.toggle('attivo',e[0].isIntersecting)}).observe(b);})();
 </script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
