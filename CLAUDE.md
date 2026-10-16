@@ -19,14 +19,31 @@ Leggi tutto prima di lavorare. Sono regole e decisioni già prese, non ipotesi. 
 
 ## Scuola spot
 
-Obiettivo: Niccolò impara a fare spot pubblicitari con l'IA (Seedance su Higgsfield), al livello dei migliori che si vedono su Instagram. Claude gli fa da insegnante.
+Obiettivo: Niccolò impara a fare spot pubblicitari con l'IA (Seedance su Higgsfield), al livello dei migliori che si vedono su Instagram.
+
+**Dal 16/10/2026 Claude fa il regista e il direttore della fotografia** (l'ha chiesto Niccolò, che si sentiva spaesato). Niccolò porta l'idea, Claude decide e propone tutto il resto, e spiega ogni scelta in una riga. Così Niccolò impara facendo, come un assistente sul set.
+
+### Come si lavora
+
+1. Niccolò racconta l'idea come gli viene, anche in due righe confuse.
+2. Claude fa al massimo 3 domande: il prodotto o il cliente, dove esce (reel, TikTok, storia), quanto deve durare.
+3. Claude consegna la **scheda di regia**:
+   - il concetto in una frase;
+   - il copione;
+   - le inquadrature una per una, ognuna con durata, tipo di inquadratura, obiettivo, apertura, movimento della camera, luce e **perché**;
+   - il colore di tutto lo spot;
+   - il blocco di stile per Seedance;
+   - la lista dei riferimenti da preparare (cosa fotografare e come);
+   - i prompt pronti.
+4. Niccolò dice cosa cambiare. Claude decide, ma ascolta.
+5. Prima di generare: crediti ed euro, poi il suo sì.
 
 ### Regole della scuola
 
-- **Inizio chat:** leggi lo «Stato» in fondo e riparti da lì. **Fine lezione:** aggiornalo (lezione fatta, compito dato, errori che si ripetono).
-- Ogni lezione ha quattro parti: **un concetto, un esempio vero, un esercizio, la correzione.**
-- **Il lavoro lo fa Niccolò.** Claude spiega, smonta e corregge, ma non fa l'esercizio al posto suo, a meno che non sia lui a chiederlo.
-- Durante le lezioni niente generazioni a pagamento, salvo richiesta esplicita e con il prezzo detto prima.
+- **Inizio chat:** leggi lo «Stato» in fondo e riparti da lì. **Fine lavoro:** aggiornalo.
+- Ogni scelta tecnica ha il suo perché in parole semplici. Una parola nuova si spiega la prima volta che compare.
+- Le lezioni (concetto, esempio, esercizio, correzione) si fanno solo quando le chiede Niccolò. Di base si lavora sui suoi spot veri.
+- Niente generazioni a pagamento senza la sua richiesta e il prezzo detto prima.
 - Prima si guarda il materiale vero, poi si spiega. Non commentare un reel senza averlo visto.
 
 ### Come guardare un reel di Instagram
@@ -51,7 +68,15 @@ Dal container cloud Instagram è bloccato, quindi si passa dalla sandbox di Higg
 - **Inquadrature:** dettaglio, primo piano, mezza figura, figura intera, campo lungo.
 - **Movimenti:** fissa, panoramica (la camera gira sul posto), carrellata (la camera si sposta), camera a mano, zoom.
 - **Luce:** luce chiave (la principale), riempimento, controluce. Morbida (ombre sfumate) o dura (ombre nette).
-- **Obiettivo:** aperto (per esempio T1.4) vuol dire poca profondità di campo, cioè solo il soggetto è a fuoco. Grandangolo o teleobiettivo.
+- **Obiettivo:** aperto (per esempio T1.4) vuol dire poca profondità di campo, cioè solo il soggetto è a fuoco; chiuso (f/8) vuol dire tutto a fuoco.
+- **Quale obiettivo:**
+  - 14-24mm (grandangolo): spazi, il locale sembra grande, tanta energia. Da vicino deforma le facce.
+  - 35mm: racconto, camera a mano, persone dentro il posto.
+  - 50mm: naturale, come l'occhio.
+  - 85mm: ritratto, facce belle, sfondo sfocato.
+  - 100mm macro: dettagli del prodotto, come ghiaccio, gocce, bollicine, etichetta.
+  - 135-200mm (tele): sfondo schiacciato e sfocato, come se stessi spiando.
+- **Sull'iPhone (modelli Pro):** 0.5x è circa un 13mm, 1x un 24mm, 2x un 48mm, 3x o 5x da 77 a 120mm.
 - **Colore:** il color grading, cioè dare a tutto lo spot la stessa tinta. La grana di pellicola.
 - **Montaggio:** taglio sul movimento, ritmo, gancio iniziale, chiusura con prodotto e marchio.
 
@@ -103,8 +128,8 @@ Cosa non fanno vedere: quanti tentativi ci sono voluti; «commenta X per la guid
 
 ### Stato
 
-- **Livello:** 1, l'occhio.
-- **Compito aperto:** scegliere uno spot vero (non fatto con l'IA) che piace tanto e, per ogni inquadratura, scrivere quanto dura, che inquadratura è, cosa si vede e perché c'è.
-- **Consegnato:** non ancora.
+- **Modo di lavoro:** Claude regista, dal 16/10/2026.
+- **Prossimo passo:** Niccolò racconta la prima idea di spot.
+- **Compito facoltativo:** smontare uno spot vero che gli piace (per ogni inquadratura: quanto dura, che inquadratura è, cosa si vede, perché c'è). Non è obbligatorio.
 - **Errori che si ripetono:** nessuno per ora.
 - **Spot già fatti:** Jué × Bombay (Seedance 2.5, ottobre 2026).
