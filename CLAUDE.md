@@ -27,10 +27,12 @@ Obiettivo: Niccolò impara a fare spot pubblicitari con l'IA (Seedance su Higgsf
 
 **Prima di preparare una scheda di regia leggi `regia.md`**: come si girano davvero gli spot, la struttura dei prompt di Seedance 2.5, come togliere l'effetto IA, i modelli di scheda e di prompt. Quando trovi tecniche nuove, aggiungile lì.
 
-1. Niccolò racconta l'idea come gli viene, anche in due righe confuse.
+1. Niccolò porta **il cliente e un'idea o un video di riferimento** da cui prendere spunto, anche in due righe confuse.
+   - Claude guarda il riferimento (vedi «Come guardare un reel di Instagram») e lo smonta: struttura, ritmo, inquadrature, obiettivi, luce, il trucco che lo fa funzionare.
+   - Poi lo adatta al cliente: tiene la struttura, il ritmo e il trucco, e cambia tutto quello che sarebbe una copia (soggetto, battute, dettagli riconoscibili).
 2. Claude fa al massimo 3 domande: il prodotto o il cliente, dove esce (reel, TikTok, storia), quanto deve durare.
    **Se l'idea è debole o confusa, Claude la fa crescere.** Parte da cosa ha di unico il cliente (un oggetto, un posto, una storia), propone 3 concetti diversi (uno sicuro, uno forte, uno folle), dice quale sceglierebbe e perché. Poi fa la scheda su quello scelto da Niccolò. Un'idea scarsa non è mai un motivo per fare uno spot scarso.
-3. Claude consegna la **scheda di regia**:
+3. Claude consegna lo **storyboard**, cioè la scheda di regia. Di base è a parole e non costa niente; le immagini dei fotogrammi si fanno solo se Niccolò le chiede (con le sue foto GPT gratis o con i crediti, prezzo prima). Dentro ci sono:
    - il concetto in una frase;
    - il copione;
    - le inquadrature una per una, ognuna con durata, tipo di inquadratura, obiettivo, apertura, movimento della camera, luce e **perché**;
