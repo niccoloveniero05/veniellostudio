@@ -6,7 +6,7 @@
 <title>Veniello Studio · Siti, Google, social e video a Montecatini Terme</title>
 <meta name="description" content="Veniello Studio fa siti su misura, scheda Google, Instagram, TikTok e video per bar, ristoranti, saloni e negozi della Valdinievole. Vedi il tuo sito prima di pagare.">
 <link rel="canonical" href="https://www.veniellostudio.it/">
-<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <meta name="theme-color" content="#100F09">
 <meta property="og:title" content="Veniello Studio · Montecatini Terme">
@@ -61,8 +61,15 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .testata{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .25s ease,box-shadow .25s ease}
 .testata.piena{background:rgba(16,15,9,.96);box-shadow:0 1px 0 var(--line)}
 .testata .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:var(--testata)}
-.marchio{display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:17px;letter-spacing:-.02em}
-.marchio i{width:26px;height:26px;border-radius:50%;background:var(--testo);color:var(--bg);display:grid;place-items:center;font-style:normal;font-weight:700;font-size:14px;line-height:1}
+/* logo (16/10/2026): simbolo = V corsiva ingrossata + puntino arancio REC; scritta «Veniello.studio» con la stessa V e il punto tondo arancio */
+@font-face{font-family:'Geist';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/Geist-400.woff2) format('woff2')}
+.marchio{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:20px;letter-spacing:-.05em;line-height:1;white-space:nowrap}
+.marchio .vv{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0;-webkit-text-stroke:.55px currentColor;paint-order:stroke fill}
+.marchio .parola > .vv{font-size:1.18em;margin-right:.01em;-webkit-text-stroke:1px currentColor}
+.marchio .pt{display:inline-block;width:.21em;height:.21em;border-radius:50%;background:#FF5A1F;margin:0 .035em 0 .045em}
+.marchio i{flex:none;width:30px;height:30px;border-radius:50%;background:#100F09;box-shadow:0 0 0 1px var(--line2);position:relative;display:grid;place-items:center;font-style:normal;color:var(--testo)}
+.marchio i .vv{font-size:20.5px;line-height:1;transform:translate(-.8px,1.1px);-webkit-text-stroke:.95px currentColor}
+.marchio i s{position:absolute;width:3.6px;height:3.6px;border-radius:50%;background:#FF5A1F;top:29%;right:25%}
 .testata nav{display:none;gap:26px;font-size:14px;color:var(--testo2)}
 .testata nav a:hover{color:var(--testo)}
 .testata .btn{min-height:40px;padding:0 16px;font-size:14px}
@@ -262,7 +269,7 @@ html.fermo .carta-s{position:relative;top:auto}
 
 <header class="testata" id="testata">
   <div class="wrap">
-    <a class="marchio" href="#inizio" aria-label="Veniello Studio, torna all'inizio"><i aria-hidden="true">V</i>Veniello Studio</a>
+    <a class="marchio" href="#inizio" aria-label="Veniello Studio, torna all'inizio"><i aria-hidden="true"><span class="vv">V</span><s></s></i><span class="parola" aria-hidden="true"><span class="vv">V</span>eniello<span class="pt"></span>studio</span></a>
     <nav aria-label="Menu principale"><a href="#servizi">Servizi</a><a href="#come">Come funziona</a><a href="#partner">Partner</a><a href="#prezzi">Prezzi</a><a href="#domande">Domande</a></nav>
     <a class="btn btn-pieno" href="https://wa.me/393273331949?text=Ciao%2C%20vorrei%20informazioni%20per%20la%20mia%20attivit%C3%A0" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-wa"/></svg>Scrivici</a>
   </div>
@@ -491,7 +498,7 @@ html.fermo .carta-s{position:relative;top:auto}
 
 <footer class="piede">
   <div class="wrap">
-    <a class="marchio" href="#inizio"><i aria-hidden="true">V</i>Veniello Studio</a>
+    <a class="marchio" href="#inizio" aria-label="Veniello Studio"><i aria-hidden="true"><span class="vv">V</span><s></s></i><span class="parola" aria-hidden="true"><span class="vv">V</span>eniello<span class="pt"></span>studio</span></a>
     <p>Siti, Google, social e video · Montecatini Terme · © <span id="anno">2026</span> · Niente cookie, niente tracciamenti.</p>
   </div>
 </footer>
