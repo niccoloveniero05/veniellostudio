@@ -25,6 +25,8 @@ Obiettivo: Niccolò impara a fare spot pubblicitari con l'IA (Seedance su Higgsf
 
 ### Come si lavora
 
+**Prima di preparare una scheda di regia leggi `regia.md`**: come si girano davvero gli spot, la struttura dei prompt di Seedance 2.5, come togliere l'effetto IA, i modelli di scheda e di prompt. Quando trovi tecniche nuove, aggiungile lì.
+
 1. Niccolò racconta l'idea come gli viene, anche in due righe confuse.
 2. Claude fa al massimo 3 domande: il prodotto o il cliente, dove esce (reel, TikTok, storia), quanto deve durare.
 3. Claude consegna la **scheda di regia**:
