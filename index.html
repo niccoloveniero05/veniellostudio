@@ -104,6 +104,15 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 
 /* dichiarazione: le parole si accendono scorrendo */
 .dichiara{padding-bottom:0}
+/* showreel: verticale sul telefono, orizzontale dal computer; muto, parte solo quando si vede */
+.reel{padding-bottom:0}
+.reel .wrap{display:flex;flex-direction:column;align-items:center;text-align:center}
+.reel h2{max-width:none}
+.reel-media{margin-top:30px;border-radius:24px;overflow:hidden;box-shadow:0 0 0 1px var(--line);background:#100F09;line-height:0}
+.reel-media video{display:block;width:100%;height:auto}
+.reel .v-vert{width:min(100%,380px)}
+.reel .v-oriz{display:none;width:100%}
+@media (min-width:900px){.reel .v-vert{display:none}.reel .v-oriz{display:block}}
 .dichiara p{font-family:var(--serif);font-size:clamp(34px,7.4vw,80px);line-height:1.04;letter-spacing:-.01em;max-width:17ch}
 .dichiara .w{display:inline-block;opacity:.16;will-change:opacity}
 .dichiara .sotto{margin-top:26px;font-family:var(--sans);font-size:clamp(16px,1.8vw,19px);color:var(--testo2);max-width:46ch;line-height:1.6}
@@ -311,6 +320,15 @@ html.fermo .carta-s{position:relative;top:auto}
     </div>
   </section>
 
+  <section class="reel" id="showreel" aria-labelledby="t-reel">
+    <div class="wrap">
+      <span class="etichetta">Showreel</span>
+      <h2 id="t-reel">Venti secondi di <em>Veniello Studio</em>.</h2>
+      <div class="reel-media v-vert"><video src="video/showreel-verticale.mp4" muted loop playsinline preload="none" poster="img/showreel-verticale.jpg" width="720" height="1280" aria-label="Showreel di Veniello Studio: Google, sito, Instagram e video per il Jué Club"></video></div>
+      <div class="reel-media v-oriz"><video src="video/showreel-orizzontale.mp4" muted loop playsinline preload="none" poster="img/showreel-orizzontale.jpg" width="1280" height="720" aria-label="Showreel di Veniello Studio: Google, sito, Instagram e video per il Jué Club"></video></div>
+    </div>
+  </section>
+
   <section class="fasi" id="fasi" aria-label="Trovato, scelto, ricordato">
     <div class="fasi-stage">
       <div class="fasi-testo">
@@ -514,6 +532,9 @@ document.getElementById('anno').textContent=new Date().getFullYear();
 // Video dei servizi: parte solo quando si vede
 var vio=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting){v.play().catch(function(){})}else{v.pause()}})},{threshold:.3});
 document.querySelectorAll('.media video').forEach(function(v){vio.observe(v)});
+// showreel: con «Riduci movimento» resta fermo sulla copertina, con i comandi per farlo partire a mano
+if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('.reel video').forEach(function(v){v.controls=true})}
+else document.querySelectorAll('.reel video').forEach(function(v){vio.observe(v)});
 
 // Barra dei partner: scorre solo quando è sullo schermo
 var loghi=[{src:'img/jue-logo.png',alt:'Jué Club',href:'https://jueclub.it'}];
