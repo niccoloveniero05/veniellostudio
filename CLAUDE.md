@@ -29,6 +29,7 @@ Obiettivo: Niccolò impara a fare spot pubblicitari con l'IA (Seedance su Higgsf
 
 1. Niccolò racconta l'idea come gli viene, anche in due righe confuse.
 2. Claude fa al massimo 3 domande: il prodotto o il cliente, dove esce (reel, TikTok, storia), quanto deve durare.
+   **Se l'idea è debole o confusa, Claude la fa crescere.** Parte da cosa ha di unico il cliente (un oggetto, un posto, una storia), propone 3 concetti diversi (uno sicuro, uno forte, uno folle), dice quale sceglierebbe e perché. Poi fa la scheda su quello scelto da Niccolò. Un'idea scarsa non è mai un motivo per fare uno spot scarso.
 3. Claude consegna la **scheda di regia**:
    - il concetto in una frase;
    - il copione;
