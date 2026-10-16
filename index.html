@@ -7,6 +7,7 @@
 <meta name="description" content="Veniello Studio fa siti su misura, scheda Google, Instagram, TikTok e video per bar, ristoranti, saloni e negozi della Valdinievole. Vedi il tuo sito prima di pagare.">
 <link rel="canonical" href="https://www.veniellostudio.it/">
 <link rel="icon" href="img/favicon.png" type="image/png">
+<script>try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('logo-in')}catch(e){}</script>
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <meta name="theme-color" content="#100F09">
 <meta property="og:title" content="Veniello Studio · Montecatini Terme">
@@ -67,9 +68,10 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .marchio .vv{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0;-webkit-text-stroke:.55px currentColor;paint-order:stroke fill}
 .marchio .parola > .vv{font-size:1.18em;margin-right:.01em;-webkit-text-stroke:1px currentColor}
 .marchio .pt{display:inline-block;width:.21em;height:.21em;border-radius:50%;background:#FF5A1F;margin:0 .035em 0 .045em}
-.marchio i{flex:none;width:30px;height:30px;border-radius:50%;background:#100F09;box-shadow:0 0 0 1px var(--line2);position:relative;display:grid;place-items:center;font-style:normal;color:var(--testo)}
-.marchio i .vv{font-size:20.5px;line-height:1;transform:translate(-.8px,1.1px);-webkit-text-stroke:.95px currentColor}
-.marchio i s{position:absolute;width:3.6px;height:3.6px;border-radius:50%;background:#FF5A1F;top:29%;right:25%}
+.marchio .pt,.marchio .e,.marchio .st{display:inline-block}
+/* entrata del logo: si vede solo la V con il puntino REC, poi il nome esce dalla V e il puntino diventa il punto */
+.logo-in .testata .marchio .e,.logo-in .testata .marchio .st{clip-path:inset(-20% 100% -20% 0)}
+.logo-in .testata .marchio .pt{opacity:0}
 .testata nav{display:none;gap:26px;font-size:14px;color:var(--testo2)}
 .testata nav a:hover{color:var(--testo)}
 .testata .btn{min-height:40px;padding:0 16px;font-size:14px}
@@ -269,7 +271,7 @@ html.fermo .carta-s{position:relative;top:auto}
 
 <header class="testata" id="testata">
   <div class="wrap">
-    <a class="marchio" href="#inizio" aria-label="Veniello Studio, torna all'inizio"><i aria-hidden="true"><span class="vv">V</span><s></s></i><span class="parola" aria-hidden="true"><span class="vv">V</span>eniello<span class="pt"></span>studio</span></a>
+    <a class="marchio" href="#inizio" aria-label="Veniello Studio, torna all'inizio"><span class="parola" aria-hidden="true"><span class="vv">V</span><span class="e">eniello</span><span class="pt"></span><span class="st">studio</span></span></a>
     <nav aria-label="Menu principale"><a href="#servizi">Servizi</a><a href="#come">Come funziona</a><a href="#partner">Partner</a><a href="#prezzi">Prezzi</a><a href="#domande">Domande</a></nav>
     <a class="btn btn-pieno" href="https://wa.me/393273331949?text=Ciao%2C%20vorrei%20informazioni%20per%20la%20mia%20attivit%C3%A0" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-wa"/></svg>Scrivici</a>
   </div>
@@ -498,7 +500,7 @@ html.fermo .carta-s{position:relative;top:auto}
 
 <footer class="piede">
   <div class="wrap">
-    <a class="marchio" href="#inizio" aria-label="Veniello Studio"><i aria-hidden="true"><span class="vv">V</span><s></s></i><span class="parola" aria-hidden="true"><span class="vv">V</span>eniello<span class="pt"></span>studio</span></a>
+    <a class="marchio" href="#inizio" aria-label="Veniello Studio"><span class="parola" aria-hidden="true"><span class="vv">V</span><span class="e">eniello</span><span class="pt"></span><span class="st">studio</span></span></a>
     <p>Siti, Google, social e video · Montecatini Terme · © <span id="anno">2026</span> · Niente cookie, niente tracciamenti.</p>
   </div>
 </footer>
@@ -592,6 +594,27 @@ addEventListener('DOMContentLoaded',function(){
   imgs.forEach(function(im){var ok=function(){if(++pronte===tot)imposta()};if(im.complete)ok();else{im.addEventListener('load',ok,{once:true});im.addEventListener('error',ok,{once:true})}});
   var t,w=innerWidth;addEventListener('resize',function(){if(Math.abs(innerWidth-w)<40)return;w=innerWidth;clearTimeout(t);t=setTimeout(imposta,200)});
 });
+</script>
+<script>
+/* entrata del logo nella testata: il puntino parte in alto a destra della V (come la luce REC), «eniello» esce dalla V,
+   il puntino scivola nel suo posto di punto, poi entra «studio». Con «Riduci movimento» non parte (niente classe logo-in). */
+(function(){
+  var r=document.documentElement;if(!r.classList.contains('logo-in'))return;
+  var m=document.querySelector('.testata .marchio');if(!m||!m.animate){r.classList.remove('logo-in');return}
+  var v=m.querySelector('.vv'),e=m.querySelector('.e'),pt=m.querySelector('.pt'),st=m.querySelector('.st');
+  function via(){
+    var a=v.getBoundingClientRect(),b=pt.getBoundingClientRect();
+    var dx=(a.right-a.width*.12)-(b.left+b.width/2),dy=(a.top+a.height*.2)-(b.top+b.height/2);
+    var curva='cubic-bezier(.2,.8,.2,1)',piano={fill:'both',easing:curva};
+    pt.style.opacity=1;
+    pt.animate([{transform:'translate('+dx+'px,'+dy+'px) scale(1.25)',opacity:0},{transform:'translate('+dx+'px,'+dy+'px) scale(1.25)',opacity:1,offset:.25},{transform:'translate('+dx+'px,'+dy+'px) scale(1)',opacity:.35,offset:.4},{transform:'translate('+dx+'px,'+dy+'px) scale(1.15)',opacity:1,offset:.55},{transform:'none',opacity:1}],{duration:1500,delay:150,fill:'both',easing:'ease-in-out'});
+    e.animate([{clipPath:'inset(-20% 100% -20% 0)',transform:'translateX(-.35em)'},{clipPath:'inset(-20% 0 -20% 0)',transform:'none'}],Object.assign({duration:650,delay:800},piano));
+    st.animate([{clipPath:'inset(-20% 100% -20% 0)',transform:'translateX(-.25em)'},{clipPath:'inset(-20% 0 -20% 0)',transform:'none'}],Object.assign({duration:550,delay:1450},piano))
+      .finished.then(function(){r.classList.remove('logo-in');[e,pt,st].forEach(function(x){x.getAnimations().forEach(function(k){k.cancel()});x.style.opacity=''})});
+  }
+  (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){requestAnimationFrame(via)});
+  setTimeout(function(){if(r.classList.contains('logo-in')&&!pt.getAnimations().length)r.classList.remove('logo-in')},2500);
+})();
 </script>
 </body>
 </html>
