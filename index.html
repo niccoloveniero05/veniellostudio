@@ -1027,7 +1027,7 @@ addEventListener('DOMContentLoaded',function(){
   // V la camera va al massimo a VC schermate al secondo, parte e arriva frenando, e non lascia una frase prima che sia
   // rimasta sullo schermo SOSTA ms; intanto la pagina non va oltre L (una «coda» prima della fine del palco, quindi
   // il palco resta fermo) finché la camera non è arrivata lì con l'ultima frase letta. Sul telefono (dito) tutto come prima.
-  var guida=false,dito=false,cam=null,vel=0,tCam=0,dPrima=0,inseguendo=false,libero=true,coda=0,uL=TL.T,VC=1,AC=2.6,KC=4,SOSTA=1000;
+  var guida=false,dito=false,cam=null,vel=0,tCam=0,dPrima=0,inseguendo=false,coda=0,yVisto=null,VC=1,AC=2.6,KC=4,SOSTA=1000;
   function letta(i,t){return statoFrasi[i]===1||(statoFrasi[i]===0&&t-partenza[i]>=SOSTA)}
   function insegui(){rendi(stato.u)}
   function segui(d){
@@ -1039,20 +1039,29 @@ addEventListener('DOMContentLoaded',function(){
       var vm=Math.min(VC,(lim<d?0:vd)+KC*(lim-cam)); // va col dito e recupera la distanza; davanti a una frase frena
       vel=Math.max(0,Math.min(vm,vel+AC*dt));cam=Math.max(cam,Math.min(lim,cam+vel*dt));tCam=t;dPrima=d}
     var s=guida&&cam<d-.0005;if(s!==inseguendo){inseguendo=s;if(s)gsap.ticker.add(insegui);else gsap.ticker.remove(insegui)}
-    libero=!guida||cam>=uL-.002&&letta(2,t);
     return cam;
   }
-  function trattieni(){ // la pagina non scende oltre L finché la scena non è arrivata (non dopo un link del menu o un salto lontano)
-    if(libero||!scenaST||performance.now()-saltoLink<2500)return;
-    var L=scenaST.end-coda,y=scrollY;if(y>L+.5&&y<scenaST.end+G.V)scrollTo(0,L)}
+  // la pagina può andare oltre L? Sì quando la camera è arrivata al punto della scena in cui la pagina viene trattenuta e
+  // l'ultima frase è stata letta. Si calcola ogni volta che serve (a pagina ferma segui() non gira: con la tastiera la
+  // pagina restava bloccata per sempre) e con le misure di adesso di ScrollTrigger (se la finestra cambia solo d'altezza
+  // la scena non si rifà e quel punto si sposta)
+  function libero(){
+    if(!guida||!scenaST)return true;
+    var a=scenaST.end-scenaST.start,uF=a>0?TL.T*clamp((a-coda)/a):TL.T;
+    return cam!==null&&cam>=uF-.002&&letta(2,performance.now())}
+  function trattieni(){ // la pagina non scende oltre L finché la scena non è arrivata: solo se arriva a L da sopra (non dopo
+    // una ricarica o un link che la lasciano più in basso, né tornando su da sotto; non dopo un link del menu o un salto lontano)
+    var y=scrollY,da=yVisto;yVisto=y;
+    if(da===null||!scenaST||performance.now()-saltoLink<2500)return;
+    var L=scenaST.end-coda;if(y>L+.5&&da<=L+.5&&y<scenaST.end+G.V&&!libero()){scrollTo(0,L);yVisto=L}}
   addEventListener('scroll',trattieni,{passive:true});
-  addEventListener('touchstart',function(){if(!dito){dito=true;guida=false;libero=true}},{passive:true}); // computer col touch: col dito come sul telefono
+  addEventListener('touchstart',function(){if(!dito){dito=true;guida=false}},{passive:true}); // computer col touch: col dito come sul telefono
   // tastiera: Pagina giù, spazio e freccia giù si fermano a L (senza scorrimento morbido salterebbero oltre la fine del palco)
   addEventListener('keydown',function(e){
-    if(libero||!scenaST||e.defaultPrevented||e.altKey||e.ctrlKey||e.metaKey)return;
+    if(!scenaST||e.defaultPrevented||e.altKey||e.ctrlKey||e.metaKey)return;
     var k=e.key,el=e.target,p=k==='PageDown'||(k===' '&&!e.shiftKey)?.875*innerHeight:k==='ArrowDown'?40:0;
     if(!p||el&&(el.isContentEditable||/^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(el.tagName)))return;
-    var L=scenaST.end-coda,y=scrollY;if(y<scenaST.start-innerHeight||y>=scenaST.end||y+p<=L)return;
+    var L=scenaST.end-coda,y=scrollY;if(y<scenaST.start-innerHeight||y>L+.5||y+p<=L||libero())return;
     e.preventDefault();if(y<L-.5)try{scrollTo({top:L,behavior:'smooth'})}catch(x){scrollTo(0,L)}
   });
   function frase(i,s){ // s: -1 non ancora, 0 sullo schermo, 1 già uscita (verso l'alto)
@@ -1118,7 +1127,7 @@ addEventListener('DOMContentLoaded',function(){
     scena.style.height=Math.round((TL.T+1)*G.V+E)+'px';
     var tw=gsap.fromTo(stato,{u:0},{u:TL.T,ease:'none',overwrite:true,scrollTrigger:{trigger:scena,start:'top+='+E+' top',end:'bottom bottom',scrub:.4},onUpdate:function(){rendi(stato.u)}});
     scenaST=tw.scrollTrigger;
-    guida=!dito&&matchMedia('(hover:hover) and (pointer:fine)').matches;coda=guida?Math.round(.22*G.V):0;uL=TL.T-coda/G.V;cam=null;libero=!guida; // al computer: vedi segui()
+    guida=!dito&&matchMedia('(hover:hover) and (pointer:fine)').matches;coda=guida?Math.round(.22*G.V):0;cam=null; // al computer: vedi segui()
     var vista=ScrollTrigger.create({trigger:scena,start:'top bottom',end:'bottom top',onToggle:function(s){inVista=s.isActive;stage.classList.toggle('vivo',inVista);rendi(stato.u)}});
     rendi(stato.u);
     muroPronto(false,muroFatto);
