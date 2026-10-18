@@ -29,7 +29,7 @@
   --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%} /* lo scorrimento morbido dei link #… lo fa lo script (vedi «Link interni»): in CSS rendeva morbido anche ogni scrollTo */
 body{font-family:var(--sans);font-size:16px;line-height:1.6;color:var(--testo);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img,video{display:block;max-width:100%;height:auto}
 a{color:inherit;text-decoration:none}
@@ -38,6 +38,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .salta{position:absolute;left:-999px;top:8px;background:var(--testo);color:var(--bg);padding:8px 12px;border-radius:8px}
 .salta:focus{left:8px;z-index:99}
 :focus-visible{outline:2px solid var(--testo);outline-offset:3px;border-radius:6px}
+[tabindex="-1"]:focus{outline:none}
 
 /* tipografia */
 .mono,.etichetta{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--testo3)}
@@ -91,20 +92,40 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .scorri{margin-top:44px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--testo3)}
 .scorri i{display:block;width:1px;height:40px;background:linear-gradient(var(--testo3),transparent)}
 
-/* scena bloccata allo scorrimento: il carosello dei lavori */
-.scena{height:340svh;position:relative;padding:0}
-.scena-stage{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--bg)}
-.scena-cols{position:absolute;inset:0;display:flex;justify-content:center;gap:12px}
-.col{flex:none;width:44vw;display:flex;flex-direction:column;gap:12px;will-change:transform}
-@media (min-width:900px){.col{width:clamp(200px,17vw,250px);gap:18px}.scena-cols{gap:18px}}
-.col img{width:100%;height:auto;border-radius:14px;background:var(--surf)}
-.col video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:14px;background:var(--surf)}
-.scena-cols::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--bg) 0%,rgba(16,15,9,0) 16%,rgba(16,15,9,0) 84%,var(--bg) 100%);pointer-events:none}
-.scena-testo{position:absolute;inset:0;display:grid;place-items:center;text-align:center;pointer-events:none;padding:0 var(--lato)}
-.scena-testo::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 72% 44% at 50% 50%,rgba(16,15,9,.92),rgba(16,15,9,.6) 55%,rgba(16,15,9,0) 100%)}
-.frase{grid-area:1/1;position:relative;font-family:var(--serif);font-weight:400;letter-spacing:-.01em;font-size:clamp(38px,8.2vw,86px);line-height:1.02;max-width:13ch;opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease;will-change:opacity,transform}
-.frase small{display:block;width:max-content;max-width:90vw;margin:16px auto 0;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--testo3);white-space:nowrap;font-weight:400}
-.frase.visibile{opacity:1;transform:none}
+/* «Da uno a tutti» (scelta da Niccolò il 18/10): scorrendo, la copertina sale e il punto arancio di «scegliere» si gonfia
+   fino a riempire lo schermo; da lì parte lo showreel, la camera si allontana e lo showreel diventa un riquadro nel muro
+   dei lavori veri del Jué; il muro si inclina, scorre sotto le tre frasi e se ne va con la pagina. Tutto legato allo
+   scorrimento, solo transform e opacity. La sezione non ha overflow-x:clip (rompe le animazioni): taglia il palco. */
+.rec-punto{display:inline-block;width:.19em;height:.19em;border-radius:50%;background:#FF5A1F;margin-left:.045em;vertical-align:baseline}
+.apertura{position:relative}
+.apertura>.copertina{position:sticky;top:0;z-index:1;overflow:hidden}
+.scena{position:relative;z-index:2;padding:0;height:450vh;height:450svh;margin-top:-100vh;margin-top:-100svh;pointer-events:none} /* misure esatte dallo script */
+.scena-stage{position:sticky;top:0;height:100vh;height:100lvh;overflow:hidden}
+.fondo{position:absolute;inset:0;background:var(--bg);opacity:0}
+.plano{position:absolute;inset:0;visibility:hidden}
+.scena-stage.aperto .fondo{opacity:1}
+.scena-stage.aperto .plano{visibility:visible}
+/* il browser disegna il muro una volta sola e poi lo sposta e basta: will-change da quando il punto ha riempito lo schermo
+   (il muro è già alla misura più grande, quindi resta nitido), e solo finché la scena è sullo schermo */
+.scena-stage.aperto.vivo .plano{will-change:transform}
+.scena-stage.aperto.vivo .tessere{will-change:opacity}
+.scena-stage.aperto.vivo .tv{will-change:transform}
+.muro{position:absolute;left:0;top:0}
+.tessere{position:absolute;left:0;top:0;width:100%;height:100%}
+.muro img,.muro .tv{position:absolute;display:block;border-radius:var(--rt,10px);background:var(--surf)}
+.muro img{height:auto;max-width:none}
+.muro .tv{overflow:hidden;background:var(--bg)}
+.muro .tv img{position:static;width:100%;height:auto}
+.muro .tv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none;border-radius:var(--rt,10px)}
+.velo{position:absolute;inset:0;opacity:0;background:radial-gradient(ellipse 88% 46% at 50% 50%,rgba(16,15,9,.9) 0%,rgba(16,15,9,.72) 45%,rgba(16,15,9,.3) 82%,rgba(16,15,9,.18) 100%)}
+.bordi{position:absolute;inset:0;opacity:0;background:linear-gradient(180deg,var(--bg) 0%,rgba(16,15,9,0) 26%,rgba(16,15,9,0) 78%,var(--bg) 100%)}
+.scena-testo{position:absolute;left:0;right:0;top:0;height:100svh;display:grid;place-items:center;text-align:center;padding:0 var(--lato)}
+.frase{grid-area:1/1;font-family:var(--serif);font-weight:400;letter-spacing:-.015em;font-size:clamp(40px,min(13.4vw,16svh),132px);line-height:.98}
+.riga{display:block;overflow:hidden;padding:.06em .14em .17em;margin:-.06em -.14em -.17em}
+.riga>span{display:inline-block;transform:translate3d(0,120%,0)}
+.frase .piccola{margin-top:26px;font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--testo2);line-height:1.4}
+@media (min-width:900px){.frase .piccola{font-size:13px;margin-top:34px}}
+.punto{position:absolute;left:0;top:0;width:240px;height:240px;border-radius:50%;background:#FF5A1F;transform-origin:0 0;visibility:hidden}
 
 /* dichiarazione: le parole si accendono scorrendo */
 .dichiara{padding-bottom:0}
@@ -245,7 +266,17 @@ a.recapito:hover{background:var(--surf2)}
 /* senza animazioni: tutto fermo e leggibile */
 html.fermo .scena,html.fermo .fasi,html.fermo .binario{height:auto}
 html.fermo .scena-stage,html.fermo .fasi-stage,html.fermo .binario-stage{position:static;height:auto}
-html.fermo .scena-stage{height:100svh}
+/* la scena ferma: copertina normale, poi un palco alto uno schermo che taglia il muro (position:relative + overflow:hidden,
+   così le foto non escono sulle sezioni dopo) con le tre frasi una sotto l'altra sopra il velo scuro */
+html.fermo .apertura>.copertina{position:relative}
+html.fermo .scena{margin-top:0}
+html.fermo .scena-stage{position:relative;height:100svh}
+html.fermo .fondo,html.fermo .velo,html.fermo .bordi{opacity:1}
+html.fermo .plano{visibility:visible}
+html.fermo .scena-testo{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:.42em}
+html.fermo .frase{font-size:clamp(28px,min(9.4vw,7.5svh),84px)}
+html.fermo .riga>span{transform:none}
+html.fermo .frase .piccola{margin-top:14px}
 html.fermo .fasi-stage{padding-top:0}
 html.fermo .vagoni{flex-wrap:wrap}
 html.fermo .vagone{width:100%}
@@ -253,11 +284,11 @@ html.fermo .progresso{display:none}
 html.fermo .dichiara .w{opacity:1}
 html.fermo .carta-s{position:relative;top:auto}
 @media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .frase,.fase-t,.fase-s,.btn,summary::after,.recapito,.partner-tu{transition:none}
+  .fase-t,.fase-s,.btn,summary::after,.recapito,.partner-tu{transition:none}
   .loghi-nastro{animation:none}
 }
 </style>
+<noscript><style>.apertura>.copertina{position:relative}.scena{display:none}</style></noscript>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"ProfessionalService","name":"Veniello Studio","description":"Siti web su misura, scheda Google, Instagram, TikTok e video per le attività della Valdinievole.","areaServed":"Valdinievole, Montecatini Terme","telephone":"+39 327 333 1949","email":"giuseppefusciello90@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Montecatini Terme","addressRegion":"PT","addressCountry":"IT"}}
 </script>
@@ -282,10 +313,11 @@ html.fermo .carta-s{position:relative;top:auto}
 </header>
 
 <main id="contenuto">
+  <div class="apertura">
   <section class="copertina" id="inizio" aria-labelledby="titolo">
-    <div class="wrap">
+    <div class="wrap" id="copertina-wrap">
       <p class="mono">Siti · Google · Social · Video</p>
-      <h1 id="titolo">Fatti trovare.<br>Fatti <em>scegliere</em>.</h1>
+      <h1 id="titolo">Fatti trovare.<br>Fatti <em>scegliere</em><span class="rec-punto" id="rec-punto" aria-hidden="true"></span></h1>
       <p class="intro">Sito su misura, scheda Google, Instagram, TikTok e video per bar, ristoranti, saloni e negozi della Valdinievole. Vedi il tuo sito prima di pagare un euro.</p>
       <div class="azioni">
         <a class="btn btn-pieno" href="https://wa.me/393273331949?text=Ciao%2C%20vorrei%20un%27anteprima%20gratis%20per%20la%20mia%20attivit%C3%A0" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-wa"/></svg>Chiedi l’anteprima gratis</a>
@@ -297,15 +329,20 @@ html.fermo .carta-s{position:relative;top:auto}
   </section>
 
   <section class="scena" id="lavori" aria-label="Il nostro lavoro per il Jué Club">
-    <div class="scena-stage">
-      <div class="scena-cols" id="scena-cols" aria-hidden="true"></div>
+    <div class="scena-stage" id="scena-stage">
+      <div class="fondo"></div>
+      <div class="plano" id="plano"><div class="muro" id="muro" aria-hidden="true"></div></div>
+      <div class="velo" id="velo"></div>
+      <div class="bordi" id="bordi"></div>
       <div class="scena-testo">
-        <p class="frase visibile">Un locale di <em>Montecatini</em>.</p>
-        <p class="frase">Sito, Google, social e <em>video</em>.</p>
-        <p class="frase">Da un solo <em>studio</em>.<small>Jué Club · Montecatini Terme</small></p>
+        <p class="frase"><span class="riga"><span>Un locale</span></span> <span class="riga"><span>di <em>Montecatini</em>.</span></span></p>
+        <p class="frase"><span class="riga"><span>Sito, Google,</span></span> <span class="riga"><span>social e <em>video</em>.</span></span></p>
+        <p class="frase"><span class="riga"><span>Da un solo</span></span> <span class="riga"><span><em>studio</em><i class="rec-punto" aria-hidden="true"></i></span></span> <span class="riga piccola"><span>Jué Club · Montecatini Terme</span></span></p>
       </div>
+      <i class="punto" id="punto" aria-hidden="true"></i>
     </div>
   </section>
+  </div>
 
   <section class="dichiara" aria-label="Perché serve">
     <div class="wrap">
@@ -532,19 +569,107 @@ var fila=function(nascosta){var ul=document.createElement('ul');ul.className='lo
 var nastro=document.getElementById('loghi-nastro');nastro.appendChild(fila(false));nastro.appendChild(fila(true));
 new IntersectionObserver(function(e){document.getElementById('loghi').classList.toggle('attivo',e[0].isIntersecting)}).observe(document.getElementById('loghi'));
 
-// Carosello: le colonne di lavori
-var IMG=['sito-1','video:showreel-carosello','locandina','jue-parete','sito-2','reel-9-0','jue-neon','reel-23-0','sito-4','jue-oldfashioned','reel-14-0','jue-dj-pioneer','jue-locale','reel-5-5','jue-luci','sito-3','reel-19-5'];
-var cols=document.getElementById('scena-cols');
-var N=matchMedia('(min-width:900px)').matches?5:3;
-for(var c=0;c<N;c++){var col=document.createElement('div');col.className='col';
-  var lista=IMG.filter(function(_,i){return i%N===c});lista=lista.concat(lista,lista).slice(0,8);
-  lista.forEach(function(n){
-    if(n.indexOf('video:')===0){var v=document.createElement('video');n=n.slice(6);v.src='video/'+n+'.mp4';v.poster='img/'+n+'.jpg';v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute('playsinline','');v.setAttribute('aria-hidden','true');
-      if(!matchMedia('(prefers-reduced-motion: reduce)').matches){v.autoplay=true;v.setAttribute('autoplay','')}col.appendChild(v);return}
-    var im=document.createElement('img');im.src='img/'+n+'.jpg';im.alt='';im.decoding='async';col.appendChild(im)});
-  cols.appendChild(col)}
-var frasi=document.querySelectorAll('.frase');
-function mostraFrase(p){var k=p<.34?0:p<.67?1:2;frasi.forEach(function(f,i){f.classList.toggle('visibile',i===k)})}
+// «Da uno a tutti»: il muro dei lavori veri fatti per il Jué (miniature larghe 400 px in img/muro/), già al loro posto
+// intorno al riquadro dello showreel. Si vede quando la camera si allontana dallo showreel.
+var LAVORI=[['sito-1',711,'s'],['reel-5-5',711,'b','bottiglia'],['jue-neon',400,'f'],['sito-cocktail',400,'s','oldfashioned'],['locandina',533,'b','martedi'],['jue-oldfashioned',400,'f','oldfashioned'],['sito-3',711,'c','galleria'],['spot-0-3',711,'b','bottiglia'],['jue-locale',533,'f'],['google-mappa',533,'c','google'],['reel-1-2',711,'f'],['jue-dj-pioneer',400,'f'],['sito-4',711,'c'],['reel-14-0',711,'b'],['jue-parete',400,'f'],['sito-salotto',533,'c'],['spot-6-0',711,'b'],['jue-luci',400,'f'],['sito-2',711,'b','martedi'],['reel-23-0',711,'b','drink'],['google',400,'c','google'],['reel-9-0',711,'b','ghiaccio'],['spot-2-0',711,'b','ghiaccio'],['sito-bistrot',400,'s'],['reel-19-5',711,'b','drink'],['spot-3-3',711,'b','ghiaccio'],['sito-dj',400,'s'],['spot-7-3',711,'b','drink'],['spot-8-7',711,'f','bottiglia']]; // nome, altezza a 400 di larghezza, tono (s scuro, b blu, f foto, c chiaro), gruppo di lavori che si somigliano
+// Tempi, in altezze di schermo scorse dalla cima della pagina: il punto cresce mentre la copertina sale (0-IR); showreel
+// a tutto schermo fino a Z0; la camera si allontana (Z0-Z1): lo showreel si stringe nel suo posto, il muro arretra da W0
+// volte e compare tra WF0 e WF1, e intanto lo showreel sfuma nel suo fermo immagine (VF0-VF1) e si ferma; il muro si
+// inclina (T0-T1) e scorre (P0-P1) sotto il velo (VE0-VE1) e le tre frasi (FR, nel secondo script); a T se ne va con la pagina.
+var TL={T:3.5,IR:.5,Z0:.72,Z1:1.5,W0:1.45,WF0:.88,WF1:1.2,VF0:.84,VF1:.94,T0:1.3,T1:1.85,P0:1.45,P1:3.35,VE0:1.42,VE1:1.72,AX:46,AZ:-16};
+var stage=document.getElementById('scena-stage'),plano=document.getElementById('plano'),muro=document.getElementById('muro');
+var tessere=document.createElement('div');tessere.className='tessere';muro.appendChild(tessere);
+var tv=document.createElement('div');tv.className='tv';var fermoTv=document.createElement('img');fermoTv.alt='';fermoTv.decoding='async';tv.appendChild(fermoTv);muro.appendChild(tv);
+var sonda=document.createElement('div');sonda.style.cssText='position:absolute;left:0;top:0;width:1px;height:100vh;height:100svh;visibility:hidden;pointer-events:none';document.body.appendChild(sonda);
+var G={};
+function seg(u,a,b){return u<=a?0:u>=b?1:(u-a)/(b-a)}
+function ioq(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2}
+function muroCostruisci(zone){ // zone: per ogni colonna il tratto che con questa camera entra nello schermo (null = tutto)
+  var Wd=stage.clientWidth,V=sonda.offsetHeight,hdr=64,pc=matchMedia('(min-width:900px)').matches||Wd>V*1.15; // schermo largo (anche telefono girato): showreel orizzontale
+  // riquadri larghi in proporzione al lato corto (su un tablet in verticale non diventano enormi), colonne quante ne servono
+  var cw=Math.round(pc?.125*Math.min(Wd,1.75*V):.27*Math.min(Wd,.5*V)),g=Math.max(6,Math.round(cw*(pc?.085:.082))),span=pc?3:1;
+  var C=Math.max(pc?13:9,2*Math.ceil(((pc?1.57:2.6)*Wd/(cw+g)-1)/2)+1);
+  var Hw=Math.round(V*2.4),W=C*cw+(C-1)*g,c0=(C-span)>>1,bw=span*cw+(span-1)*g;
+  // il riquadro dello showreel (9:16 sul telefono, 16:9 sugli schermi larghi) a inizio scena riempie lo schermo senza tagli
+  var asp=pc?16/9:9/16,bh=Math.round(bw/asp),s0=Math.min(Wd/bw,(V-hdr)/bh);
+  var bx=c0*(cw+g),by=Math.round(Hw*.58-bh/2),fx=Wd/2,fy=(V+hdr)/2,ml=Math.round(fx-bx-bw/2),mt=Math.round(fy-by-bh/2),P=Math.round(V*(pc?1.67:1.125));
+  muro.style.cssText='width:'+W+'px;height:'+Hw+'px;left:'+ml+'px;top:'+mt+'px;--rt:'+(pc?12:8)+'px';
+  var ra=TL.AX*Math.PI/180,rz=TL.AZ*Math.PI/180,myR=-.16*V;
+  function vista(x,y){ // dove cade sullo schermo il punto (x,y) del muro: con il muro piatto e con il muro inclinato (a metà delle frasi)
+    var X=ml+x-fx,Y=mt+y-fy,X2=1.12*X,Y2=1.12*(Y+myR),x3=X2*Math.cos(rz)-Y2*Math.sin(rz),y3=X2*Math.sin(rz)+Y2*Math.cos(rz),w=1-y3*Math.sin(ra)/P;
+    return [X,Y,x3/w,y3*Math.cos(ra)/w]}
+  function vicino(a,b){var d=Math.min(Math.hypot(a[0]-b[0],a[1]-b[1]),Math.hypot(a[2]-b[2],a[3]-b[3]))/cw,q=d/4.5;return (d<3.4?4:0)+1/(1+d*d)+1/(1+q*q*q*q)} // altissimo se vicini (anche in diagonale), e ancora alto se nello stesso schermo
+  plano.style.transformOrigin=fx+'px '+fy+'px';
+  tessere.textContent='';
+  // ogni posto che si vedrà prende il lavoro meno usato che non sia già nei dintorni, senza due toni uguali uno accanto all'altro
+  // (i posti che restano fuori dallo schermo prendono un lavoro qualsiasi e poi si tolgono)
+  var n=LAVORI.length,posti=[],usi=LAVORI.map(function(){return 0}),giro=0,simile=0;
+  for(var q=0;q<n;q++)if(LAVORI[q][0]==='sito-3')simile=q; // il fermo dello showreel mostra la stessa galleria: mai lì vicino
+  function alt(i){return Math.round(cw*LAVORI[i][1]/400)}
+  function conta(c,t,h){var z=zone&&zone[c];return !zone||(z&&t<z[1]+cw&&t+h>z[0]-cw)}
+  function scegli(c,x,y,su){
+    var best=-1,bv=1e9;
+    if(!conta(c,su?y-cw*1.6:y,cw*1.6)){giro=(giro+7)%n;return giro}
+    for(var q=0;q<n;q++){var i=(q+giro)%n,h=alt(i),t=su?y-h:y,v=usi[i]*25,qui=vista(x+cw/2,t+h/2);
+      posti.forEach(function(p){if(!p.conta)return;var d=vicino(p.v,qui),gp=LAVORI[p.i][3];
+        if(p.i===i)v+=3000*d;else if(gp&&gp===LAVORI[i][3])v+=2400*d; // un doppione costa tanto più quanto è vicino sullo schermo
+        if(p.tono===LAVORI[i][2]&&Math.abs(p.x-x)<1.5*(cw+g)&&Math.min(t+h,p.y+p.h)-Math.max(t,p.y)>-g*2)v+=30});
+      if(v<bv){bv=v;best=i}}
+    giro=(giro+5)%n;return best}
+  function metti(i,c,x,y){var L=LAVORI[i],h=alt(i),im=document.createElement('img'),k=conta(c,y,h);
+    im.setAttribute('data-src','img/muro/'+L[0]+'.jpg');im.alt='';im.decoding='async';im.width=400;im.height=L[1];
+    im.style.cssText='left:'+x+'px;top:'+y+'px;width:'+cw+'px';im._c=c;im._y=y;im._h=h;tessere.appendChild(im);
+    posti.push({i:i,x:x,y:y,h:h,tono:L[2],conta:k,v:vista(x+cw/2,y+h/2),el:im});if(k)usi[i]++;return h}
+  posti.push({i:simile,x:bx,y:by,h:bh,tono:'s',conta:true,v:vista(bx+bw/2,by+bh/2)});
+  for(var c=0;c<C;c++){var x=c*(cw+g),y,i;
+    if(c>=c0&&c<c0+span){ // colonne dello showreel: lavori sopra e sotto, attaccati al riquadro
+      y=by-g;while(y>0){i=scegli(c,x,y,true);y-=alt(i);metti(i,c,x,y);y-=g}
+      y=by+bh+g;while(y<Hw){i=scegli(c,x,y,false);y+=metti(i,c,x,y)+g}
+    }else{y=-Math.round(((c*53)%97)/97*cw*1.2);while(y<Hw){i=scegli(c,x,y,false);y+=metti(i,c,x,y)+g}}
+  }
+  // alla fine (dopo aver tolto i riquadri che non si vedono) scambia tra loro i riquadri della stessa altezza, o li cambia
+  // con un lavoro meno usato, finché i doppioni non si allontanano: l'altezza non cambia, quindi il muro resta com'è
+  G.migliora=function(){
+    var vivi=posti.filter(function(p){return !p.el||!!p.el.parentNode}),m=vivi.length,V2=[],x,y;
+    for(x=0;x<m;x++){V2.push([]);for(y=0;y<m;y++)V2[x].push(x===y?0:vicino(vivi[x].v,vivi[y].v))} // vicinanze, calcolate una volta
+    var costo=function(a,i,salta){var c=0;for(var q=0;q<m;q++){if(q===a||q===salta)continue;var pi=vivi[q].i,gp=LAVORI[pi][3];
+      if(pi===i)c+=3000*V2[a][q];else if(gp&&gp===LAVORI[i][3])c+=2400*V2[a][q]}return c};
+    var metti2=function(a,i){vivi[a].i=i;vivi[a].el.setAttribute('data-src','img/muro/'+LAVORI[i][0]+'.jpg')};
+    for(var gi=0;gi<5;gi++)for(x=0;x<m;x++){if(!vivi[x].el)continue;
+      for(y=0;y<m;y++){var ix=vivi[x].i,iy=vivi[y].i;if(y===x||!vivi[y].el||iy===ix||alt(iy)!==alt(ix))continue;
+        if(costo(x,iy,y)+costo(y,ix,x)<costo(x,ix,y)+costo(y,iy,x)-1){metti2(x,iy);metti2(y,ix)}}
+      for(var j=0;j<n;j++)if(j!==vivi[x].i&&alt(j)===alt(vivi[x].i)&&costo(x,j)<costo(x,vivi[x].i)-1)metti2(x,j)}
+  };
+  tv.style.cssText='left:'+bx+'px;top:'+by+'px;width:'+bw+'px;height:'+bh+'px';
+  var fermo='img/muro/showreel-'+(pc?'o':'v')+'-fermo.jpg'; // «Fatti scegliere.» con il sito del Jué sul telefono (showreel a 9,7 s)
+  if(fermoTv.getAttribute('src')!==fermo){fermoTv.width=pc?1280:720;fermoTv.height=pc?720:1280;fermoTv.src=fermo}
+  G.pc=pc;G.Wd=Wd;G.V=V;G.hdr=hdr;G.s0=s0;G.fx=fx;G.fy=fy;G.C=C;G.P=P; // P: prospettiva in proporzione all'altezza dello schermo
+}
+function posa(u){ // la camera: allontanamento, inclinazione e scorrimento del muro
+  var z=ioq(seg(u,TL.Z0,TL.Z1)),w=Math.pow(TL.W0,1-z),s=Math.pow(G.s0,1-z),k=ioq(seg(u,TL.T0,TL.T1));
+  var sc=w*(1+.12*k),my=-.32*G.V*seg(u,TL.P0,TL.P1),cy=-.2*G.V*k; // inclinandosi il muro sale un po': lo showreel va sopra le frasi
+  plano.style.transform='translate3d(0,'+cy.toFixed(1)+'px,0) perspective('+G.P+'px) rotateX('+(TL.AX*k).toFixed(2)+'deg) rotateZ('+(TL.AZ*k).toFixed(2)+'deg) scale('+sc.toFixed(4)+')';
+  muro.style.transform='translate3d(0,'+my.toFixed(1)+'px,0)';
+  tv.style.transform=z<1?'scale('+(s/w).toFixed(4)+')':''; // lo showreel si stringe più in fretta del muro e si posa al suo posto
+  return k;
+}
+function pota(fermo){ // toglie i riquadri che non entrano mai nello schermo e dice, colonna per colonna, quale tratto si vede
+  var im=[].slice.call(tessere.children),vis=im.map(function(){return false}),H=Math.min(stage.clientHeight,G.V+120),m=24,u,campioni=[];
+  if(fermo)campioni.push(-1);else for(u=TL.WF0;u<=TL.T+.001;u+=.06)campioni.push(u);
+  campioni.forEach(function(u){if(u>=0)posa(u);var st=stage.getBoundingClientRect();
+    im.forEach(function(e,i){if(vis[i])return;var r=e.getBoundingClientRect(),t=r.top-st.top,l=r.left-st.left;
+      if(r.width>0&&r.width<3*G.Wd&&r.height<3*H&&t<H+m&&t+r.height>-m&&l<G.Wd+m&&l+r.width>-m)vis[i]=true})}); // (i rettangoli enormi sono dietro la camera)
+  var zone=[];
+  im.forEach(function(e,i){if(!vis[i]){tessere.removeChild(e);return}var z=zone[e._c];zone[e._c]=z?[Math.min(z[0],e._y),Math.max(z[1],e._y+e._h)]:[e._y,e._y+e._h]});
+  plano.style.transform=muro.style.transform=tv.style.transform='';
+  return zone;
+}
+function muroPronto(fermo){ // due giri: il primo trova il tratto che si vede, il secondo sceglie i lavori solo per quello
+  var chiave=stage.clientWidth+'x'+sonda.offsetHeight+(fermo?'f':'');if(G.chiave===chiave)return; // già fatto per questo schermo
+  muroCostruisci(null);muroCostruisci(pota(fermo));pota(fermo);G.migliora();G.chiave=chiave;
+  [].forEach.call(tessere.children,function(e){e.src=e.getAttribute('data-src')});
+  G.n=tessere.children.length;
+}
 
 // Dichiarazione: ogni parola in uno span
 var dich=document.getElementById('dichiara');
@@ -554,27 +679,99 @@ var parole=dich.querySelectorAll('.w');
 // Senza animazioni (niente GSAP o «Riduci movimento»): pagina ferma
 var ridotto=matchMedia('(prefers-reduced-motion: reduce)').matches;
 if(ridotto)document.documentElement.classList.add('fermo');
+muroPronto(ridotto); // con «Riduci movimento» il muro resta piatto e fermo dietro le frasi, senza video
+
+// Link interni (#…): scorrono morbidi fino a 80 px sotto la cima, come prima con html{scroll-behavior:smooth} e
+// scroll-padding-top (ma senza rendere morbidi anche gli scrollTo degli script); con «Riduci movimento» il salto è immediato.
+document.addEventListener('click',function(e){
+  var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+  var id=decodeURIComponent(a.getAttribute('href').slice(1)),el=id&&document.getElementById(id);if(!el)return;
+  e.preventDefault();
+  var y=id==='inizio'?0:Math.max(0,Math.round(el.getBoundingClientRect().top+scrollY-80));
+  try{scrollTo({top:y,behavior:ridotto?'auto':'smooth'})}catch(x){scrollTo(0,y)}
+  if(history.pushState)history.pushState(null,'','#'+id);
+  if(id!=='inizio'){if(!el.hasAttribute('tabindex'))el.setAttribute('tabindex','-1');try{el.focus({preventScroll:true})}catch(x){}}
+});
 </script>
 <script defer src="js/gsap.min.js"></script>
 <script defer src="js/ScrollTrigger.min.js"></script>
 <script>
 addEventListener('DOMContentLoaded',function(){
-  if(!window.gsap||!window.ScrollTrigger||ridotto){document.documentElement.classList.add('fermo');return}
+  if(!window.gsap||!window.ScrollTrigger||ridotto){
+    if(!document.documentElement.classList.contains('fermo')){document.documentElement.classList.add('fermo');muroPronto(true)}
+    var tf,wf=innerWidth;addEventListener('resize',function(){if(Math.abs(innerWidth-wf)<40)return;wf=innerWidth;clearTimeout(tf);tf=setTimeout(function(){muroPronto(true)},200)});return}
   gsap.registerPlugin(ScrollTrigger);
   var scena=document.querySelector('.scena'),fasi=document.querySelector('.fasi'),binario=document.querySelector('.binario');
   var fasiT=document.querySelectorAll('.fase-t'),fasiS=document.querySelectorAll('.fase-s'),sitoLungo=document.getElementById('sito-lungo');
   function clamp(x){return Math.max(0,Math.min(1,x))}
+
+  // «Da uno a tutti» (i tempi TL sono nel primo script)
+  var copertina=document.getElementById('inizio'),wrap=document.getElementById('copertina-wrap'),dot=document.getElementById('rec-punto');
+  var punto=document.getElementById('punto'),velo=document.getElementById('velo'),bordi=document.getElementById('bordi');
+  var righe=[].slice.call(document.querySelectorAll('.scena .frase')).map(function(f){return [].slice.call(f.querySelectorAll('.riga>span'))});
+  var FR=[[1.5,1.7,2.1,2.22],[2.22,2.42,2.82,2.94],[2.94,3.14,99,99]]; // ogni frase: sale, resta (circa mezzo schermo), esce
+  var D={},stato={u:0},aperto=false,inOnda=false,inVista=true,caricato=false,innesco=false,negato=false;
+  function oc(t){return 1-Math.pow(1-t,3)}
+  function iq(t){return t*t}
+  // lo showreel della scena: lo stesso file della carta «06 · Motion design» (così si scarica una volta sola).
+  // All'apertura della pagina solo i dati iniziali (preload="metadata") e il fermo immagine; si scarica davvero al primo scorrimento.
+  var vid=document.createElement('video');vid.muted=true;vid.loop=true;vid.playsInline=true;vid.preload='metadata';
+  vid.setAttribute('muted','');vid.setAttribute('playsinline','');vid.setAttribute('aria-hidden','true');tv.appendChild(vid);
+  function sorgente(){var o=G.pc?'orizzontale':'verticale',src='video/showreel-'+o+'.mp4';
+    if(vid.getAttribute('src')!==src){vid.poster='img/showreel-'+o+'.jpg';vid.preload=caricato?'auto':'metadata';vid.setAttribute('src',src)}}
+  function carica(){if(caricato)return;caricato=true;vid.preload='auto';
+    // su iPhone un video si scarica solo quando parte: lo avvio nascosto e lo fermo subito, così è pronto quando il punto riempie lo schermo
+    if(!aperto){var pr=vid.play();if(pr&&pr.then){innesco=true;pr.then(function(){innesco=false;if(!aperto){vid.pause();try{vid.currentTime=0}catch(e){}}},function(){innesco=false})}}}
+  function parti(){var pr=vid.play();if(pr&&pr.catch)pr.catch(function(e){if(e&&e.name==='NotAllowedError')negato=true})} // negato: niente autoplay (es. risparmio energetico), non insiste
+  function inizia(){ // il punto ha riempito lo schermo: lo showreel riparte dall'inizio (il primo fotogramma è arancio come il punto)
+    inOnda=false;negato=false;if(vid.currentTime>.01)try{vid.currentTime=0}catch(e){} // (un salto inutile toglierebbe il fermo immagine se il video non parte)
+    parti();
+    var ok=function(){if(aperto&&!vid.paused&&!inOnda){inOnda=true;rendi(stato.u)}};
+    if(vid.requestVideoFrameCallback)vid.requestVideoFrameCallback(function(){ok()});else vid.addEventListener('timeupdate',ok,{once:true});
+  }
+  function misuraPunto(){
+    wrap.style.transform='';
+    var cr=copertina.getBoundingClientRect(),dr=dot.getBoundingClientRect(),wr=wrap.getBoundingClientRect();
+    var x=dr.left+dr.width/2-cr.left,y=dr.top+dr.height/2-cr.top,H=stage.clientHeight,Wd=G.Wd,L=.25*G.V,y1=y-L;
+    wrap.style.transformOrigin=(dr.left+dr.width/2-wr.left)+'px '+(dr.top+dr.height/2-wr.top)+'px';
+    var R=Math.max(Math.hypot(x,y1),Math.hypot(Wd-x,y1),Math.hypot(x,H-y1),Math.hypot(Wd-x,H-y1))*1.03;
+    D={x:x,y:y,r0:dr.width/2,R:R,L:L}; // il punto disegnato è largo 240 px: la scala lo porta alla misura giusta
+  }
+  function rendi(u){
+    if(u>.002)carica();
+    // a) la copertina sale (all'inizio insieme al dito) e si avvicina al punto, che si gonfia fino a riempire lo schermo
+    var t=seg(u,0,TL.IR),sale=D.L*(1-(1-t)*(1-t)),op=1-seg(t,.3,.85);
+    if(t>0){wrap.style.transform='translate3d(0,'+(-sale).toFixed(1)+'px,0) scale('+(1+.3*t*t).toFixed(4)+')';wrap.style.opacity=op;wrap.style.visibility=op>0?'':'hidden';dot.style.visibility='hidden'}
+    else{wrap.style.transform=wrap.style.opacity=wrap.style.visibility=dot.style.visibility=''}
+    var giu=u>=TL.IR;
+    if(giu!==aperto){aperto=giu;stage.classList.toggle('aperto',giu);if(giu)inizia();else inOnda=false}
+    // b) lo showreel gira a tutto schermo e mentre la camera si allontana sfuma nel suo fermo immagine; poi si ferma
+    var vo=1-seg(u,TL.VF0,TL.VF1);vid.style.opacity=vo<1?vo:'';
+    var vuole=aperto&&inVista&&vo>0;
+    if(vuole&&vid.paused&&!negato)parti();else if(!vuole&&!vid.paused&&!innesco)vid.pause();
+    // il punto copre lo schermo finché lo showreel non parte; se non parte (per esempio con il risparmio energetico) sfuma scorrendo e resta il fermo immagine
+    if(t>0){var r=D.r0*Math.pow(D.R/D.r0,Math.pow(t,1.2)),py=D.y-sale;
+      punto.style.transform='translate3d('+(D.x-r).toFixed(1)+'px,'+(py-r).toFixed(1)+'px,0) scale('+(r/120).toFixed(5)+')';
+      var a=u<TL.IR?1:(inOnda?0:1-seg(u,TL.IR,TL.IR+.25));punto.style.opacity=a;punto.style.visibility=a>0?'visible':'hidden'}
+    else punto.style.visibility='hidden';
+    // c) la camera: allontanamento, il muro che compare, l'inclinazione, il velo per le frasi
+    var k=posa(u);
+    tessere.style.opacity=seg(u,TL.WF0,TL.WF1);velo.style.opacity=seg(u,TL.VE0,TL.VE1);bordi.style.opacity=k;
+    // d) le tre frasi: ogni riga sale dalla sua maschera
+    FR.forEach(function(f,i){righe[i].forEach(function(sp,j){var d=j*.06,y=120*(1-oc(seg(u,f[0]+d,f[1]+d)))-120*iq(seg(u,f[2]+d*.5,f[3]+d*.5));sp.style.transform='translate3d(0,'+y.toFixed(2)+'%,0)'})});
+  }
+
   function imposta(){
     ScrollTrigger.getAll().forEach(function(t){t.kill()});
     var pc=matchMedia('(min-width:900px)').matches;
 
-    // 1. carosello
-    var S=scena.querySelector('.scena-stage').clientHeight;
-    document.querySelectorAll('.col').forEach(function(col,i){
-      var H=col.scrollHeight,d=Math.max(0,H-S),su=i%2===0;
-      gsap.fromTo(col,{y:su?0:-d},{y:su?-d:0,ease:'none',scrollTrigger:{trigger:scena,start:'top top',end:'bottom bottom',scrub:.4}});
-    });
-    ScrollTrigger.create({trigger:scena,start:'top top',end:'bottom bottom',onUpdate:function(s){mostraFrase(s.progress)}});
+    // 1. apertura: il punto, lo showreel, il muro, le tre frasi (la copertina e il palco sono sticky: niente pin di GSAP)
+    wrap.style.transform='';muroPronto(false);sorgente();misuraPunto();
+    scena.style.marginTop=-copertina.offsetHeight+'px';
+    scena.style.height=Math.round((TL.T+1)*G.V)+'px';
+    gsap.fromTo(stato,{u:0},{u:TL.T,ease:'none',overwrite:true,scrollTrigger:{trigger:scena,start:'top top',end:'bottom bottom',scrub:.4},onUpdate:function(){rendi(stato.u)}});
+    var vista=ScrollTrigger.create({trigger:scena,start:'top bottom',end:'bottom top',onToggle:function(s){inVista=s.isActive;stage.classList.toggle('vivo',inVista);rendi(stato.u)}});
+    rendi(stato.u);
 
     // 2. dichiarazione: le parole si accendono
     ScrollTrigger.create({trigger:dich,start:'top 80%',end:'bottom 45%',onUpdate:function(s){var n=parole.length;parole.forEach(function(w,i){w.style.opacity=.16+.84*clamp((s.progress*n-i)*1.6)})}});
@@ -600,8 +797,12 @@ addEventListener('DOMContentLoaded',function(){
       var vag=document.getElementById('vagoni'),dist=vag.scrollWidth-innerWidth+20;
       gsap.fromTo(vag,{x:0},{x:-dist,ease:'none',scrollTrigger:{trigger:binario,start:'top top',end:'bottom bottom',scrub:.4,onUpdate:function(s){document.getElementById('progresso').style.width=(s.progress*100)+'%'}}});
     }
+    ScrollTrigger.refresh();
+    inVista=vista.isActive;stage.classList.toggle('vivo',inVista);rendi(stato.u);
   }
-  var pronte=0,imgs=document.querySelectorAll('.col img, #sito-lungo'),tot=imgs.length;
+  // si parte quando ci sono i caratteri (danno la posizione del punto) e la schermata lunga del sito (serve alle fasi)
+  var pronte=0,imgs=document.querySelectorAll('#sito-lungo'),tot=imgs.length+1;
+  (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){if(++pronte===tot)imposta()});
   imgs.forEach(function(im){var ok=function(){if(++pronte===tot)imposta()};if(im.complete)ok();else{im.addEventListener('load',ok,{once:true});im.addEventListener('error',ok,{once:true})}});
   var t,w=innerWidth;addEventListener('resize',function(){if(Math.abs(innerWidth-w)<40)return;w=innerWidth;clearTimeout(t);t=setTimeout(imposta,200)});
 });
