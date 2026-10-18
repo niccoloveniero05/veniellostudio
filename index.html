@@ -1360,9 +1360,11 @@ addEventListener('DOMContentLoaded',function(){
   function pos(el){var x=0,y=0;while(el){x+=el.offsetLeft;y+=el.offsetTop;el=el.offsetParent}return [x,y]}
   var gl=null;
   try{gl=cv.getContext('webgl',{alpha:false,antialias:false,depth:false,stencil:false,premultipliedAlpha:false,preserveDrawingBuffer:false,powerPreference:'low-power'})}catch(e){}
-  // quanto è salita la copertina (oltre E): il fondo sfuma nel nero per un'altezza che cresce con questo (al massimo 0,4 copertine)
+  // quanto è salita la copertina (oltre E): il fondo sfuma nel nero per un'altezza che cresce con questo (al massimo 0,4
+  // copertine). Cresce subito (radice quadrata): già dopo pochi pixel la sfumatura è alta molte volte il nero che si
+  // scopre sotto, così non si vede mai una riga netta tra la luce e il nero dove la copertina finisce
   function salita(){return Math.max(0,scrollY-top-Math.max(0,cop.offsetHeight-innerHeight))}
-  function sfumatura(h){return Math.min(.4*h,2.5*salita())}
+  function sfumatura(h){return Math.min(.4*h,45*Math.sqrt(salita()))}
   // senza shader (ripiego CSS) o a fotogramma fermo («Riduci movimento»): la stessa cosa con la maschera CSS e l'opacità
   var conCss=false;
   function css(luci){
