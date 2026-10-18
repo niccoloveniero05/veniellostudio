@@ -98,7 +98,7 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
    scorrimento, solo transform e opacity. La sezione non ha overflow-x:clip (rompe le animazioni): taglia il palco. */
 .rec-punto{display:inline-block;width:.19em;height:.19em;border-radius:50%;background:#FF5A1F;margin-left:.045em;vertical-align:baseline}
 .apertura{position:relative}
-.apertura>.copertina{position:sticky;top:0;z-index:1;overflow:hidden}
+.apertura>.copertina{position:sticky;top:0;z-index:1;overflow:hidden} /* se è più alta dello schermo, lo script le dà un top negativo: prima scorre fino in fondo, poi si ferma */
 .scena{position:relative;z-index:2;padding:0;height:450vh;height:450svh;margin-top:-100vh;margin-top:-100svh;pointer-events:none} /* misure esatte dallo script */
 .scena-stage{position:sticky;top:0;height:100vh;height:100lvh;overflow:hidden}
 .fondo{position:absolute;inset:0;background:var(--bg);opacity:0}
@@ -114,7 +114,7 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .tessere{position:absolute;left:0;top:0;width:100%;height:100%}
 .muro img,.muro .tv{position:absolute;display:block;border-radius:var(--rt,10px);background:var(--surf)}
 .muro img{height:auto;max-width:none}
-.muro .tv{overflow:hidden;background:var(--bg)}
+.muro .tv{overflow:hidden;background:var(--bg);box-shadow:0 0 0 1px rgba(245,244,239,var(--orlo,0))} /* nel muro un filo chiaro (dallo script): il riquadro dello showreel si riconosce tra gli altri lavori */
 .muro .tv img{position:static;width:100%;height:auto}
 .muro .tv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none;border-radius:var(--rt,10px)}
 .velo{position:absolute;inset:0;opacity:0;background:radial-gradient(ellipse 88% 46% at 50% 50%,rgba(16,15,9,.9) 0%,rgba(16,15,9,.72) 45%,rgba(16,15,9,.3) 82%,rgba(16,15,9,.18) 100%)}
@@ -122,7 +122,10 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .scena-testo{position:absolute;left:0;right:0;top:0;height:100svh;display:grid;place-items:center;text-align:center;padding:0 var(--lato)}
 .frase{grid-area:1/1;font-family:var(--serif);font-weight:400;letter-spacing:-.015em;font-size:clamp(40px,min(13.4vw,16svh),132px);line-height:.98}
 .riga{display:block;overflow:hidden;padding:.06em .14em .17em;margin:-.06em -.14em -.17em}
-.riga>span{display:inline-block;transform:translate3d(0,120%,0)}
+/* le righe salgono a tempo, non legate al dito (classi dallo script): se lo scorrimento si ferma, la frase è intera o non c'è */
+.riga>span{display:inline-block;transform:translate3d(0,120%,0);transition:transform .5s cubic-bezier(.3,0,.8,.15)}
+.frase.su .riga>span{transform:none;transition:transform .72s cubic-bezier(.16,1,.3,1)}
+.frase.via .riga>span{transform:translate3d(0,-120%,0);transition:transform .38s cubic-bezier(.6,0,.85,.3)}
 .frase .piccola{margin-top:26px;font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--testo2);line-height:1.4}
 @media (min-width:900px){.frase .piccola{font-size:13px;margin-top:34px}}
 .punto{position:absolute;left:0;top:0;width:240px;height:240px;border-radius:50%;background:#FF5A1F;transform-origin:0 0;visibility:hidden}
@@ -272,6 +275,13 @@ html.fermo .apertura>.copertina{position:relative}
 html.fermo .scena{margin-top:0}
 html.fermo .scena-stage{position:relative;height:100svh}
 html.fermo .fondo,html.fermo .velo,html.fermo .bordi{opacity:1}
+/* fermo: niente showreel (il suo posto resta sotto il palco), velo uniforme e un po' più scuro solo dietro le frasi, bordi corti:
+   i riquadri si vedono tutti e nessuno sembra vuoto; nessun lavoro ripetuto (lo sceglie lo script) */
+html.fermo .muro .tv{display:none}
+html.fermo .velo{background:radial-gradient(ellipse 60% 40% at 50% 50%,rgba(16,15,9,.68),rgba(16,15,9,0) 100%),rgba(16,15,9,.58)}
+html.fermo .bordi{background:linear-gradient(180deg,var(--bg) 0%,rgba(16,15,9,0) 11%,rgba(16,15,9,0) 89%,var(--bg) 100%)}
+html.fermo .frase{text-shadow:0 1px 24px rgba(16,15,9,.9),0 0 2px rgba(16,15,9,.6)}
+html.fermo .frase .piccola{color:var(--testo)}
 html.fermo .plano{visibility:visible}
 html.fermo .scena-testo{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:.42em}
 html.fermo .frase{font-size:clamp(28px,min(9.4vw,7.5svh),84px)}
@@ -572,11 +582,13 @@ new IntersectionObserver(function(e){document.getElementById('loghi').classList.
 // «Da uno a tutti»: il muro dei lavori veri fatti per il Jué (miniature larghe 400 px in img/muro/), già al loro posto
 // intorno al riquadro dello showreel. Si vede quando la camera si allontana dallo showreel.
 var LAVORI=[['sito-1',711,'s'],['reel-5-5',711,'b','bottiglia'],['jue-neon',400,'f'],['sito-cocktail',400,'s','oldfashioned'],['locandina',533,'b','martedi'],['jue-oldfashioned',400,'f','oldfashioned'],['sito-3',711,'c','galleria'],['spot-0-3',711,'b','bottiglia'],['jue-locale',533,'f'],['google-mappa',533,'c','google'],['reel-1-2',711,'f'],['jue-dj-pioneer',400,'f'],['sito-4',711,'c'],['reel-14-0',711,'b'],['jue-parete',400,'f'],['sito-salotto',533,'c'],['spot-6-0',711,'b'],['jue-luci',400,'f'],['sito-2',711,'b','martedi'],['reel-23-0',711,'b','drink'],['google',400,'c','google'],['reel-9-0',711,'b','ghiaccio'],['spot-2-0',711,'b','ghiaccio'],['sito-bistrot',400,'s'],['reel-19-5',711,'b','drink'],['spot-3-3',711,'b','ghiaccio'],['sito-dj',400,'s'],['spot-7-3',711,'b','drink'],['spot-8-7',711,'f','bottiglia']]; // nome, altezza a 400 di larghezza, tono (s scuro, b blu, f foto, c chiaro), gruppo di lavori che si somigliano
-// Tempi, in altezze di schermo scorse dalla cima della pagina: il punto cresce mentre la copertina sale (0-IR); showreel
-// a tutto schermo fino a Z0; la camera si allontana (Z0-Z1): lo showreel si stringe nel suo posto, il muro arretra da W0
-// volte e compare tra WF0 e WF1, e intanto lo showreel sfuma nel suo fermo immagine (VF0-VF1) e si ferma; il muro si
-// inclina (T0-T1) e scorre (P0-P1) sotto il velo (VE0-VE1) e le tre frasi (FR, nel secondo script); a T se ne va con la pagina.
-var TL={T:3.5,IR:.5,Z0:.72,Z1:1.5,W0:1.45,WF0:.88,WF1:1.2,VF0:.84,VF1:.94,T0:1.3,T1:1.85,P0:1.45,P1:3.35,VE0:1.42,VE1:1.72,AX:46,AZ:-16};
+// Tempi, in altezze di schermo scorse dalla cima della pagina: il punto cresce mentre la copertina sale (0-IR); lo
+// showreel parte e resta a tutto schermo fino a Z0, e la camera non va oltre finché non ha girato almeno GT secondi (la V
+// col suo puntino si vede anche con un colpo di dito veloce: vedi camera() nel secondo script); la camera si allontana
+// (Z0-Z1): lo showreel si stringe nel suo posto e il muro arretra da W0 volte; prima lo showreel passa per il buio e lascia
+// il posto al suo fermo immagine (VF0-VF1, nessuna doppia immagine), poi compare il muro (WF0-WF1); il muro si inclina
+// (T0-T1) e scorre (P0-P1) sotto il velo (VE0-VE1) e le tre frasi (FR, nel secondo script); a T se ne va con la pagina.
+var TL={T:3.5,IR:.5,Z0:.72,GT:1.15,Z1:1.5,W0:1.45,VF0:.8,VF1:.92,WF0:.92,WF1:1.2,T0:1.3,T1:1.85,P0:1.45,P1:3.5,VE0:1.3,VE1:1.6,AX:46,AZ:-16};
 var stage=document.getElementById('scena-stage'),plano=document.getElementById('plano'),muro=document.getElementById('muro');
 var tessere=document.createElement('div');tessere.className='tessere';muro.appendChild(tessere);
 var tv=document.createElement('div');tv.className='tv';var fermoTv=document.createElement('img');fermoTv.alt='';fermoTv.decoding='async';tv.appendChild(fermoTv);muro.appendChild(tv);
@@ -584,35 +596,51 @@ var sonda=document.createElement('div');sonda.style.cssText='position:absolute;l
 var G={};
 function seg(u,a,b){return u<=a?0:u>=b?1:(u-a)/(b-a)}
 function ioq(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2}
-function muroCostruisci(zone){ // zone: per ogni colonna il tratto che con questa camera entra nello schermo (null = tutto)
+function muroCostruisci(zone,fermo,soloMisure){ // zone: per ogni colonna il tratto che con questa camera entra nello schermo (null = tutto);
+  // fermo: «Riduci movimento»; soloMisure: solo le misure della camera e del riquadro dello showreel (veloce), senza i riquadri
   var Wd=stage.clientWidth,V=sonda.offsetHeight,hdr=64,pc=matchMedia('(min-width:900px)').matches||Wd>V*1.15; // schermo largo (anche telefono girato): showreel orizzontale
-  // riquadri larghi in proporzione al lato corto (su un tablet in verticale non diventano enormi), colonne quante ne servono
-  var cw=Math.round(pc?.125*Math.min(Wd,1.75*V):.27*Math.min(Wd,.5*V)),g=Math.max(6,Math.round(cw*(pc?.085:.082))),span=pc?3:1;
-  var C=Math.max(pc?13:9,2*Math.ceil(((pc?1.57:2.6)*Wd/(cw+g)-1)/2)+1);
+  // riquadri larghi in proporzione al lato corto (su un tablet in verticale non diventano enormi), colonne quante ne servono.
+  // Sugli schermi larghi riquadri più grandi: ne servono meno (meno doppioni sullo stesso schermo, meno da disegnare)
+  var cw=Math.round(pc?.15*Math.min(Wd,1.75*V):.27*Math.min(Wd,.5*V));
+  if(fermo)while((Wd/(1.1*cw)+1)*(V/(1.47*cw)+1)>28)cw+=4; // muro fermo: riquadri abbastanza grandi da non dover ripetere nessun lavoro (sono 29)
+  var g=Math.max(6,Math.round(cw*(pc?.078:.082))),span=pc?3:1;
+  var C=Math.max(pc?11:9,2*Math.ceil(((pc?1.57:2.6)*Wd/(cw+g)-1)/2)+1);
   var Hw=Math.round(V*2.4),W=C*cw+(C-1)*g,c0=(C-span)>>1,bw=span*cw+(span-1)*g;
   // il riquadro dello showreel (9:16 sul telefono, 16:9 sugli schermi larghi) a inizio scena riempie lo schermo senza tagli
   var asp=pc?16/9:9/16,bh=Math.round(bw/asp),s0=Math.min(Wd/bw,(V-hdr)/bh);
   var bx=c0*(cw+g),by=Math.round(Hw*.58-bh/2),fx=Wd/2,fy=(V+hdr)/2,ml=Math.round(fx-bx-bw/2),mt=Math.round(fy-by-bh/2),P=Math.round(V*(pc?1.67:1.125));
+  if(fermo)mt+=Math.round((V-hdr)/2+bh/2+2*g); // con «Riduci movimento» lo showreel non c'è: il muro scende e il suo posto resta sotto il palco
   muro.style.cssText='width:'+W+'px;height:'+Hw+'px;left:'+ml+'px;top:'+mt+'px;--rt:'+(pc?12:8)+'px';
   var ra=TL.AX*Math.PI/180,rz=TL.AZ*Math.PI/180,myR=-.16*V;
   function vista(x,y){ // dove cade sullo schermo il punto (x,y) del muro: con il muro piatto e con il muro inclinato (a metà delle frasi)
     var X=ml+x-fx,Y=mt+y-fy,X2=1.12*X,Y2=1.12*(Y+myR),x3=X2*Math.cos(rz)-Y2*Math.sin(rz),y3=X2*Math.sin(rz)+Y2*Math.cos(rz),w=1-y3*Math.sin(ra)/P;
     return [X,Y,x3/w,y3*Math.cos(ra)/w]}
-  function vicino(a,b){var d=Math.min(Math.hypot(a[0]-b[0],a[1]-b[1]),Math.hypot(a[2]-b[2],a[3]-b[3]))/cw,q=d/4.5;return (d<3.4?4:0)+1/(1+d*d)+1/(1+q*q*q*q)} // altissimo se vicini (anche in diagonale), e ancora alto se nello stesso schermo
+  // altissimo se vicini (anche in diagonale), e ancora alto se nello stesso schermo; con il muro fermo conta solo il muro piatto
+  function vicino(a,b){var d=Math.hypot(a[0]-b[0],a[1]-b[1]);if(!fermo)d=Math.min(d,Math.hypot(a[2]-b[2],a[3]-b[3]));d/=cw;var q=d/4.5;return (d<3.4?4:0)+1/(1+d*d)+1/(1+q*q*q*q)}
+  // quanto costa ripetere il lavoro i: i lavori chiari (siti, scheda Google) si riconoscono subito e non devono mai ripetersi
+  // sullo stesso schermo; con il muro fermo nessun lavoro si ripete
+  function doppio(i,d){return 3000*d*(LAVORI[i][2]==='c'?8:1)+(fermo?20000:0)}
   plano.style.transformOrigin=fx+'px '+fy+'px';
+  tv.style.cssText='left:'+bx+'px;top:'+by+'px;width:'+bw+'px;height:'+bh+'px';
+  var fermoSrc='img/muro/showreel-'+(pc?'o':'v')+'-fermo.jpg'; // «Fatti scegliere.» con il sito del Jué sul telefono e la luce REC accesa (showreel a 9,6 s)
+  if(!fermo&&fermoTv.getAttribute('src')!==fermoSrc){fermoTv.width=pc?1280:720;fermoTv.height=pc?720:1280;fermoTv.src=fermoSrc}
+  G.pc=pc;G.Wd=Wd;G.V=V;G.hdr=hdr;G.s0=s0;G.fx=fx;G.fy=fy;G.C=C;G.P=P; // P: prospettiva in proporzione all'altezza dello schermo
+  if(soloMisure)return;
   tessere.textContent='';
   // ogni posto che si vedrà prende il lavoro meno usato che non sia già nei dintorni, senza due toni uguali uno accanto all'altro
   // (i posti che restano fuori dallo schermo prendono un lavoro qualsiasi e poi si tolgono)
   var n=LAVORI.length,posti=[],usi=LAVORI.map(function(){return 0}),giro=0,simile=0;
   for(var q=0;q<n;q++)if(LAVORI[q][0]==='sito-3')simile=q; // il fermo dello showreel mostra la stessa galleria: mai lì vicino
   function alt(i){return Math.round(cw*LAVORI[i][1]/400)}
-  function conta(c,t,h){var z=zone&&zone[c];return !zone||(z&&t<z[1]+cw&&t+h>z[0]-cw)}
+  function conta(c,t,h){ // il posto si vedrà? (con il muro fermo si sa con esattezza: è dentro il palco)
+    if(fermo){var X=ml+c*(cw+g);return X<Wd&&X+cw>0&&mt+t<V&&mt+t+h>0}
+    var z=zone&&zone[c];return !zone||(z&&t<z[1]+cw&&t+h>z[0]-cw)}
   function scegli(c,x,y,su){
     var best=-1,bv=1e9;
     if(!conta(c,su?y-cw*1.6:y,cw*1.6)){giro=(giro+7)%n;return giro}
     for(var q=0;q<n;q++){var i=(q+giro)%n,h=alt(i),t=su?y-h:y,v=usi[i]*25,qui=vista(x+cw/2,t+h/2);
       posti.forEach(function(p){if(!p.conta)return;var d=vicino(p.v,qui),gp=LAVORI[p.i][3];
-        if(p.i===i)v+=3000*d;else if(gp&&gp===LAVORI[i][3])v+=2400*d; // un doppione costa tanto più quanto è vicino sullo schermo
+        if(p.i===i)v+=doppio(i,d);else if(gp&&gp===LAVORI[i][3])v+=2400*d; // un doppione costa tanto più quanto è vicino sullo schermo
         if(p.tono===LAVORI[i][2]&&Math.abs(p.x-x)<1.5*(cw+g)&&Math.min(t+h,p.y+p.h)-Math.max(t,p.y)>-g*2)v+=30});
       if(v<bv){bv=v;best=i}}
     giro=(giro+5)%n;return best}
@@ -620,7 +648,7 @@ function muroCostruisci(zone){ // zone: per ogni colonna il tratto che con quest
     im.setAttribute('data-src','img/muro/'+L[0]+'.jpg');im.alt='';im.decoding='async';im.width=400;im.height=L[1];
     im.style.cssText='left:'+x+'px;top:'+y+'px;width:'+cw+'px';im._c=c;im._y=y;im._h=h;tessere.appendChild(im);
     posti.push({i:i,x:x,y:y,h:h,tono:L[2],conta:k,v:vista(x+cw/2,y+h/2),el:im});if(k)usi[i]++;return h}
-  posti.push({i:simile,x:bx,y:by,h:bh,tono:'s',conta:true,v:vista(bx+bw/2,by+bh/2)});
+  if(!fermo)posti.push({i:simile,x:bx,y:by,h:bh,tono:'s',conta:true,v:vista(bx+bw/2,by+bh/2)});
   for(var c=0;c<C;c++){var x=c*(cw+g),y,i;
     if(c>=c0&&c<c0+span){ // colonne dello showreel: lavori sopra e sotto, attaccati al riquadro
       y=by-g;while(y>0){i=scegli(c,x,y,true);y-=alt(i);metti(i,c,x,y);y-=g}
@@ -633,17 +661,13 @@ function muroCostruisci(zone){ // zone: per ogni colonna il tratto che con quest
     var vivi=posti.filter(function(p){return !p.el||!!p.el.parentNode}),m=vivi.length,V2=[],x,y;
     for(x=0;x<m;x++){V2.push([]);for(y=0;y<m;y++)V2[x].push(x===y?0:vicino(vivi[x].v,vivi[y].v))} // vicinanze, calcolate una volta
     var costo=function(a,i,salta){var c=0;for(var q=0;q<m;q++){if(q===a||q===salta)continue;var pi=vivi[q].i,gp=LAVORI[pi][3];
-      if(pi===i)c+=3000*V2[a][q];else if(gp&&gp===LAVORI[i][3])c+=2400*V2[a][q]}return c};
+      if(pi===i)c+=doppio(i,V2[a][q]);else if(gp&&gp===LAVORI[i][3])c+=2400*V2[a][q]}return c};
     var metti2=function(a,i){vivi[a].i=i;vivi[a].el.setAttribute('data-src','img/muro/'+LAVORI[i][0]+'.jpg')};
     for(var gi=0;gi<5;gi++)for(x=0;x<m;x++){if(!vivi[x].el)continue;
       for(y=0;y<m;y++){var ix=vivi[x].i,iy=vivi[y].i;if(y===x||!vivi[y].el||iy===ix||alt(iy)!==alt(ix))continue;
         if(costo(x,iy,y)+costo(y,ix,x)<costo(x,ix,y)+costo(y,iy,x)-1){metti2(x,iy);metti2(y,ix)}}
       for(var j=0;j<n;j++)if(j!==vivi[x].i&&alt(j)===alt(vivi[x].i)&&costo(x,j)<costo(x,vivi[x].i)-1)metti2(x,j)}
   };
-  tv.style.cssText='left:'+bx+'px;top:'+by+'px;width:'+bw+'px;height:'+bh+'px';
-  var fermo='img/muro/showreel-'+(pc?'o':'v')+'-fermo.jpg'; // «Fatti scegliere.» con il sito del Jué sul telefono (showreel a 9,7 s)
-  if(fermoTv.getAttribute('src')!==fermo){fermoTv.width=pc?1280:720;fermoTv.height=pc?720:1280;fermoTv.src=fermo}
-  G.pc=pc;G.Wd=Wd;G.V=V;G.hdr=hdr;G.s0=s0;G.fx=fx;G.fy=fy;G.C=C;G.P=P; // P: prospettiva in proporzione all'altezza dello schermo
 }
 function posa(u){ // la camera: allontanamento, inclinazione e scorrimento del muro
   var z=ioq(seg(u,TL.Z0,TL.Z1)),w=Math.pow(TL.W0,1-z),s=Math.pow(G.s0,1-z),k=ioq(seg(u,TL.T0,TL.T1));
@@ -654,8 +678,9 @@ function posa(u){ // la camera: allontanamento, inclinazione e scorrimento del m
   return k;
 }
 function pota(fermo){ // toglie i riquadri che non entrano mai nello schermo e dice, colonna per colonna, quale tratto si vede
-  var im=[].slice.call(tessere.children),vis=im.map(function(){return false}),H=Math.min(stage.clientHeight,G.V+120),m=24,u,campioni=[];
-  if(fermo)campioni.push(-1);else for(u=TL.WF0;u<=TL.T+.001;u+=.06)campioni.push(u);
+  var im=[].slice.call(tessere.children),vis=im.map(function(){return false}),H=Math.min(stage.clientHeight,G.V+120),u,campioni=[];
+  var m=fermo?0:Math.max(24,Math.round(.012*(G.Wd+G.V))); // margine (il muro fermo non si muove: nessuno): con i riquadri grandi degli schermi larghi, tra un campione e l'altro un riquadro si sposta di più
+  if(fermo)campioni.push(-1);else for(u=TL.WF0;u<=TL.T+.001;u+=.05)campioni.push(u);
   campioni.forEach(function(u){if(u>=0)posa(u);var st=stage.getBoundingClientRect();
     im.forEach(function(e,i){if(vis[i])return;var r=e.getBoundingClientRect(),t=r.top-st.top,l=r.left-st.left;
       if(r.width>0&&r.width<3*G.Wd&&r.height<3*H&&t<H+m&&t+r.height>-m&&l<G.Wd+m&&l+r.width>-m)vis[i]=true})}); // (i rettangoli enormi sono dietro la camera)
@@ -664,11 +689,25 @@ function pota(fermo){ // toglie i riquadri che non entrano mai nello schermo e d
   plano.style.transform=muro.style.transform=tv.style.transform='';
   return zone;
 }
-function muroPronto(fermo){ // due giri: il primo trova il tratto che si vede, il secondo sceglie i lavori solo per quello
-  var chiave=stage.clientWidth+'x'+sonda.offsetHeight+(fermo?'f':'');if(G.chiave===chiave)return; // già fatto per questo schermo
-  muroCostruisci(null);muroCostruisci(pota(fermo));pota(fermo);G.migliora();G.chiave=chiave;
-  [].forEach.call(tessere.children,function(e){e.src=e.getAttribute('data-src')});
-  G.n=tessere.children.length;
+// Il muro si costruisce dopo il primo disegno della pagina, in due pezzi per non tenere occupato il processore troppo a
+// lungo, e comunque molto prima che serva (si vede da u = WF0); finché non è pronto i riquadri restano nascosti.
+// Due giri: il primo trova il tratto che si vede, il secondo sceglie i lavori solo per quello. poi(): ridisegna la scena.
+var inCostruzione=null;
+function muroPronto(fermo,poi){
+  var chiave=stage.clientWidth+'x'+sonda.offsetHeight+(fermo?'f':'');
+  if(inCostruzione){if(inCostruzione.chiave===chiave){inCostruzione.poi=poi;return}inCostruzione.vivo=false}
+  if(G.chiave===chiave){inCostruzione=null;if(poi)poi();return} // già fatto per questo schermo
+  var lavoro={chiave:chiave,poi:poi,vivo:true};inCostruzione=lavoro;tessere.style.visibility='hidden';
+  var dopo=function(f){requestAnimationFrame(function(){setTimeout(function(){if(lavoro.vivo)f()},0)})};
+  dopo(function(){
+    muroCostruisci(null,fermo);var zone=pota(fermo);if(lavoro.poi)lavoro.poi();
+    dopo(function(){
+      muroCostruisci(zone,fermo);pota(fermo);G.migliora();G.chiave=chiave;inCostruzione=null;
+      [].forEach.call(tessere.children,function(e){e.src=e.getAttribute('data-src')});
+      G.n=tessere.children.length;tessere.style.visibility='';
+      if(lavoro.poi)lavoro.poi();
+    });
+  });
 }
 
 // Dichiarazione: ogni parola in uno span
@@ -678,8 +717,7 @@ var parole=dich.querySelectorAll('.w');
 
 // Senza animazioni (niente GSAP o «Riduci movimento»): pagina ferma
 var ridotto=matchMedia('(prefers-reduced-motion: reduce)').matches;
-if(ridotto)document.documentElement.classList.add('fermo');
-muroPronto(ridotto); // con «Riduci movimento» il muro resta piatto e fermo dietro le frasi, senza video
+if(ridotto)document.documentElement.classList.add('fermo'); // (il muro fermo, piatto e senza video, lo costruisce il secondo script)
 
 // Link interni (#…): scorrono morbidi fino a 80 px sotto la cima, come prima con html{scroll-behavior:smooth} e
 // scroll-padding-top (ma senza rendere morbidi anche gli scrollTo degli script); con «Riduci movimento» il salto è immediato.
@@ -698,7 +736,7 @@ document.addEventListener('click',function(e){
 <script>
 addEventListener('DOMContentLoaded',function(){
   if(!window.gsap||!window.ScrollTrigger||ridotto){
-    if(!document.documentElement.classList.contains('fermo')){document.documentElement.classList.add('fermo');muroPronto(true)}
+    document.documentElement.classList.add('fermo');muroPronto(true); // con «Riduci movimento» il muro resta piatto e fermo dietro le frasi, senza video
     var tf,wf=innerWidth;addEventListener('resize',function(){if(Math.abs(innerWidth-wf)<40)return;wf=innerWidth;clearTimeout(tf);tf=setTimeout(function(){muroPronto(true)},200)});return}
   gsap.registerPlugin(ScrollTrigger);
   var scena=document.querySelector('.scena'),fasi=document.querySelector('.fasi'),binario=document.querySelector('.binario');
@@ -708,70 +746,124 @@ addEventListener('DOMContentLoaded',function(){
   // «Da uno a tutti» (i tempi TL sono nel primo script)
   var copertina=document.getElementById('inizio'),wrap=document.getElementById('copertina-wrap'),dot=document.getElementById('rec-punto');
   var punto=document.getElementById('punto'),velo=document.getElementById('velo'),bordi=document.getElementById('bordi');
-  var righe=[].slice.call(document.querySelectorAll('.scena .frase')).map(function(f){return [].slice.call(f.querySelectorAll('.riga>span'))});
-  var FR=[[1.5,1.7,2.1,2.22],[2.22,2.42,2.82,2.94],[2.94,3.14,99,99]]; // ogni frase: sale, resta (circa mezzo schermo), esce
-  var D={},stato={u:0},aperto=false,inOnda=false,inVista=true,caricato=false,innesco=false,negato=false;
-  function oc(t){return 1-Math.pow(1-t,3)}
-  function iq(t){return t*t}
-  // lo showreel della scena: lo stesso file della carta «06 · Motion design» (così si scarica una volta sola).
-  // All'apertura della pagina solo i dati iniziali (preload="metadata") e il fermo immagine; si scarica davvero al primo scorrimento.
-  var vid=document.createElement('video');vid.muted=true;vid.loop=true;vid.playsInline=true;vid.preload='metadata';
+  var frasi=[].slice.call(document.querySelectorAll('.scena .frase')),righe=frasi.map(function(f){return [].slice.call(f.querySelectorAll('.riga>span'))});
+  // ogni frase sale quando la camera passa la prima soglia e se ne va alla seconda. Le righe si muovono a tempo (circa 0,6 s),
+  // non legate al dito: se lo scorrimento si ferma, una frase c'è intera o non c'è, mai tagliata a metà dalla sua maschera
+  var FR=[[1.66,2.2],[2.32,2.86],[2.98,99]],statoFrasi=[null,null,null],attesa=[0,0,0],partenza=[1e15,1e15,1e15],uscita=-1e9;
+  var D={},E=0,stato={u:0},aperto=false,inOnda=false,inVista=true,caricato=false,innesco=false,negato=false,scenaST=null;
+  var tenuto=false,t0=0,ritardo={v:0},prima=null,primaV=null,riavvolto=false,voPrima=-1,battendo=false,orlo=null;
+  // lo showreel della scena è solo il suo inizio (2,4 s: l'arancio che si stringe nel puntino della V, poi il nome), circa
+  // 190 KB, con i colori dichiarati (bt709) e il nero uguale al fondo della pagina; la carta «06 · Motion design» ha il suo
+  // file, com'era. All'apertura della pagina solo i dati iniziali (preload="metadata"); si scarica al primo scorrimento nella scena.
+  var vid=document.createElement('video');vid.muted=true;vid.loop=false;vid.playsInline=true;vid.preload='metadata';
   vid.setAttribute('muted','');vid.setAttribute('playsinline','');vid.setAttribute('aria-hidden','true');tv.appendChild(vid);
-  function sorgente(){var o=G.pc?'orizzontale':'verticale',src='video/showreel-'+o+'.mp4';
-    if(vid.getAttribute('src')!==src){vid.poster='img/showreel-'+o+'.jpg';vid.preload=caricato?'auto':'metadata';vid.setAttribute('src',src)}}
+  function sorgente(){var o=G.pc?'o':'v',src='video/showreel-apertura-'+o+'.mp4';
+    if(vid.getAttribute('src')!==src){vid.poster='img/muro/showreel-'+o+'-avvio.jpg';vid.preload=caricato?'auto':'metadata';vid.setAttribute('src',src)}}
   function carica(){if(caricato)return;caricato=true;vid.preload='auto';
     // su iPhone un video si scarica solo quando parte: lo avvio nascosto e lo fermo subito, così è pronto quando il punto riempie lo schermo
     if(!aperto){var pr=vid.play();if(pr&&pr.then){innesco=true;pr.then(function(){innesco=false;if(!aperto){vid.pause();try{vid.currentTime=0}catch(e){}}},function(){innesco=false})}}}
   function parti(){var pr=vid.play();if(pr&&pr.catch)pr.catch(function(e){if(e&&e.name==='NotAllowedError')negato=true})} // negato: niente autoplay (es. risparmio energetico), non insiste
-  function inizia(){ // il punto ha riempito lo schermo: lo showreel riparte dall'inizio (il primo fotogramma è arancio come il punto)
-    inOnda=false;negato=false;if(vid.currentTime>.01)try{vid.currentTime=0}catch(e){} // (un salto inutile toglierebbe il fermo immagine se il video non parte)
-    parti();
+  function ridisegna(){rendi(stato.u)}
+  function muroFatto(){orlo=null;rendi(stato.u)} // muroCostruisci riscrive lo stile del riquadro dello showreel: il filo va rimesso
+  function batti(si){if(si===battendo)return;battendo=si;if(si)gsap.ticker.add(ridisegna);else gsap.ticker.remove(ridisegna)} // ridisegna a ogni fotogramma mentre la camera aspetta il video
+  function inizia(tieni){ // il punto ha riempito lo schermo: lo showreel riparte dall'inizio (il primo fotogramma è arancio come il punto)
+    inOnda=false;negato=false;riavvolto=false;if(vid.currentTime>.01)try{vid.currentTime=0}catch(e){} // (un salto inutile toglierebbe la copertina del video se non parte)
+    tenuto=!!tieni;t0=performance.now();ritardo.v=0;batti(tenuto);
     var ok=function(){if(aperto&&!vid.paused&&!inOnda){inOnda=true;rendi(stato.u)}};
     if(vid.requestVideoFrameCallback)vid.requestVideoFrameCallback(function(){ok()});else vid.addEventListener('timeupdate',ok,{once:true});
   }
+  // dove sta la camera: se lo showreel è partito dalla copertina, resta a tutto schermo finché il video non ha girato GT
+  // secondi (la V col suo puntino), anche se il dito è già più avanti; poi raggiunge il dito con dolcezza. Se il video
+  // non parte (risparmio energetico, rete lenta) aspetta al massimo 2 secondi.
+  function camera(u){
+    if(tenuto){
+      if(u<TL.IR){tenuto=false;batti(false)}
+      else if(negato||(inOnda&&vid.currentTime>=TL.GT)||performance.now()-t0>(inOnda?2600:2000)){tenuto=false;batti(false);
+        var d=u-TL.Z0;if(d>.004){ritardo.v=d;gsap.to(ritardo,{v:0,duration:Math.min(1.1,.5+.4*d),ease:'power2.inOut',overwrite:true,onUpdate:ridisegna})}}
+      else return Math.min(u,TL.Z0);
+    }
+    return ritardo.v>0?Math.max(Math.min(u,TL.Z0),u-ritardo.v):u;
+  }
   function misuraPunto(){
     wrap.style.transform='';
+    // copertina più alta dello schermo (telefono girato, finestra bassa): prima scorre fino a mostrarsi tutta, poi si ferma (top negativo)
+    E=Math.max(0,Math.round(copertina.offsetHeight-G.V));
     var cr=copertina.getBoundingClientRect(),dr=dot.getBoundingClientRect(),wr=wrap.getBoundingClientRect();
-    var x=dr.left+dr.width/2-cr.left,y=dr.top+dr.height/2-cr.top,H=stage.clientHeight,Wd=G.Wd,L=.25*G.V,y1=y-L;
+    var x=dr.left+dr.width/2-cr.left,y=dr.top+dr.height/2-cr.top-E,H=stage.clientHeight,Wd=G.Wd,L=.25*G.V,y1=y-L;
     wrap.style.transformOrigin=(dr.left+dr.width/2-wr.left)+'px '+(dr.top+dr.height/2-wr.top)+'px';
     var R=Math.max(Math.hypot(x,y1),Math.hypot(Wd-x,y1),Math.hypot(x,H-y1),Math.hypot(Wd-x,H-y1))*1.03;
     D={x:x,y:y,r0:dr.width/2,R:R,L:L}; // il punto disegnato è largo 240 px: la scala lo porta alla misura giusta
   }
-  function rendi(u){
-    if(u>.002)carica();
-    // a) la copertina sale (all'inizio insieme al dito) e si avvicina al punto, che si gonfia fino a riempire lo schermo
+  function frase(i,s){ // s: -1 non ancora, 0 sullo schermo, 1 già uscita (verso l'alto)
+    var f=frasi[i],p=statoFrasi[i],ora=performance.now();statoFrasi[i]=s;clearTimeout(attesa[i]);
+    function metti(su,via,ferma){ // ferma(j): la riga j va al suo posto subito, senza attraversare la sua maschera
+      var ff=righe[i].filter(function(sp,j){return ferma(j)});ff.forEach(function(sp){sp.style.transition='none'});
+      f.classList.toggle('su',su);f.classList.toggle('via',via);
+      if(ff.length){void f.offsetWidth;ff.forEach(function(sp){sp.style.transition=''})}}
+    if(s===0){
+      if(p===null){partenza[i]=-1e9;metti(true,false,function(){return true});return} // la pagina si apre già qui (ricarica): subito al suo posto
+      // entra solo se il dito ci resta un attimo: scorrendo veloce, le frasi di passaggio non compaiono; se un'altra frase
+      // sta uscendo, questa le lascia il posto
+      attesa[i]=setTimeout(function(){var t=performance.now(),d=t-uscita<400?180:0;partenza[i]=t+d;
+        righe[i].forEach(function(sp,j){sp.style.transitionDelay=(d+j*70)+'ms'});metti(true,false,function(){return false})},130);
+      return}
+    // esce: le righe già partite vanno in su (o tornano giù se si torna indietro), quelle non ancora partite spariscono subito
+    var mossa=function(j){return ora>partenza[i]+j*70+30};
+    if(mossa(0))uscita=ora;
+    righe[i].forEach(function(sp,j){sp.style.transitionDelay=(s===1?j*35:0)+'ms'});
+    metti(false,s===1,function(j){return !mossa(j)});partenza[i]=1e15;
+  }
+  function rendi(uv){
+    var giu=uv>=TL.IR;
+    if(giu!==aperto){aperto=giu;stage.classList.toggle('aperto',giu);if(giu)inizia(prima!==null&&prima<TL.IR);else{inOnda=false;tenuto=false;riavvolto=false;batti(false)}}
+    var u=camera(uv);
+    if(uv>.002&&uv<TL.Z1)carica(); // solo scorrendo dentro la scena: chi apre la pagina più in basso (#prezzi, ricarica) non scarica lo showreel
+    // a) la copertina sale (all'inizio insieme al dito) e si avvicina al punto, che si gonfia fino a riempire lo schermo;
+    //    quando la copertina è quasi sparita i suoi pulsanti non si toccano più (il tocco non attraversa l'arancio)
     var t=seg(u,0,TL.IR),sale=D.L*(1-(1-t)*(1-t)),op=1-seg(t,.3,.85);
-    if(t>0){wrap.style.transform='translate3d(0,'+(-sale).toFixed(1)+'px,0) scale('+(1+.3*t*t).toFixed(4)+')';wrap.style.opacity=op;wrap.style.visibility=op>0?'':'hidden';dot.style.visibility='hidden'}
-    else{wrap.style.transform=wrap.style.opacity=wrap.style.visibility=dot.style.visibility=''}
-    var giu=u>=TL.IR;
-    if(giu!==aperto){aperto=giu;stage.classList.toggle('aperto',giu);if(giu)inizia();else inOnda=false}
-    // b) lo showreel gira a tutto schermo e mentre la camera si allontana sfuma nel suo fermo immagine; poi si ferma
-    var vo=1-seg(u,TL.VF0,TL.VF1);vid.style.opacity=vo<1?vo:'';
-    var vuole=aperto&&inVista&&vo>0;
-    if(vuole&&vid.paused&&!negato)parti();else if(!vuole&&!vid.paused&&!innesco)vid.pause();
-    // il punto copre lo schermo finché lo showreel non parte; se non parte (per esempio con il risparmio energetico) sfuma scorrendo e resta il fermo immagine
+    if(t>0){wrap.style.transform='translate3d(0,'+(-sale).toFixed(1)+'px,0) scale('+(1+.3*t*t).toFixed(4)+')';wrap.style.opacity=op;wrap.style.visibility=op>0?'':'hidden';wrap.style.pointerEvents=op<.5?'none':'';dot.style.visibility='hidden'}
+    else{wrap.style.transform=wrap.style.opacity=wrap.style.visibility=wrap.style.pointerEvents=dot.style.visibility=''}
+    // b) lo showreel gira a tutto schermo; poi passa per il buio (VF0-vm) e al suo posto compare il fermo immagine (vm-VF1)
+    var vm=(TL.VF0+TL.VF1)/2,vo=1-seg(u,TL.VF0,vm),fo=seg(u,vm,TL.VF1);
+    // tornando su dal muro: lo showreel si rimette sul primo fotogramma (arancio, come il punto) e aspetta; si riparte in avanti
+    if(aperto&&voPrima===0&&vo>0&&primaV!==null&&u<primaV){riavvolto=true;tenuto=false;batti(false);vid.pause();try{vid.currentTime=0}catch(e){}}
+    else if(riavvolto&&primaV!==null&&u>primaV+.0005&&u<TL.VF0)inizia(u<=TL.Z0+.02);
+    voPrima=vo;
+    // quando arrivano le frasi il fermo immagine si spegne quasi del tutto (resta il riquadro col suo filo): niente scritte sotto le frasi
+    var fd=fo*(1-.9*seg(u,1.42,1.64));vid.style.opacity=vo<1?vo:'';fermoTv.style.opacity=fd<1?fd.toFixed(3):'';
+    var vuole=aperto&&inVista&&vo>0&&!riavvolto;
+    if(vuole&&vid.paused&&!negato&&!vid.ended)parti();else if(!vuole&&!vid.paused&&!innesco)vid.pause();
+    // il punto copre lo schermo finché lo showreel non parte; se non parte resta arancio e poi passa per il buio come il video
     if(t>0){var r=D.r0*Math.pow(D.R/D.r0,Math.pow(t,1.2)),py=D.y-sale;
       punto.style.transform='translate3d('+(D.x-r).toFixed(1)+'px,'+(py-r).toFixed(1)+'px,0) scale('+(r/120).toFixed(5)+')';
-      var a=u<TL.IR?1:(inOnda?0:1-seg(u,TL.IR,TL.IR+.25));punto.style.opacity=a;punto.style.visibility=a>0?'visible':'hidden'}
+      var a=uv<TL.IR?1:(inOnda?0:1-seg(u,TL.VF0,vm));punto.style.opacity=a;punto.style.visibility=a>0?'visible':'hidden'}
     else punto.style.visibility='hidden';
-    // c) la camera: allontanamento, il muro che compare, l'inclinazione, il velo per le frasi
-    var k=posa(u);
+    // c) la camera: allontanamento, il muro che compare, l'inclinazione, il velo per le frasi; il riquadro dello showreel
+    //    prende il suo filo quando è al suo posto (prima, ingrandito, sarebbe una riga spessa)
+    var k=posa(u),oo=(.26*seg(u,1.12,1.42)).toFixed(3);
     tessere.style.opacity=seg(u,TL.WF0,TL.WF1);velo.style.opacity=seg(u,TL.VE0,TL.VE1);bordi.style.opacity=k;
-    // d) le tre frasi: ogni riga sale dalla sua maschera
-    FR.forEach(function(f,i){righe[i].forEach(function(sp,j){var d=j*.06,y=120*(1-oc(seg(u,f[0]+d,f[1]+d)))-120*iq(seg(u,f[2]+d*.5,f[3]+d*.5));sp.style.transform='translate3d(0,'+y.toFixed(2)+'%,0)'})});
+    if(oo!==orlo){orlo=oo;tv.style.setProperty('--orlo',oo)}
+    vid.style.visibility=vo>0?'':'hidden';fermoTv.style.visibility=fo>0?'':'hidden'; // ciò che non si vede non si disegna
+    // d) le tre frasi
+    for(var i=0;i<FR.length;i++){var s=u<FR[i][0]?-1:u<FR[i][1]?0:1;if(s!==statoFrasi[i])frase(i,s)}
+    prima=uv;primaV=u;
   }
 
   function imposta(){
     ScrollTrigger.getAll().forEach(function(t){t.kill()});
     var pc=matchMedia('(min-width:900px)').matches;
 
-    // 1. apertura: il punto, lo showreel, il muro, le tre frasi (la copertina e il palco sono sticky: niente pin di GSAP)
-    wrap.style.transform='';muroPronto(false);sorgente();misuraPunto();
+    // 1. apertura: il punto, lo showreel, il muro, le tre frasi (la copertina e il palco sono sticky: niente pin di GSAP).
+    //    Qui solo le misure; i riquadri del muro si costruiscono dopo il primo disegno (muroPronto).
+    wrap.style.transform='';muroCostruisci(null,false,true);orlo=null;sorgente();misuraPunto();
+    copertina.style.top=-E+'px';
     scena.style.marginTop=-copertina.offsetHeight+'px';
-    scena.style.height=Math.round((TL.T+1)*G.V)+'px';
-    gsap.fromTo(stato,{u:0},{u:TL.T,ease:'none',overwrite:true,scrollTrigger:{trigger:scena,start:'top top',end:'bottom bottom',scrub:.4},onUpdate:function(){rendi(stato.u)}});
+    scena.style.height=Math.round((TL.T+1)*G.V+E)+'px';
+    var tw=gsap.fromTo(stato,{u:0},{u:TL.T,ease:'none',overwrite:true,scrollTrigger:{trigger:scena,start:'top+='+E+' top',end:'bottom bottom',scrub:.4},onUpdate:function(){rendi(stato.u)}});
+    scenaST=tw.scrollTrigger;
     var vista=ScrollTrigger.create({trigger:scena,start:'top bottom',end:'bottom top',onToggle:function(s){inVista=s.isActive;stage.classList.toggle('vivo',inVista);rendi(stato.u)}});
     rendi(stato.u);
+    muroPronto(false,muroFatto);
 
     // 2. dichiarazione: le parole si accendono
     ScrollTrigger.create({trigger:dich,start:'top 80%',end:'bottom 45%',onUpdate:function(s){var n=parole.length;parole.forEach(function(w,i){w.style.opacity=.16+.84*clamp((s.progress*n-i)*1.6)})}});
@@ -804,7 +896,15 @@ addEventListener('DOMContentLoaded',function(){
   var pronte=0,imgs=document.querySelectorAll('#sito-lungo'),tot=imgs.length+1;
   (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){if(++pronte===tot)imposta()});
   imgs.forEach(function(im){var ok=function(){if(++pronte===tot)imposta()};if(im.complete)ok();else{im.addEventListener('load',ok,{once:true});im.addEventListener('error',ok,{once:true})}});
-  var t,w=innerWidth;addEventListener('resize',function(){if(Math.abs(innerWidth-w)<40)return;w=innerWidth;clearTimeout(t);t=setTimeout(imposta,200)});
+  // girando il telefono a metà scena si resta allo stesso punto della scena (la scena cambia altezza): il punto si ricorda
+  // a ogni scorrimento, ma non mentre cambia la misura (intanto il browser sposta la pagina da sé)
+  var fScena=null,cambiando=false;
+  addEventListener('scroll',function(){if(cambiando||!scenaST)return;var a=scenaST.start,b=scenaST.end;fScena=scrollY>a&&scrollY<b?(scrollY-a)/(b-a):null},{passive:true});
+  var t,w=innerWidth;addEventListener('resize',function(){if(Math.abs(innerWidth-w)<40)return;w=innerWidth;cambiando=true;clearTimeout(t);t=setTimeout(function(){
+    var f=fScena;imposta();
+    if(f!==null&&scenaST)scrollTo(0,Math.round(scenaST.start+f*(scenaST.end-scenaST.start)));
+    cambiando=false;
+  },200)});
 });
 </script>
 <script>
