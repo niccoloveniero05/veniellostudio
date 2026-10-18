@@ -988,14 +988,16 @@ addEventListener('DOMContentLoaded',function(){
   }
   // l'inizio (dal puntino allo schermo arancio) non corre più di VI schermate al secondo: anche con un colpo di dito veloce
   // si vede il puntino che scende, lampeggia e si allarga (circa un secondo in tutto: il disco aspetta che il lampeggio
-  // finisca); finito l'inizio il resto segue il dito come prima (la camera aspetta la V). Non frena tornando su, dopo un
-  // link del menu e con la scena fuori dallo schermo.
-  var ui=null,uiT=0,frenando=false,VI=1.15;
+  // finisca, poi si gonfia a non più di VG schermate al secondo, almeno 0,2 s, invece di scattare in un fotogramma); finito
+  // l'inizio il resto segue il dito come prima (la camera aspetta la V). Non frena tornando su, dopo un link del menu e
+  // con la scena fuori dallo schermo.
+  var ui=null,uiT=0,frenando=false,VI=1.15,VG=.36;
   function rincorri(){rendi(stato.u)}
   function frena(x){
     var t=performance.now(),r=x;
     if(ui===null||!inVista||x<=ui||ui>=TL.IR||t-saltoLink<1600)ui=Math.min(x,TL.IR);
-    else{ui=Math.min(x,t-lampo<LB?PU.g0:TL.IR,ui+VI*Math.min(50,t-uiT)/1000);if(ui<TL.IR)r=ui}
+    else{var dt=Math.min(50,t-uiT)/1000,n=ui<PU.g0?Math.min(ui+VI*dt,PU.g0):ui<PU.g1?ui+VG*dt:ui+VI*dt;
+      ui=Math.min(x,t-lampo<LB?PU.g0:TL.IR,n);if(ui<TL.IR)r=ui}
     uiT=t;
     if((r<x)!==frenando){frenando=r<x;if(frenando)gsap.ticker.add(rincorri);else gsap.ticker.remove(rincorri)}
     return r;
