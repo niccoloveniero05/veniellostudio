@@ -192,6 +192,10 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .dichiara .sotto{margin-top:26px;font-family:var(--sans);font-size:clamp(16px,1.8vw,19px);color:var(--testo2);max-width:46ch;line-height:1.6}
 /* il puntino in volo (dalla scena alla frase, dalla frase al telefono): sopra la pagina, sotto la testata */
 #filo{position:fixed;left:0;top:0;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--rec);z-index:45;pointer-events:none;opacity:0;will-change:transform,opacity}
+/* Safari su iOS 26 colora la barra in basso con l'elemento fisso che tocca il bordo, se c'è, altrimenti con la pagina sotto
+   (la copertina arancio la faceva diventare arancione): questa striscia scura, sotto la barra e invisibile, gli dà sempre il colore del sito */
+.tinta-safari{display:none;position:fixed;left:0;right:0;bottom:0;height:8px;background:var(--bg);pointer-events:none;z-index:60}
+@supports (-webkit-touch-callout:none){.tinta-safari{display:block}} /* solo Safari su iPhone e iPad: su Android la striscia si vedrebbe */
 
 /* fasi: inquadratura da cinepresa, la parola rotola, il telefono mostra Google, il sito e il montaggio del reel */
 .fasi{height:300svh;position:relative;padding:0}
@@ -825,6 +829,7 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
   </section>
 </main>
 <i id="filo" aria-hidden="true"></i>
+<div class="tinta-safari" aria-hidden="true"></div>
 
 <footer class="piede">
   <div class="wrap">
