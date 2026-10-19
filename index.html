@@ -177,8 +177,8 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 
 /* ===== «Il filo arancio» (proposta E, 18/10): dopo la scena, il puntino arancio del logo (#FF5A1F) accompagna chi scorre.
    È lo stesso che chiude «Da un solo studio●»: finita la scena si stacca, va a capo e legge la frase di «Perché serve»,
-   ne diventa il punto, cade sulla mappa di Google, apre il sito, fa da testina sul montaggio del reel; poi si accende sulla
-   carta del servizio in primo piano e viaggia sul binario di «Come funziona». In volo non passa mai sopra una riga di testo
+   ne diventa il punto, cade sulla mappa di Google, apre il sito, fa da testina sul montaggio del reel; nei servizi è la luce
+   REC del video che gira, il tocco su «Chiama» e il giorno di oggi nel calendario; poi viaggia sul binario di «Come funziona». In volo non passa mai sopra una riga di testo
    (corre nei margini). Con «Riduci movimento» niente puntini che volano: tutto fermo. ===== */
 :root{--rec:#FF5A1F}
 
@@ -249,40 +249,101 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
    (prima la parola finiva sotto la testata e sopra il telefono) */
 @media (max-height:560px) and (min-width:600px){.fasi-stage{flex-direction:row;align-items:center;justify-content:center;gap:min(8vw,110px);padding-bottom:20px}.fasi-testo{text-align:left;width:min(44vw,480px);min-height:200px}.fase-t p{margin-left:0}.telefono{margin:0;width:auto;height:calc(100svh - var(--testata) - 72px)}}
 
-/* pila: i servizi si impilano e quelli sotto vanno un po' indietro (poco: niente lastre scure, niente sfocato) */
-.pila{display:grid;gap:14px;margin-top:40px}
-.carta-s{position:sticky;top:calc(var(--testata) + 12px + var(--i)*8px);background:var(--surf);border-radius:var(--r2);overflow:hidden;min-height:min(72svh,640px);display:flex;flex-direction:column;box-shadow:0 -12px 40px rgba(0,0,0,.45);transform-origin:50% 0;will-change:transform}
-.carta-s:nth-child(even){background:var(--surf2)}
-.carta-s .scuro{position:absolute;inset:0;background:#0a0905;opacity:0;pointer-events:none;z-index:3}
-.carta-s .media{flex:1;min-height:220px;position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;padding:28px 24px 0;background:var(--bg2)}
-.carta-s .testo{padding:20px 24px 26px}
-.carta-s .testo .mono{display:flex;align-items:center;gap:9px;margin-bottom:8px}
-.carta-s .rec{position:relative;flex:none;width:7px;height:7px;border-radius:50%;background:var(--line2)}
-.carta-s .rec i{position:absolute;inset:0;border-radius:50%;background:var(--rec);opacity:0}
-.carta-s .testo p{color:var(--testo2);font-size:15.5px;max-width:48ch;margin-top:6px}
-.telefoni{display:flex;gap:14px;align-items:flex-end;width:min(100%,460px)}
-.telefoni img{width:calc(50% - 7px);border-radius:16px 16px 0 0;outline:1px solid var(--line2);box-shadow:0 30px 60px -30px rgba(0,0,0,.9);will-change:transform}
-.telefoni img:nth-child(2){transform:translateY(36px)}
-.media.pieno{padding:0}
-.media.pieno video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-/* i tre post si aprono a ventaglio, come carte in mano, quando la carta arriva */
-.strip{position:relative;width:100%;max-width:440px;align-self:stretch;margin:0 auto 22px}
-.strip img{position:absolute;left:25%;bottom:0;width:50%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:14px;transform-origin:50% 100%;box-shadow:0 26px 50px -22px rgba(0,0,0,.85);outline:1px solid var(--line2);will-change:transform}
-.strip img:nth-child(1){transform:translateX(-40%) rotate(-8deg)}
-.strip img:nth-child(2){z-index:2}
-.strip img:nth-child(3){transform:translateX(40%) rotate(8deg)}
-.g-carta{position:relative;width:min(100%,360px)}
-.media .fermo{width:100%;border-radius:16px 16px 0 0;outline:1px solid var(--line2)}
-/* il puntino tocca «Chiama» sulla scheda Google: sull’icona del telefono, così la scritta resta leggibile */
-.tocco{position:absolute;left:77.7%;top:43.6%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--rec);box-shadow:0 0 0 3px rgba(16,15,9,.35);transform:scale(0);will-change:transform}
-.tocco-onda{position:absolute;left:77.7%;top:43.6%;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:1px solid var(--rec);opacity:0;will-change:transform,opacity}
-.calendario{position:relative;width:min(100%,400px);align-self:center;margin-bottom:28px;font-family:var(--mono);font-size:13px;letter-spacing:.04em;color:var(--testo2)}
-.calendario div{display:grid;grid-template-columns:64px 1fr auto;gap:12px;padding:12px 0 12px 20px;border-bottom:1px solid var(--line)}
-.calendario div:last-child{border-bottom:0}
-.calendario b{font-weight:500;color:var(--testo)}
-.calendario span:last-child{color:var(--testo3)}
-.calendario .oggi{position:absolute;left:2px;top:0;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--rec);opacity:0;will-change:transform}
-@media (min-width:900px){.carta-s{flex-direction:row;min-height:min(70vh,620px)}.carta-s .media{flex:1.25}.carta-s .testo{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:36px 40px}.carta-s .testo p{font-size:17px}}
+/* ===== Servizi, proposta «griglia» (19/10): i sette servizi tutti insieme, in schede basse. Ogni scheda: il lavoro vero,
+   il nome, a cosa serve e in basso quanto costa o in quale abbonamento c'è già (gli stessi prezzi della sezione Prezzi).
+   L'ottava scheda è «Tutto insieme», cioè il Plus. Telefono: una colonna, immagine a sinistra e testo a destra;
+   da 600 px due colonne, da 1024 px quattro. Niente che entra o si muove scorrendo: gira solo il video della scheda più
+   vicina al centro dello schermo (uno alla volta, vedi «Video dei servizi»), e il suo puntino REC si accende. ===== */
+.servizi .intro b{color:var(--testo);font-weight:500}
+.griglia-s{list-style:none;display:grid;gap:10px;margin-top:30px}
+.servizio{position:relative;display:grid;grid-template-columns:34% 1fr;min-height:150px;background:var(--surf);border-radius:var(--r);overflow:hidden}
+.servizio .m{position:relative;overflow:hidden;background:var(--bg2)}
+.servizio .m>*{position:absolute}
+.servizio .t{display:flex;flex-direction:column;min-width:0;padding:13px 12px 13px 15px}
+.servizio h3{font-size:22px;line-height:1.08}
+.servizio .riga{color:var(--testo2);font-size:14px;line-height:1.4;margin:4px 0 10px;text-wrap:pretty}
+.servizio .costo{margin-top:auto;display:flex;align-items:baseline;flex-wrap:wrap;gap:0 7px;font-size:13px;line-height:1.3;color:var(--testo2)}
+.servizio .costo b{font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.05;letter-spacing:-.01em;color:var(--testo)}
+.servizio .dove{font-size:12.5px;line-height:1.38;color:var(--testo2);margin-top:2px;text-wrap:pretty}
+.servizio .dove b{font-weight:500;color:var(--testo)}
+/* il puntino REC sui video: grigio da fermo, arancio (e lampeggia piano, come la luce di una cinepresa) mentre gira */
+.rec-tag{left:8px;top:8px;z-index:2;display:flex;align-items:center;gap:5px;padding:4px 7px 4px 6px;border-radius:999px;background:rgba(16,15,9,.72);font-family:var(--mono);font-size:10px;line-height:1;letter-spacing:.12em;text-transform:uppercase;color:var(--testo2)}
+.rec-tag i{width:6px;height:6px;border-radius:50%;background:var(--line2)}
+.servizio.gira .rec-tag{color:var(--testo)}
+.servizio.gira .rec-tag i{background:var(--rec);animation:rec-luce 1.6s steps(1,end) infinite}
+@keyframes rec-luce{50%{opacity:.25}}
+/* 01: due schermate di jueclub.it, come due telefoni (dal telefono se ne vede una) */
+.m-sito .in{inset:0;display:flex;justify-content:center;gap:7%;padding:14px 10px 0}
+.m-sito img{width:72%;height:auto;align-self:flex-start;border-radius:10px 10px 0 0;outline:1px solid var(--line2)}
+.m-sito img+img{display:none}
+/* 02 e 06: il video riempie l'immagine; sopra c'è la sua copertina, che si scopre solo mentre il video gira (da fermo si vede
+   sempre la copertina, mai un fotogramma a caso) */
+.m-video video,.m-video .ferma{inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 58%}
+.m-video .ferma{transition:opacity .25s ease}
+.servizio.gira .ferma{opacity:0}
+/* 03: tre post a ventaglio, fermi */
+.m-fan img{left:50%;top:50%;width:60%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:9px;outline:1px solid var(--line2);transform-origin:50% 100%;box-shadow:0 18px 30px -16px rgba(0,0,0,.85)}
+.m-fan img:nth-child(1){transform:translate(-86%,-56%) rotate(-9deg)}
+.m-fan img:nth-child(2){transform:translate(-50%,-56%);z-index:1}
+.m-fan img:nth-child(3){transform:translate(-14%,-56%) rotate(9deg)}
+/* 04: la scheda Google; il puntino arancio tocca «Chiama» (sull'icona, così la scritta resta leggibile) */
+.m-g .box{left:0;top:0;height:128%;aspect-ratio:750/578}
+.m-g .box img{width:100%;height:auto}
+.m-g .tocco{position:absolute;left:77.7%;top:43.6%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--rec);box-shadow:0 0 0 3px rgba(16,15,9,.35)}
+/* 05: il calendario delle pubblicazioni; il puntino arancio è oggi */
+.m-cal .in{inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 8px 0 10px}
+.cal{position:relative;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;line-height:1.2;color:var(--testo2)}
+.cal div{display:grid;grid-template-columns:40px 1fr;gap:5px;padding:7px 0 7px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.cal div:last-child{border-bottom:0}
+.cal b{font-weight:500;color:var(--testo)}
+.cal span+span{display:none;color:var(--testo3)}
+.cal .oggi{position:relative}
+.cal .oggi::before{content:"";position:absolute;left:0;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:var(--rec)}
+/* 07: tre inquadrature dello spot, una accanto all'altra come in una scaletta */
+.m-spot .in{inset:0;display:grid;grid-template-columns:repeat(3,1fr);align-content:center;gap:4px;padding:0 8px}
+.m-spot img{width:100%;height:auto;aspect-ratio:1/3.5;object-fit:cover;border-radius:6px}
+/* 08: tutto insieme = il Plus */
+.servizio.tutto{grid-column:1/-1;display:flex;flex-direction:column;padding:18px 16px 16px;background:var(--surf2);box-shadow:inset 0 0 0 1px var(--line2)}
+.servizio.tutto .t{padding:0}
+.servizio.tutto .consigliato{position:static;align-self:flex-start;margin-bottom:12px}
+.servizio.tutto h3{font-size:28px}
+.servizio.tutto ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;margin:10px 0 14px;color:var(--testo2);font-size:14px;line-height:1.35}
+.servizio.tutto li{display:flex;gap:7px;align-items:flex-start}
+.servizio.tutto li .i{width:14px;height:14px;margin-top:2px;color:var(--testo)}
+.servizio.tutto .piede-t{margin-top:auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.servizio.tutto .costo{margin-top:0;padding-top:0;border-top:0}
+.servizio.tutto .btn{min-height:44px;padding:0 18px;font-size:14.5px}
+.servizi .fonte{margin-top:16px;color:var(--testo3);font-size:13.5px}
+@media (min-width:600px){
+  .griglia-s{grid-template-columns:1fr 1fr;gap:14px}
+  .servizio{display:flex;flex-direction:column;min-height:0;border-radius:var(--r2)}
+  .servizio .m{aspect-ratio:4/3;flex:none}
+  .servizio .t{flex:1;padding:18px 20px 20px}
+  .servizio h3{font-size:27px}
+  .servizio .riga{font-size:15px;margin:7px 0 18px}
+  .servizio .costo{padding-top:14px;border-top:1px solid var(--line)}
+  .servizio .dove{min-height:2.76em}
+  .servizio.tutto .piede-t{padding-top:14px;border-top:1px solid var(--line)}
+  .servizio .costo b{font-size:26px}
+  .rec-tag{left:12px;top:12px}
+  .showreel video,.showreel .ferma{transform:scale(1.26)}
+  .m-sito .in{padding-top:20px}
+  .m-sito img{width:38%;border-radius:12px 12px 0 0}
+  .m-sito img+img{display:block;margin-top:22px}
+  .m-fan img{width:40%}
+  .m-g .box{height:auto;width:100%}
+  .m-cal .in{padding:0 18px 0 20px}
+  .cal{font-size:11.5px}
+  .cal div{grid-template-columns:50px 56px 1fr;gap:8px;padding:8px 0 8px 16px}
+  .cal span+span{display:block}
+  .m-spot .in{gap:6px;padding:0 12px}
+  .m-spot img{aspect-ratio:9/16}
+  .servizio.tutto{grid-column:auto;padding:22px 22px 22px}
+  .servizio.tutto ul{grid-template-columns:1fr;font-size:15px}
+}
+@media (min-width:1024px){.griglia-s{grid-template-columns:repeat(4,1fr);gap:16px}.servizio .m{aspect-ratio:16/10}.servizio .t{padding:16px 18px 18px}.servizio .riga{margin-bottom:16px}.m-fan img{width:36%}.m-sito .in{padding-top:16px}.m-sito img{width:36%}.cal div{padding:6px 0 6px 16px}}
+@media (prefers-reduced-motion:reduce){.servizio.gira .rec-tag i{animation:none}.m-video .ferma{transition:none}}
+html.fermo .rec-tag{display:none} /* con «Riduci movimento» i video restano fermi: niente REC */
 
 /* binario: i tre passi scorrono di lato su un binario, il puntino è il treno */
 .binario{height:250svh;position:relative;padding:0}
@@ -414,14 +475,11 @@ html.fermo .fase-s.google{opacity:1}
 html.fermo .pin-tag{-webkit-clip-path:none;clip-path:none}
 html.fermo .punto-s{transform:translate(var(--px,75px),var(--py,47px))}
 html.fermo .punto-s i{opacity:1}
-html.fermo .tocco{transform:none}
 html.fermo .vagoni{flex-wrap:wrap}
 html.fermo .vagone{width:100%}
 html.fermo .rotaia{display:none}
 html.fermo .dichiara .w{opacity:1}
 html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2em;width:.2em;height:.2em;margin-left:-.1em;border-radius:50%;background:var(--rec)}
-html.fermo .carta-s{position:relative;top:auto}
-html.fermo .carta-s .rec i{opacity:1}
 @media (prefers-reduced-motion:reduce){
   .fase-t,.fase-s,.btn,summary::after,.recapito,.partner-tu{transition:none}
   .loghi-nastro{animation:none}
@@ -530,44 +588,56 @@ html.fermo .carta-s .rec i{opacity:1}
     <div class="wrap">
       <span class="etichetta">Servizi</span>
       <h2 id="t-servizi">Tutto quello che serve per farti <em>scegliere</em>.</h2>
-      <p class="intro">Quello che vedi qui sotto l’abbiamo fatto per il Jué Club di Montecatini Terme.</p>
-      <div class="pila">
-        <article class="carta-s" style="--i:0">
-          <div class="media"><div class="telefoni"><img src="img/sito-1.jpg" alt="La copertina di jueclub.it sul telefono" width="520" height="1126" loading="lazy"><img src="img/sito-4.jpg" alt="Il menù di jueclub.it sul telefono" width="520" height="1126" loading="lazy"></div></div>
-          <div class="testo"><span class="mono"><i class="rec"><i></i></i>01 · Sito su misura</span><h3>Fatto per il telefono, sul tuo dominio.</h3><p>Veloce e chiaro: chi sei, cosa fai, orari e prezzi, come arrivare e un tasto per chiamarti. Senza cookie e senza pubblicità.</p></div>
-          <i class="scuro" aria-hidden="true"></i>
-        </article>
-        <article class="carta-s" style="--i:1">
-          <div class="media pieno"><video src="video/spot.mp4" muted loop playsinline preload="none" poster="img/spot.jpg" aria-label="Lo spot Jué × Bombay Sapphire: il Bombay &amp; Tonic e la bottiglietta in omaggio"></video></div>
-          <div class="testo"><span class="mono"><i class="rec"><i></i></i>02 · Video e reel</span><h3>La tua attività in venti secondi.</h3><p>Riprese vere, montaggio a tempo di musica, testi e loghi animati. Verticali, per Reel, TikTok e storie.</p></div>
-          <i class="scuro" aria-hidden="true"></i>
-        </article>
-        <article class="carta-s" style="--i:2">
-          <div class="media"><div class="strip"><img src="img/reel-9-0.jpg" alt="" loading="lazy"><img src="img/locandina.jpg" alt="La locandina della serata Martedì Blu" loading="lazy"><img src="img/reel-23-0.jpg" alt="" loading="lazy"></div></div>
-          <div class="testo"><span class="mono"><i class="rec"><i></i></i>03 · Instagram e TikTok</span><h3>Un profilo che fa entrare.</h3><p>Profilo in ordine, storie in evidenza, link giusti. Post e grafiche per le novità, le offerte e gli eventi.</p></div>
-          <i class="scuro" aria-hidden="true"></i>
-        </article>
-        <article class="carta-s" style="--i:3">
-          <div class="media"><div class="g-carta"><img class="fermo" src="img/google.jpg" alt="La scheda Google del Jué Club su Maps" width="750" height="578" loading="lazy"><i class="tocco-onda" aria-hidden="true"></i><i class="tocco" aria-hidden="true"></i></div></div>
-          <div class="testo"><span class="mono"><i class="rec"><i></i></i>04 · Scheda Google</span><h3>Su Google e su Maps.</h3><p>Quando qualcuno cerca in zona quello che fai, la tua scheda è la prima cosa che vede: foto, orari, recensioni e il tasto Chiama.</p></div>
-          <i class="scuro" aria-hidden="true"></i>
-        </article>
-        <article class="carta-s" style="--i:4">
-          <div class="media"><div class="calendario"><i class="oggi" aria-hidden="true"></i><div><b>Ven 16</b><span>Reel della novità</span><span>Instagram</span></div><div><b>Sab 17</b><span>Locandina</span><span>Post</span></div><div><b>Dom 18</b><span>Video da 6 secondi</span><span>Storia</span></div><div><b>Lun 19</b><span>«Da domani»</span><span>Storia</span></div><div><b>Mar 20</b><span>Dal vivo</span><span>Storie</span></div></div></div>
-          <div class="testo"><span class="mono"><i class="rec"><i></i></i>05 · Gestione social</span><h3>Ogni mese, ci pensiamo noi.</h3><p>Post, storie e grafiche preparati e pubblicati da noi. Per una novità, un’offerta o un evento, basta scriverci.</p></div>
-          <i class="scuro" aria-hidden="true"></i>
-        </article>
-        <article class="carta-s" style="--i:5">
-          <div class="media pieno"><video src="video/showreel-verticale.mp4" muted loop playsinline preload="none" poster="img/showreel-verticale.jpg" aria-label="Lo showreel in motion design di Veniello Studio"></video></div>
-          <div class="testo"><span class="mono"><i class="rec"><i></i></i>06 · Motion design</span><h3>Il tuo marchio, in movimento.</h3><p>Logo animato, scritte a tempo di musica e i tuoi lavori veri montati in uno showreel da venti secondi. Per il sito, i social e le presentazioni.</p></div>
-          <i class="scuro" aria-hidden="true"></i>
-        </article>
-        <article class="carta-s" style="--i:6">
-          <div class="media"><div class="strip"><img src="img/spot-3-2.jpg" alt="Lo spot del Jué: il gin versato nel bicchiere" loading="lazy"><img src="img/spot-6-2.jpg" alt="Lo spot del Jué: il lime nel drink" loading="lazy"><img src="img/spot-13-6.jpg" alt="Lo spot del Jué: il drink finito con la promozione della serata" loading="lazy"></div></div>
-          <div class="testo"><span class="mono"><i class="rec"><i></i></i>07 · Spot pubblicitari</span><h3>Lo spot della tua attività.</h3><p>Un'idea, il copione, le inquadrature e il montaggio: uno spot per Instagram, TikTok e la pubblicità online, come quelli dei grandi marchi.</p></div>
-          <i class="scuro" aria-hidden="true"></i>
-        </article>
-      </div>
+      <p class="intro">Sette servizi. Li prendi <b>uno alla volta</b>, oppure <b>tutti insieme</b> in un abbonamento al mese.</p>
+      <ul class="griglia-s">
+        <li class="servizio">
+          <div class="m m-sito"><div class="in"><img src="img/sito-1.jpg" alt="La copertina di jueclub.it sul telefono" width="520" height="1125" loading="lazy"><img src="img/sito-4.jpg" alt="Il menù di jueclub.it sul telefono" width="520" height="1125" loading="lazy"></div></div>
+          <div class="t"><h3>Sito su misura</h3><p class="riga">Chi sei, cosa fai e un tasto per chiamarti.</p>
+            <p class="costo"><b>119 €</b>una volta sola</p><p class="dove">Con Google e Instagram. Incluso in <b>Plus</b> e <b>Pro</b>.</p></div>
+        </li>
+        <li class="servizio">
+          <div class="m m-video"><video src="video/spot.mp4" muted loop playsinline preload="none" aria-label="Lo spot Jué × Bombay Sapphire: il Bombay &amp; Tonic e la bottiglietta in omaggio"></video><img class="ferma" src="img/spot.jpg" alt="" width="540" height="960" loading="lazy"><span class="rec-tag" aria-hidden="true"><i></i>Rec</span></div>
+          <div class="t"><h3>Video e reel</h3><p class="riga">Riprese vere, montate per Reel, TikTok e storie.</p>
+            <p class="costo"><b>da 149 €</b>al mese</p><p class="dove">4 reel al mese nel <b>Plus</b>, 8 nel <b>Pro</b>.</p></div>
+        </li>
+        <li class="servizio">
+          <div class="m m-fan"><img src="img/reel-9-0.jpg" alt="" width="600" height="1067" loading="lazy"><img src="img/locandina.jpg" alt="La locandina della serata Martedì Blu" width="600" height="803" loading="lazy"><img src="img/reel-23-0.jpg" alt="" width="600" height="1067" loading="lazy"></div>
+          <div class="t"><h3>Instagram e TikTok</h3><p class="riga">Profilo in ordine, storie in evidenza, link giusti.</p>
+            <p class="costo"><b>59 €</b>una volta sola</p><p class="dove">Con la scheda Google. Incluso in <b>Plus</b> e <b>Pro</b>.</p></div>
+        </li>
+        <li class="servizio">
+          <div class="m m-g"><div class="box"><img src="img/google.jpg" alt="La scheda Google del Jué Club su Maps" width="750" height="578" loading="lazy"><i class="tocco" aria-hidden="true"></i></div></div>
+          <div class="t"><h3>Scheda Google</h3><p class="riga">Chi cerca in zona trova orari, foto e recensioni.</p>
+            <p class="costo"><b>59 €</b>una volta sola</p><p class="dove">Con Instagram. Incluso in <b>Plus</b> e <b>Pro</b>.</p></div>
+        </li>
+        <li class="servizio">
+          <div class="m m-cal"><div class="in"><div class="cal" role="img" aria-label="Un calendario di pubblicazioni: reel, post e storie, un giorno dopo l'altro"><div class="oggi"><b>Ven 16</b><span>Reel</span><span>La novità</span></div><div><b>Sab 17</b><span>Post</span><span>Locandina</span></div><div><b>Dom 18</b><span>Storia</span><span>Video da 6 s</span></div><div><b>Lun 19</b><span>Storia</span><span>«Da domani»</span></div><div><b>Mar 20</b><span>Storie</span><span>Dal vivo</span></div></div></div></div>
+          <div class="t"><h3>Gestione social</h3><p class="riga">Post, storie e grafiche ogni mese, pubblicati da noi.</p>
+            <p class="costo"><b>da 79 €</b>al mese</p><p class="dove"><b>Base</b>, <b>Plus</b> o <b>Pro</b>. Si disdice quando vuoi.</p></div>
+        </li>
+        <li class="servizio">
+          <div class="m m-video showreel"><video src="video/showreel-verticale.mp4" data-largo="video/showreel-orizzontale.mp4" muted loop playsinline preload="none" aria-label="Lo showreel in motion design di Veniello Studio"></video><img class="ferma" src="img/showreel-verticale.jpg" data-largo="img/showreel-orizzontale.jpg" alt="" width="720" height="1280" loading="lazy"><span class="rec-tag" aria-hidden="true"><i></i>Rec</span></div>
+          <div class="t"><h3>Motion design</h3><p class="riga">Logo animato e scritte a tempo di musica.</p>
+            <p class="costo"><b>Su preventivo</b></p><p class="dove">Il prezzo te lo scriviamo prima.</p></div>
+        </li>
+        <li class="servizio">
+          <div class="m m-spot"><div class="in"><img src="img/spot-3-2.jpg" alt="Lo spot del Jué: il gin versato nel bicchiere" width="600" height="1067" loading="lazy"><img src="img/spot-6-2.jpg" alt="Lo spot del Jué: il lime nel drink" width="600" height="1067" loading="lazy"><img src="img/spot-13-6.jpg" alt="Lo spot del Jué: il drink finito con la promozione della serata" width="600" height="1067" loading="lazy"></div></div>
+          <div class="t"><h3>Spot pubblicitari</h3><p class="riga">Idea, copione e montaggio, come i grandi marchi.</p>
+            <p class="costo"><b>da 300 €</b>a spot</p><p class="dove">Uno all’anno incluso nel <b>Pro</b>.</p></div>
+        </li>
+        <li class="servizio tutto">
+          <span class="consigliato">Consigliato</span>
+          <div class="t"><h3>Tutto insieme</h3>
+            <ul>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Sito su misura</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Scheda Google</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Instagram in ordine</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>12 pubblicazioni al mese, di cui 4 reel</li>
+            </ul>
+            <div class="piede-t"><p class="costo"><b>149 €</b>al mese · Plus</p><a class="btn btn-pieno" href="#prezzi">Vedi i prezzi</a></div></div>
+        </li>
+      </ul>
+      <p class="fonte">Nelle immagini, lavori veri fatti per il Jué Club di Montecatini Terme.</p>
     </div>
   </section>
 
@@ -773,11 +843,29 @@ var testata=document.getElementById('testata');
 var piena=function(){testata.classList.toggle('piena',scrollY>30)};piena();addEventListener('scroll',piena,{passive:true});
 document.getElementById('anno').textContent=new Date().getFullYear();
 
-// Video dei servizi: parte solo quando si vede e, con la pila animata, solo quello della carta in primo piano (uno alla volta)
-function aggiornaVideo(v){var on=v._vista&&v._attivo!==false&&!ridotto; // con «Riduci movimento» resta la copertina ferma
-  if(on&&v.paused)v.play().catch(function(){});else if(!on&&!v.paused)v.pause()}
-var vio=new IntersectionObserver(function(es){es.forEach(function(e){e.target._vista=e.isIntersecting;aggiornaVideo(e.target)})},{threshold:.3});
-document.querySelectorAll('.media video').forEach(function(v){vio.observe(v)});
+// Video dei servizi (proposta «griglia»): gira solo il video della scheda più vicina al centro dello schermo, uno alla
+// volta; al computer, con il mouse sopra una scheda, gira quello. Il puntino REC si accende solo mentre il video gira
+// davvero. Con «Riduci movimento» restano le copertine ferme.
+var svV=[].slice.call(document.querySelectorAll('.servizio video')),svSopra=null,svRaf=0;
+// lo showreel: verticale nella scheda del telefono, orizzontale nelle schede larghe (dove l'immagine è più larga che alta)
+var svLargo=matchMedia('(min-width:600px)');
+function sorgenti(){svV.forEach(function(v){var o=v.getAttribute('data-largo');if(!o)return;
+  var im=v.parentNode.querySelector('.ferma');if(!v._v)v._v=[v.getAttribute('src'),im.getAttribute('src')];
+  var s=svLargo.matches?[o,im.getAttribute('data-largo')]:v._v;
+  if(v.getAttribute('src')!==s[0]){v.pause();im.setAttribute('src',s[1]);v.setAttribute('src',s[0])}})}
+sorgenti();if(svLargo.addEventListener)svLargo.addEventListener('change',function(){sorgenti();chiediVideo()});
+function scegliVideo(){svRaf=0;var vh=innerHeight,mid=vh/2,best=null,bd=1e9;
+  if(!ridotto&&!document.hidden)svV.forEach(function(v){var r=v.closest('.servizio').getBoundingClientRect(),c=(r.top+r.bottom)/2;
+    if(r.bottom<=0||r.top>=vh)return;
+    if(v===svSopra){best=v;bd=-1;return}
+    var d=Math.abs(c-mid);if(d<bd&&c>vh*.2&&c<vh*.8){bd=d;best=v}});
+  svV.forEach(function(v){if(v===best){if(v.paused)v.play().catch(function(){})}else if(!v.paused)v.pause()})}
+function chiediVideo(){if(!svRaf)svRaf=requestAnimationFrame(scegliVideo)}
+svV.forEach(function(v){var s=v.closest('.servizio');
+  v.addEventListener('playing',function(){s.classList.add('gira')});v.addEventListener('pause',function(){s.classList.remove('gira')});
+  s.addEventListener('mouseenter',function(){svSopra=v;chiediVideo()});s.addEventListener('mouseleave',function(){if(svSopra===v)svSopra=null;chiediVideo()})});
+addEventListener('scroll',chiediVideo,{passive:true});addEventListener('resize',chiediVideo);document.addEventListener('visibilitychange',chiediVideo);
+chiediVideo();
 
 // Barra dei partner: scorre solo quando è sullo schermo
 var loghi=[{src:'img/jue-logo.png',alt:'Jué Club',href:'https://jueclub.it'}];
@@ -1374,40 +1462,7 @@ addEventListener('DOMContentLoaded',function(){
       .set({},{},1);
     ScrollTrigger.create({trigger:fasi,start:'top 250%',end:'bottom -150%',onToggle:function(s){if(s.isActive)caricaReel()}}); // a due schermate e mezzo dalle fasi (anche tornando su)
 
-    // 4. pila: chi arriva copre; chi sta sotto va un po' indietro e si scurisce appena, solo quando la nuova carta l'ha quasi
-    //    coperta (niente lastre scure vuote, niente inclinazioni che sfocano); il video gira solo in primo piano
-    var carte=[].slice.call(document.querySelectorAll('.carta-s')),pila=document.querySelector('.pila'),TS=document.getElementById('testata').offsetHeight;
-    var acc=pila.getBoundingClientRect().top+scrollY;
-    var cg=carte.map(function(c,i){var g={nat:acc,st:TS+12+i*8,h:c.offsetHeight,scuro:c.querySelector('.scuro'),rec:c.querySelector('.rec i'),
-      dentro:c.querySelector('.media').firstElementChild,video:c.querySelector('video')};acc+=g.h+14;return g});
-    function arr(g,sy){return clamp((vh-(g.nat-sy))/(vh-g.st))}
-    function yDi(i,a){var g=cg[i];return g.nat-vh+a*(vh-g.st)}
-    var tel1=carte[0].querySelectorAll('.telefoni img'),ventagli=carte.map(function(c,i){var s=c.querySelectorAll('.strip img');return s.length?{i:i,s:s}:null}).filter(Boolean),tocco=carte[3].querySelector('.tocco'),onda=carte[3].querySelector('.tocco-onda');
-    var cal=carte[4].querySelector('.calendario'),righeCal=[].slice.call(cal.querySelectorAll('div')),oggi=cal.querySelector('.oggi');
-    var rc=righeCal.map(function(r){return r.offsetTop+r.offsetHeight/2});
-    var calA=yDi(4,.45),calB=yDi(5,.42),tocA=yDi(3,.7),tocB=yDi(4,.3);
-    var pilaAgg=morbido(function(sy){
-      var a=cg.map(function(g){return arr(g,sy)});
-      cg.forEach(function(g,i){
-        var lv=0;for(var j=i+1;j<cg.length;j++)lv+=a[j];lv=Math.min(lv,3);
-        var l1=dolce((Math.min(lv,1)-.3)/.7),l2=Math.max(0,lv-1),sc=1-.035*l1-.012*l2;
-        scrivi(carte[i],'transform',l1>.001?'scale('+sc.toFixed(4)+')':'');
-        scrivi(g.scuro,'opacity',Math.min(.3,.22*l1+.04*l2).toFixed(3));
-        scrivi(g.rec,'opacity',(a[i]*(1-clamp(lv*1.6))).toFixed(2));
-        var u=1-a[i];
-        if(g.video){scrivi(g.video,'transform','scale('+(1+.06*u).toFixed(4)+')');var on=a[i]>.5&&lv<.5;if(g.video._attivo!==on){g.video._attivo=on;aggiornaVideo(g.video)}}
-        else if(i!==0&&!carte[i].querySelector('.strip'))scrivi(g.dentro,'transform','translateY('+(u*30).toFixed(1)+'px)');
-      });
-      var u0=1-a[0];scrivi(tel1[0],'transform','translateY('+(u0*16).toFixed(1)+'px)');scrivi(tel1[1],'transform','translateY('+(36+u0*50).toFixed(1)+'px)');
-      ventagli.forEach(function(v){var u2=1-a[v.i],ap=dolce((a[v.i]-.35)/.65);[-1,0,1].forEach(function(d,k){scrivi(v.s[k],'transform','translate('+(d*40*ap).toFixed(2)+'%,'+(u2*(d?24:36)).toFixed(1)+'px) rotate('+(d*8*ap).toFixed(2)+'deg) scale('+(d?.94+.06*ap:1).toFixed(3)+')')})});
-      var tt=clamp((sy-tocA)/(tocB-tocA));scrivi(tocco,'transform','scale('+(dolce(tt/.22)*(1-.25*dolce((tt-.38)/.1)+.25*dolce((tt-.5)/.12))).toFixed(3)+')');
-      var on=clamp((tt-.42)/.58);scrivi(onda,'transform','scale('+(.3+1.5*on).toFixed(3)+')');scrivi(onda,'opacity',(on>0&&on<1?(1-on):0).toFixed(2));
-      var c=clamp((sy-calA)/(calB-calA)),pos=c*(righeCal.length-1),k0=Math.floor(pos),k1=Math.min(righeCal.length-1,k0+1);
-      righeCal.forEach(function(r,k){scrivi(r,'opacity',(.3+.7*clamp((pos-k)*2.2+1)).toFixed(2))});
-      scrivi(oggi,'opacity',clamp(a[4]*2.5-1.2).toFixed(2));
-      scrivi(oggi,'transform','translateY('+lerp(rc[k0],rc[k1],dolce(pos-k0)).toFixed(1)+'px)');
-    },.24);
-    ScrollTrigger.create({trigger:pila,start:'top bottom',end:'bottom top',onUpdate:function(s){pilaAgg(s.scroll())},onRefresh:function(s){pilaAgg(s.scroll())}});
+    // 4. servizi: niente animazioni allo scorrimento (proposta «griglia»); il video che gira lo sceglie «Video dei servizi»
 
     // 5. binario: tre tappe con una sosta su ognuna; il puntino è il treno e accende le stazioni, «Poi decidi» all'arrivo
     var vag=document.getElementById('vagoni'),vg=[].slice.call(vag.children),num=vg.map(function(v){return v.querySelector('.n')});
