@@ -144,7 +144,10 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .lv .n{position:absolute;left:0;top:0;font-weight:700;letter-spacing:-.05em;line-height:1;white-space:nowrap}
 .lv .n>*{display:inline-block}
 .lv .vv{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.18em;letter-spacing:0;margin-right:.01em;-webkit-text-stroke:.036em currentColor;paint-order:stroke fill;transform-origin:50% 50%}
-.lv .pt{width:.21em;height:.21em;border-radius:50%;background:#FF5A1F;margin:0 .035em 0 .045em;transform-origin:50% 50%}
+.lv .pt{width:.21em;height:.21em;margin:0 .035em 0 .045em;visibility:hidden} /* solo il posto del punto nella riga: il puntino lo disegna .pd */
+/* il puntino disegnato: largo 100 px e ridotto dallo script alla misura giusta (il punto della riga è largo 2-3 px e il
+   browser lo arrotonderebbe al pixel prima di ingrandirlo, e non combacerebbe più con l'arancio che ci si posa sopra) */
+.lv .pd{position:absolute;left:0;top:0;width:100px;height:100px;margin:-50px 0 0 -50px;border-radius:50%;background:#FF5A1F;transform-origin:50% 50%;visibility:hidden}
 .lv .e,.lv .st{-webkit-clip-path:inset(-20% 100% -20% 0);clip-path:inset(-20% 100% -20% 0)}
 .velo{position:absolute;inset:0;opacity:0;background:radial-gradient(ellipse 88% 46% at 50% 50%,rgba(16,15,9,.9) 0%,rgba(16,15,9,.72) 45%,rgba(16,15,9,.3) 82%,rgba(16,15,9,.18) 100%)}
 .bordi{position:absolute;inset:0;opacity:0;background:linear-gradient(180deg,var(--bg) 0%,rgba(16,15,9,0) 26%,rgba(16,15,9,0) 78%,var(--bg) 100%)}
@@ -738,8 +741,8 @@ var tessere=document.createElement('div');tessere.className='tessere';muro.appen
 var tv=document.createElement('div');tv.className='tv';muro.appendChild(tv);
 // il logo del «momento V», disegnato dentro il riquadro (vedi .lv): V, «eniello», il punto arancio, «studio»
 var lv=document.createElement('div');lv.className='lv';lv.setAttribute('aria-hidden','true');
-lv.innerHTML='<span class="n"><span class="vv">V</span><span class="e">eniello</span><i class="pt"></i><span class="st">studio</span></span>';tv.appendChild(lv);
-var lvN=lv.firstChild,lvV=lvN.children[0],lvE=lvN.children[1],lvP=lvN.children[2],lvS=lvN.children[3];
+lv.innerHTML='<span class="n"><span class="vv">V</span><span class="e">eniello</span><i class="pt"></i><span class="st">studio</span></span><i class="pd"></i>';tv.appendChild(lv);
+var lvN=lv.firstChild,lvV=lvN.children[0],lvE=lvN.children[1],lvP=lvN.children[2],lvS=lvN.children[3],lvD=lv.lastChild;
 var sonda=document.createElement('div');sonda.style.cssText='position:absolute;left:0;top:0;width:1px;height:100vh;height:100svh;visibility:hidden;pointer-events:none';document.body.appendChild(sonda);
 var G={};
 function seg(u,a,b){return u<=a?0:u>=b?1:(u-a)/(b-a)}
@@ -825,10 +828,16 @@ var LVT={V:450,D0:250,D1:800,DY:620,S0:680,S1:1050}; // ms della scritta: la V s
 function logoMisura(bw,bh,s0,Wd,V,hdr,cx,cy){
   var Vh=V-hdr,F=Math.min(.7*Wd,.42*Vh)/s0,N=Math.min(.105*Wd,.09*Vh)/s0,em=1.18*N; // misure a schermo divise per s0
   lvN.style.fontSize=N.toFixed(3)+'px';
-  var wn=lvN.offsetWidth,hn=lvN.offsetHeight,nl=(bw-wn)/2,nt=(bh-hn)/2-.04*N; // (un filo più su: la scritta è bassa nella sua riga)
-  lvN.style.left=nl.toFixed(2)+'px';lvN.style.top=nt.toFixed(2)+'px';
-  function box(e){return {x:nl+e.offsetLeft,y:nt+e.offsetTop,w:e.offsetWidth,h:e.offsetHeight}}
-  var v=box(lvV),e=box(lvE),p=box(lvP),st=box(lvS),S=F/em;
+  // misure con i decimali, su una copia della scritta senza trasformazioni fuori dal palco: offsetLeft e offsetWidth sono
+  // arrotondati al pixel e il riquadro è ingrandito s0 volte (fino a 3,7 sul telefono), così il puntino del logo cadeva
+  // 2-3 px accanto al punto dove si posa l'arancio e faceva un saltello
+  var m=document.createElement('div');m.className='lv';m.setAttribute('aria-hidden','true');m.style.visibility='hidden';
+  var c=lvN.cloneNode(true);c.removeAttribute('style');c.style.fontSize=lvN.style.fontSize;
+  [].forEach.call(c.children,function(x){x.removeAttribute('style')});m.appendChild(c);document.body.appendChild(m);
+  var r0=c.getBoundingClientRect(),wn=r0.width,hn=r0.height,nl=(bw-wn)/2,nt=(bh-hn)/2-.04*N; // (un filo più su: la scritta è bassa nella sua riga)
+  function box(i){var r=c.children[i].getBoundingClientRect();return {x:nl+r.left-r0.left,y:nt+r.top-r0.top,w:r.width,h:r.height}}
+  var v=box(0),e=box(1),p=box(2),st=box(3),S=F/em;document.body.removeChild(m);
+  lvN.style.left=nl.toFixed(3)+'px';lvN.style.top=nt.toFixed(3)+'px';
   var sv=[bw/2-.04*F,bh/2+.0533*F],off=[.32*em,-.2747*em],sp=[sv[0]+S*off[0],sv[1]+S*off[1]],rs=.1733*F/2;
   G.L={S:S,em:em,N:N,v:v,e:e,p:p,st:st,cv:[v.x+v.w/2,v.y+v.h/2],sv:sv,off:off,sp:sp,rs:rs,cp:[p.x+p.w/2,p.y+p.h/2],
     px:cx+s0*(sp[0]-bw/2),py:cy+s0*(sp[1]-bh/2),pr:s0*rs}; // px, py, pr: il puntino del simbolo sul palco (dove arriva l'arancio)
@@ -1039,8 +1048,8 @@ addEventListener('DOMContentLoaded',function(){
     // il puntino: attaccato alla V (in alto a destra) finché scende e corre a fare il punto
     var a=[c[0]+sc*L.off[0],c[1]+sc*L.off[1]],ex=ioc(seg(t,LVT.D0,LVT.D1)),ey=ioc(seg(t,LVT.D0,LVT.DY));
     var dx=lerp(a[0],L.cp[0],ex),dy=lerp(a[1],L.cp[1],ey),dd=lerp(sc*.1733*L.em,L.p.w,ex);
-    scrivi(lvP,'transform','translate('+(dx-L.cp[0]).toFixed(2)+'px,'+(dy-L.cp[1]).toFixed(2)+'px) scale('+(dd/L.p.w).toFixed(4)+')');
-    scrivi(lvP,'visibility',sp<1?'hidden':''); // finché si stringe, il puntino è l'arancio del palco
+    scrivi(lvD,'transform','translate('+dx.toFixed(3)+'px,'+dy.toFixed(3)+'px) scale('+(dd/100).toFixed(5)+')');
+    scrivi(lvD,'visibility',sp<1?'hidden':'inherit'); // finché si stringe, il puntino è l'arancio del palco
     // «eniello» si scrive dietro al puntino; «studio» esce dal punto
     var re=Math.min(ex,clamp((dx-dd/2-L.e.x)/L.e.w)),q=1-Math.pow(1-seg(t,LVT.S0,LVT.S1),3);
     var ce=re>=1?'none':'inset(-20% '+(100-100*re).toFixed(2)+'% -20% 0)',cs=q>=1?'none':'inset(-20% '+(100-100*q).toFixed(2)+'% -20% 0)';
