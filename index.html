@@ -102,9 +102,10 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 
 /* «Da uno a tutti» (scelta da Niccolò il 18/10), con l'inizio del «puntino» (proposta B, 18/10): scorrendo, la copertina
    sale da sola come una pagina normale e passa davanti al punto arancio di «scegliere», che si stacca, scende al centro,
-   lampeggia una volta e si gonfia in un cerchio che si allarga fino a riempire lo schermo; lo schermo arancio si stringe
-   nel puntino della V del logo e dalla V esce il nome (il «momento V», disegnato dalla pagina: .lv), la camera si
-   allontana e quel riquadro diventa uno dei lavori nel muro dei lavori veri del Jué; il muro si inclina, scorre sotto
+   lampeggia una volta e si gonfia in un cerchio che si allarga fino a riempire lo schermo; sullo schermo arancio, che
+   resta arancio, entra la V bianca del logo col puntino nero e dalla V esce il nome (il «momento V», disegnato dalla
+   pagina: .lv; colori scelti da Niccolò il 19/10), la camera si allontana, intorno torna il nero e quel riquadro arancio
+   diventa uno dei lavori nel muro dei lavori veri del Jué; il muro si inclina, scorre sotto
    le tre frasi e se ne va con la pagina. Solo transform e opacity. La sezione non ha overflow-x:clip (rompe le
    animazioni): taglia il palco. */
 .rec-punto{display:inline-block;width:.19em;height:.19em;border-radius:50%;background:#FF5A1F;margin-left:.045em;vertical-align:baseline}
@@ -130,6 +131,10 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .scena{position:relative;z-index:2;padding:0;height:450vh;height:450svh;margin-top:-100vh;margin-top:-100svh;pointer-events:none} /* misure esatte dallo script */
 .scena-stage{position:sticky;top:0;height:100vh;height:100lvh;overflow:hidden}
 .fondo{position:absolute;inset:0;background:var(--bg);opacity:0}
+/* lo schermo arancio del momento V (resta arancio sotto la V; l'opacità la dà lo script: si spegne quando la camera si
+   allontana e intorno al riquadro arancio del logo torna il nero) */
+.fondo-v{position:absolute;inset:0;background:#FF5A1F;visibility:hidden}
+.scena-stage.aperto .fondo-v{visibility:visible}
 .plano{position:absolute;inset:0;visibility:hidden}
 .scena-stage.aperto .fondo{opacity:1}
 .scena-stage.aperto .plano{visibility:visible}
@@ -142,19 +147,20 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .tessere{position:absolute;left:0;top:0;width:100%;height:100%}
 .muro img,.muro .tv{position:absolute;display:block;border-radius:var(--rt,10px);background:var(--surf)}
 .muro img{height:auto;max-width:none}
-.muro .tv{overflow:hidden;background:var(--bg);box-shadow:0 0 0 1px rgba(245,244,239,var(--orlo,0))} /* nel muro un filo chiaro (dallo script): il riquadro del logo si riconosce tra gli altri lavori */
-/* il «momento V» (19/10, al posto del video): il logo disegnato dentro il riquadro, come la scritta della testata (V in
-   Instrument Serif corsiva ingrossata, «eniello», il punto tondo arancio, «studio»). Le misure e i movimenti li dà lo
+.muro .tv{overflow:hidden;background:#FF5A1F;box-shadow:0 0 0 1px rgba(245,244,239,var(--orlo,0))} /* nel muro un filo chiaro (dallo script): il riquadro del logo si riconosce tra gli altri lavori */
+/* il «momento V» (19/10, al posto del video): il logo disegnato dentro il riquadro arancio, come la scritta della testata
+   ma a colori invertiti (V in Instrument Serif corsiva ingrossata, «eniello», il punto tondo, «studio»: scritta bianca,
+   che sull'arancio si legge meglio dell'avorio, e punto nero). Le misure e i movimenti li dà lo
    script (logoMisura, logoDisegna): la scritta è al suo posto finale, il simbolo (V grande col puntino REC) è una
    trasformazione della stessa V */
-.lv{position:absolute;left:0;top:0;width:100%;height:100%;color:var(--testo);pointer-events:none}
+.lv{position:absolute;left:0;top:0;width:100%;height:100%;color:#FFF;pointer-events:none}
 .lv .n{position:absolute;left:0;top:0;font-weight:700;letter-spacing:-.05em;line-height:1;white-space:nowrap}
 .lv .n>*{display:inline-block}
 .lv .vv{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.18em;letter-spacing:0;margin-right:.01em;-webkit-text-stroke:.036em currentColor;paint-order:stroke fill;transform-origin:50% 50%}
 .lv .pt{width:.21em;height:.21em;margin:0 .035em 0 .045em;visibility:hidden} /* solo il posto del punto nella riga: il puntino lo disegna .pd */
-/* il puntino disegnato: largo 100 px e ridotto dallo script alla misura giusta (il punto della riga è largo 2-3 px e il
-   browser lo arrotonderebbe al pixel prima di ingrandirlo, e non combacerebbe più con l'arancio che ci si posa sopra) */
-.lv .pd{position:absolute;left:0;top:0;width:100px;height:100px;margin:-50px 0 0 -50px;border-radius:50%;background:#FF5A1F;transform-origin:50% 50%;visibility:hidden}
+/* il puntino disegnato (nero sull'arancio): largo 100 px e ridotto dallo script alla misura giusta (il punto della riga è
+   largo 2-3 px e il browser lo arrotonderebbe al pixel prima di ingrandirlo) */
+.lv .pd{position:absolute;left:0;top:0;width:100px;height:100px;margin:-50px 0 0 -50px;border-radius:50%;background:#100F09;transform-origin:50% 50%;visibility:hidden}
 .lv .e,.lv .st{-webkit-clip-path:inset(-20% 100% -20% 0);clip-path:inset(-20% 100% -20% 0)}
 .velo{position:absolute;inset:0;opacity:0;background:radial-gradient(ellipse 88% 46% at 50% 50%,rgba(16,15,9,.9) 0%,rgba(16,15,9,.72) 45%,rgba(16,15,9,.3) 82%,rgba(16,15,9,.18) 100%)}
 .bordi{position:absolute;inset:0;opacity:0;background:linear-gradient(180deg,var(--bg) 0%,rgba(16,15,9,0) 26%,rgba(16,15,9,0) 78%,var(--bg) 100%)}
@@ -389,7 +395,7 @@ html.fermo .scena-stage{position:relative;height:100svh}
 html.fermo .fondo,html.fermo .velo,html.fermo .bordi{opacity:1}
 /* fermo: niente riquadro del logo (il suo posto resta sotto il palco), velo uniforme e un po' più scuro solo dietro le frasi, bordi corti:
    i riquadri si vedono tutti e nessuno sembra vuoto; nessun lavoro ripetuto (lo sceglie lo script) */
-html.fermo .muro .tv{display:none}
+html.fermo .muro .tv,html.fermo .fondo-v{display:none}
 html.fermo .velo{background:radial-gradient(ellipse 60% 40% at 50% 50%,rgba(16,15,9,.68),rgba(16,15,9,0) 100%),rgba(16,15,9,.58)}
 html.fermo .bordi{background:linear-gradient(180deg,var(--bg) 0%,rgba(16,15,9,0) 11%,rgba(16,15,9,0) 89%,var(--bg) 100%)}
 html.fermo .frase{text-shadow:0 1px 24px rgba(16,15,9,.9),0 0 2px rgba(16,15,9,.6)}
@@ -465,6 +471,7 @@ html.fermo .carta-s .rec i{opacity:1}
   <section class="scena" id="lavori" aria-label="Il nostro lavoro per il Jué Club">
     <div class="scena-stage" id="scena-stage">
       <div class="fondo"></div>
+      <div class="fondo-v" id="fondo-v"></div>
       <div class="plano" id="plano"><div class="muro" id="muro" aria-hidden="true"></div></div>
       <div class="velo" id="velo"></div>
       <div class="bordi" id="bordi"></div>
@@ -785,8 +792,8 @@ new IntersectionObserver(function(e){document.getElementById('loghi').classList.
 // intorno al riquadro del logo. Si vede quando la camera si allontana dal logo.
 var LAVORI=[['sito-1',711,'s'],['reel-5-5',711,'b','bottiglia'],['jue-neon',400,'f'],['sito-cocktail',400,'s','oldfashioned'],['locandina',533,'b','martedi'],['jue-oldfashioned',400,'f','oldfashioned'],['sito-3',711,'c','galleria'],['spot-0-3',711,'b','bottiglia'],['jue-locale',533,'f'],['google-mappa',533,'c','google'],['reel-1-2',711,'f'],['jue-dj-pioneer',400,'f'],['sito-4',711,'c'],['reel-14-0',711,'b'],['jue-parete',400,'f'],['sito-salotto',533,'c'],['spot-6-0',711,'b'],['jue-luci',400,'f'],['sito-2',711,'b','martedi'],['reel-23-0',711,'b','drink'],['google',400,'c','google'],['reel-9-0',711,'b','ghiaccio'],['spot-2-0',711,'b','ghiaccio'],['sito-bistrot',400,'s'],['reel-19-5',711,'b','drink'],['spot-3-3',711,'b','ghiaccio'],['sito-dj',400,'s'],['spot-7-3',711,'b','drink'],['spot-8-7',711,'f','bottiglia']]; // nome, altezza a 400 di larghezza, tono (s scuro, b blu, f foto, c chiaro), gruppo di lavori che si somigliano
 // Tempi, in altezze di schermo scorse dalla cima della pagina: il puntino si stacca, scende, lampeggia e si allarga
-// fino a riempire lo schermo mentre la copertina se ne va (0-IR, vedi PU nel secondo script); da IR il «momento V»: lo
-// schermo arancio si stringe nel puntino della V del logo e dalla V esce il nome (fino a Z0; sul telefono la camera non
+// fino a riempire lo schermo mentre la copertina se ne va (0-IR, vedi PU nel secondo script); da IR il «momento V»: sullo
+// schermo arancio entra la V bianca del logo col puntino nero e dalla V esce il nome (fino a Z0; sul telefono la camera non
 // va oltre finché il nome non è uscito, anche con un colpo di dito veloce: vedi LV e camera() nel secondo script); la
 // camera si allontana (Z0-Z1): il riquadro del logo si stringe nel suo posto e il muro arretra da W0 volte; compare il
 // muro (WF0-WF1); il muro si inclina (T0-T1) e scorre (P0-P1) sotto il velo (VE0-VE1) e le tre frasi (FR, nel secondo
@@ -882,7 +889,7 @@ function muroCostruisci(zone,fermo,soloMisure){ // zone: per ogni colonna il tra
 // tutto schermo (il riquadro è ingrandito s0 volte e centrato sotto la testata; cx, cy: il suo centro sul palco).
 // Due stati della stessa scritta: il simbolo (la V grande col puntino REC in alto a destra, misure del logo in
 // logo/finale/logo.html: V da F px, puntino largo .1733 F a +.32 F, -.2747 F dal centro della V) e la scritta
-// «Veniello.studio» (Geist, la V a 1,18 em). L'arancio a tutto schermo si stringe esattamente nel puntino del simbolo.
+// «Veniello.studio» (Geist, la V a 1,18 em). Bianca sul riquadro arancio, col puntino nero.
 var LVT={V:450,D0:250,D1:800,DY:620,S0:680,S1:1050}; // ms della scritta: la V si rimpicciolisce (0-V), il puntino scende e corre a fare il punto scrivendo «eniello» (D0-D1, in basso entro DY), «studio» esce dal punto (S0-S1)
 function logoMisura(bw,bh,s0,Wd,V,hdr,cx,cy){
   var Vh=V-hdr,F=Math.min(.7*Wd,.42*Vh)/s0,N=Math.min(.105*Wd,.09*Vh)/s0,em=1.18*N; // misure a schermo divise per s0
@@ -1048,19 +1055,20 @@ addEventListener('DOMContentLoaded',function(){
 
   // «Da uno a tutti» (i tempi TL sono nel primo script)
   var copertina=document.getElementById('inizio'),wrap=document.getElementById('copertina-wrap'),dot=document.getElementById('rec-punto');
-  var punto=document.getElementById('punto'),velo=document.getElementById('velo'),bordi=document.getElementById('bordi');
+  var punto=document.getElementById('punto'),velo=document.getElementById('velo'),bordi=document.getElementById('bordi'),fondoV=document.getElementById('fondo-v');
   var frasi=[].slice.call(document.querySelectorAll('.scena .frase')),righe=frasi.map(function(f){return [].slice.call(f.querySelectorAll('.riga>span'))});
   // ogni frase sale quando la camera passa la prima soglia e se ne va alla seconda. Le righe si muovono a tempo (circa 0,6 s),
   // non legate al dito: se lo scorrimento si ferma, una frase c'è intera o non c'è, mai tagliata a metà dalla sua maschera
   var FR=[[1.66,2.2],[2.32,2.86],[2.98,99]].map(function(f){return [f[0]+TL.SH,f[1]+TL.SH]}),statoFrasi=[null,null,null],attesa=[0,0,0],partenza=[1e15,1e15,1e15],uscita=-1e9;
   var D={},E=0,stato={u:0,p:0},aperto=false,inVista=true,scenaST=null;
   var tenuto=false,ritardo={v:0},prima=null,battendo=false,orlo=null;
-  // Il «momento V» (19/10, al posto del video che partiva qui; logoMisura e LVT nel primo script). Da IR l'arancio a tutto
-  // schermo si stringe nel puntino della V del logo (sp da 0 a 1), la V col puntino resta un attimo, poi dalla V esce il
-  // nome (np da 0 a 1, a tempo: LVT.S1 ms; come le frasi non resta mai a metà se il dito si ferma, e tornando indietro
-  // rientra). Al computer l'arancio si stringe col dito (nel tratto LV.dP) e il nome esce quando la scena passa LV.nP.
-  // Sul telefono l'arancio si stringe a tempo (LV.S ms: un colpo di dito veloce non lo salta; tornando su invece si
-  // riallarga col dito, nel tratto LV.dT), il nome esce LV.H ms dopo, e la camera resta sul logo finché il nome non è
+  // Il «momento V» (19/10, al posto del video che partiva qui; logoMisura e LVT nel primo script). Da IR lo schermo resta
+  // arancio (.fondo-v) e ci entra la V bianca del logo col suo puntino nero (sp da 0 a 1: la stessa entrata di quando
+  // l'arancio si stringeva nel puntino, ora senza stringersi; colori scelti da Niccolò il 19/10), la V col puntino resta
+  // un attimo, poi dalla V esce il nome (np da 0 a 1, a tempo: LVT.S1 ms; come le frasi non resta mai a metà se il dito
+  // si ferma, e tornando indietro rientra). Al computer la V entra col dito (nel tratto LV.dP) e il nome esce quando la
+  // scena passa LV.nP. Sul telefono la V entra a tempo (LV.S ms: un colpo di dito veloce non la salta; tornando su invece
+  // esce col dito, nel tratto LV.dT), il nome esce LV.H ms dopo, e la camera resta sul logo finché il nome non è
   // uscito per LV.GO (vedi camera()): circa 1,2 s, come l'attesa della V del video di prima. La pagina non si ferma mai.
   var LV={S:450,H:180,GO:.55,dT:.15,dP:.075,nP:.115},sT=0,tS=0,s1=-1,nome={p:0},nomeSu=null;
   function ridisegna(){rendi(stato.u)}
@@ -1072,12 +1080,12 @@ addEventListener('DOMContentLoaded',function(){
     gsap.to(nome,{p:su?1:0,duration:(su?LVT.S1/1000*(1-nome.p):.28*nome.p),ease:'none',overwrite:true,onUpdate:ridisegna});
   }
   function vPronto(){return sT>=1&&nome.p>=LV.GO}
-  // L'arancio insegue il suo traguardo senza mai andare più svelto di LV.S ms per tutto il tratto (niente scatti anche con
-  // un colpo di dito o una rotella veloce). Traguardo: al computer il dito (sS); sul telefono 1 andando avanti (si stringe
-  // da solo) e il dito tornando su. Tornando su prima rientra il nome, poi l'arancio si riallarga: mai i due insieme; se
-  // il dito torna sopra lo schermo arancio prima che sia finito, finisce lo stesso (più svelto), poi riprende il puntino.
+  // L'entrata della V insegue il suo traguardo senza mai andare più svelta di LV.S ms per tutto il tratto (niente scatti
+  // anche con un colpo di dito o una rotella veloce). Traguardo: al computer il dito (sS); sul telefono 1 andando avanti
+  // (entra da sola) e il dito tornando su. Tornando su prima rientra il nome, poi la V se ne va: mai i due insieme; se il
+  // dito torna sopra lo schermo arancio prima che sia finito, finisce lo stesso (più svelto), poi riprende il puntino.
   var avanti=true,sG=0;
-  function stringi(u,uv){ // quanto l'arancio si è stretto (sp); uv: il dito, u: la camera
+  function stringi(u,uv){ // quanto è entrata la V (sp); uv: il dito, u: la camera
     var t=performance.now(),dt=Math.min(34,t-tS);tS=t;
     var sotto=uv<TL.IR;
     if(sotto&&(prima===null||sT<=0)){sT=sG=0;s1=-1;avanti=true;scritta(false,true);return 0}
@@ -1089,26 +1097,21 @@ addEventListener('DOMContentLoaded',function(){
     scritta(guida?!sotto&&u>=TL.IR+LV.nP:s1>=0&&t-s1>=LV.H&&(avanti||sS>=1),prima===null);
     return sT;
   }
-  // il cerchio arancio che si stringe: è il puntino del simbolo visto da vicino, che la camera lascia andare (stessa
-  // misura e stesso posto del puntino quando arriva, poi lo disegna il logo)
-  function stretto(sp){
-    var L=G.L,K=D.R/L.pr,r=D.R*Math.pow(L.pr/D.R,dolce(sp)),q=(r/L.pr-1)/(K-1);
-    disco(L.px+(D.cx-L.px)*q,L.py+(D.cy-L.py)*q,r,1);return r/L.pr;
-  }
-  // sp, k (quante volte l'arancio è più grande del puntino: la V arriva con lui, da un po' più grande), np (0 simbolo,
-  // 1 scritta composta), o (opacità del logo)
-  function logoDisegna(sp,k,np,o){
+  // sp: l'entrata del simbolo sull'arancio (0-1, stessi tempi di quando l'arancio si stringeva nel puntino): il puntino
+  // nero si apre come un buco nell'arancio, al suo posto, e intorno compare la V bianca, che si posa da appena più grande;
+  // np (0 simbolo, 1 scritta composta), o (opacità del logo)
+  function logoDisegna(sp,np,o){
     var L=G.L;if(!L)return;
-    var t=np*LVT.S1,ev=ioc(t/LVT.V),sc=Math.pow(L.S,1-ev),c=[lerp(L.sv[0],L.cv[0],ev),lerp(L.sv[1],L.cv[1],ev)],ov=1;
-    if(sp<1){var z=Math.pow(k,.35);c=[L.sp[0]+z*(c[0]-L.sp[0]),L.sp[1]+z*(c[1]-L.sp[1])];sc*=z;ov=dolce(seg(sp,0,.32))}
+    var t=np*LVT.S1,ev=ioc(t/LVT.V),sc=Math.pow(L.S,1-ev),c=[lerp(L.sv[0],L.cv[0],ev),lerp(L.sv[1],L.cv[1],ev)],ov=1,ap=1;
+    if(sp<1){var z=1+.07*(1-dolce(seg(sp,.1,1)));c=[L.sp[0]+z*(c[0]-L.sp[0]),L.sp[1]+z*(c[1]-L.sp[1])];sc*=z;ov=dolce(seg(sp,.12,.72));ap=1-Math.pow(1-seg(sp,0,.5),3)}
     scrivi(lvV,'transform','translate('+(c[0]-L.cv[0]).toFixed(2)+'px,'+(c[1]-L.cv[1]).toFixed(2)+'px) scale('+sc.toFixed(4)+')');
     scrivi(lvV,'webkitTextStrokeWidth',lerp(.0467,.036,ev).toFixed(4)+'em');
     scrivi(lvV,'opacity',ov<1?ov.toFixed(3):'');
     // il puntino: attaccato alla V (in alto a destra) finché scende e corre a fare il punto
     var a=[c[0]+sc*L.off[0],c[1]+sc*L.off[1]],ex=ioc(seg(t,LVT.D0,LVT.D1)),ey=ioc(seg(t,LVT.D0,LVT.DY));
-    var dx=lerp(a[0],L.cp[0],ex),dy=lerp(a[1],L.cp[1],ey),dd=lerp(sc*.1733*L.em,L.p.w,ex);
+    var dx=lerp(a[0],L.cp[0],ex),dy=lerp(a[1],L.cp[1],ey),dd=lerp(sc*.1733*L.em/(sp<1?z:1),L.p.w,ex)*ap;
     scrivi(lvD,'transform','translate('+dx.toFixed(3)+'px,'+dy.toFixed(3)+'px) scale('+(dd/100).toFixed(5)+')');
-    scrivi(lvD,'visibility',sp<1?'hidden':'inherit'); // finché si stringe, il puntino è l'arancio del palco
+    scrivi(lvD,'visibility',ap>0?'inherit':'hidden'); // il puntino nero si apre (ap) al suo posto, alla sua misura, e non si muove
     // «eniello» si scrive dietro al puntino; «studio» esce dal punto
     var re=Math.min(ex,clamp((dx-dd/2-L.e.x)/L.e.w)),q=1-Math.pow(1-seg(t,LVT.S0,LVT.S1),3);
     var ce=re>=1?'none':'inset(-20% '+(100-100*re).toFixed(2)+'% -20% 0)',cs=q>=1?'none':'inset(-20% '+(100-100*q).toFixed(2)+'% -20% 0)';
@@ -1207,7 +1210,7 @@ addEventListener('DOMContentLoaded',function(){
   // (lungoPc schermate di scorrimento invece di TL.T) e le fasi sono distribuite lungo lo scorrimento: VEL dice quante
   // schermate di scorrimento vale ogni unità di u in quel punto (tra un punto e l'altro cambia piano, così nessun movimento
   // fa scatti di velocità). Fino al lampeggio come sul telefono (il puntino resta in pari con la copertina), poi più spazio
-  // al lampeggio e al disco, tanto spazio al momento V a tutto schermo (l'arancio che si stringe nel puntino, la V, il nome), allontanamento e muro un
+  // al lampeggio e al disco, tanto spazio al momento V a tutto schermo (la V bianca che entra sull'arancio, il nome), allontanamento e muro un
   // po' più svelti, le prime due frasi 1,7 volte più lunghe e la terza 1,1 (resta sullo schermo anche mentre il palco esce).
   // Con la rotella «contata» (vedi «Rotella», 110 px a scatto) tutta la scena è ~5,4 schermate: ~45 scatti a 900 px di
   // altezza (prima 7,6 schermate per compensare i 333 px a scatto). Lo «scrub» di GSAP (0,4 s) ammorbidisce senza lasciare
@@ -1235,11 +1238,14 @@ addEventListener('DOMContentLoaded',function(){
     //    molto bassi) sparisce e non si tocca più: niente scritte sopra l'arancio
     var op=1-seg(u,.58,.78);
     scrivi(wrap,'opacity',op<1?op.toFixed(3):'');scrivi(wrap,'visibility',op>0?'':'hidden');scrivi(wrap,'pointerEvents',op<.5?'none':'');
-    // b) il momento V: l'arancio si stringe nel puntino della V, poi dalla V esce il nome. Quando arrivano le frasi il logo
-    //    si spegne quasi del tutto (resta il riquadro col suo filo): niente scritte sotto le frasi
+    // b) il momento V: sullo schermo arancio entra la V bianca col puntino nero, poi dalla V esce il nome. Quando la camera
+    //    si allontana, intorno al riquadro arancio del logo torna il nero (Z0, quanto basta perché il riquadro si veda
+    //    rimpicciolire). Quando arrivano le frasi il logo si spegne quasi del tutto (resta il riquadro col suo filo): niente
+    //    scritte sotto le frasi
     var sp=stringi(u,uv);
     puntino(u,aperto?0:1);ultimaU=u;
-    if(aperto&&G.L){var kk=sp<1?stretto(sp):1;logoDisegna(sp,kk,nome.p,1-.9*seg(u,1.42+TL.SH,1.64+TL.SH))}
+    var fv=aperto?1-dolce(seg(u,TL.Z0,TL.Z0+.2)):0;scrivi(fondoV,'opacity',fv<1?fv.toFixed(3):'');
+    if(aperto&&G.L)logoDisegna(sp,nome.p,1-.9*seg(u,1.42+TL.SH,1.64+TL.SH));
     // c) la camera: allontanamento, il muro che compare, l'inclinazione, il velo per le frasi; il riquadro del logo prende
     //    il suo filo quando è al suo posto (prima, ingrandito, sarebbe una riga spessa)
     var k=posa(u),oo=(.26*seg(u,1.12+TL.SH,1.42+TL.SH)).toFixed(3);
@@ -1248,7 +1254,7 @@ addEventListener('DOMContentLoaded',function(){
     // d) le tre frasi
     for(var i=0;i<FR.length;i++){var s=u<FR[i][0]?-1:u<FR[i][1]?0:1;if(s!==statoFrasi[i])frase(i,s)}
     prima=uv;
-    batti(aperto&&inVista&&(Math.abs(sG-sT)>1e-4||!guida&&(tenuto||s1>=0&&!nomeSu))); // l'arancio che si stringe e l'attesa del nome vanno a tempo
+    batti(aperto&&inVista&&(Math.abs(sG-sT)>1e-4||!guida&&(tenuto||s1>=0&&!nomeSu))); // l'entrata della V e l'attesa del nome vanno a tempo
   }
 
   function imposta(){
