@@ -446,9 +446,9 @@ html.fermo .carta-s .rec i{opacity:1}
       <div class="velo" id="velo"></div>
       <div class="bordi" id="bordi"></div>
       <div class="scena-testo">
-        <p class="frase"><span class="riga"><span>Un locale</span></span> <span class="riga"><span>di <em>Montecatini</em>.</span></span></p>
+        <p class="frase"><span class="riga"><span>Il nostro</span></span> <span class="riga"><span><em>lavoro</em>.</span></span></p>
         <p class="frase"><span class="riga"><span>Sito, Google,</span></span> <span class="riga"><span>social e <em>video</em>.</span></span></p>
-        <p class="frase"><span class="riga"><span>Da un solo</span></span> <span class="riga"><span><em>studio</em><i class="rec-punto" id="punto-studio" aria-hidden="true"></i></span></span> <span class="riga piccola"><span>Jué Club · Montecatini Terme</span></span></p>
+        <p class="frase"><span class="riga"><span>Da un solo</span></span> <span class="riga"><span><em>studio</em><i class="rec-punto" id="punto-studio" aria-hidden="true"></i></span></span></p>
       </div>
       <i class="punto" id="punto" aria-hidden="true"></i>
     </div>
@@ -1077,7 +1077,7 @@ addEventListener('DOMContentLoaded',function(){
   var guida=false,lungoPc=TL.T,tabS=null,NT=1200;
   function preparaPc(){
     if(tabS)return;
-    var VEL=[[0,1],[PU.b0,1],[PU.b0+.03,2.6],[PU.g0,2.6],[PU.g0+.04,1.9],[PU.g1,1.75],[PU.g1+.06,.85],[TL.IR-.02,.85],[TL.IR+.02,3.5],[TL.Z0-.02,3.5],[TL.Z0+.04,.85],[FR[0][0]-.12,.85],[FR[0][0]-.02,1.7],[FR[2][0]-.06,1.7],[FR[2][0]+.04,1.1],[99,1.1]];
+    var VEL=[[0,1],[PU.b0,1],[PU.b0+.03,2.6],[PU.g0,2.6],[PU.g0+.04,1.9],[PU.g1,1.75],[PU.g1+.06,.85],[TL.IR-.02,.85],[TL.IR+.02,3.5],[TL.Z0-.02,3.5],[TL.Z0+.04,.85],[FR[0][0]-.12,.85],[FR[0][0]-.02,1.7],[FR[2][0]-.06,1.7],[FR[2][0]+.04,1.7],[99,1.7]];
     function vel(u){for(var i=1;i<VEL.length;i++)if(u<=VEL[i][0]){var a=VEL[i-1],b=VEL[i];return lerp(a[1],b[1],(u-a[0])/(b[0]-a[0]))}return VEL[VEL.length-1][1]}
     tabS=[0];for(var k=1;k<=NT;k++){var u0=TL.T*(k-1)/NT,u1=TL.T*k/NT;tabS.push(tabS[k-1]+(vel(u0)+vel(u1))/2*(u1-u0))}
     lungoPc=tabS[NT];
@@ -1313,11 +1313,13 @@ addEventListener('DOMContentLoaded',function(){
     if(puntoI)scrivi(puntoI,'opacity',f===4?'1':'0');
     if(f!==1&&f!==3){scrivi(filo,'opacity','0');return}
     var A,B,P,e,al=1,dd=null;
-    if(f===1){ // dalla scena alla frase: il punto scende appena sotto «studio», va a capo tra «studio» e la riga piccola, poi giù nel margine sinistro
+    if(f===1){ // dalla scena alla frase: il punto scende appena sotto «studio», va a capo appena sotto «studio», poi giù nel margine sinistro
       A=centro(studio);B=centro(cursore);
-      // la corsia tra le righe: dal fondo delle lettere di «studio» alla cima di quelle della riga piccola (misure del testo, non dei riquadri)
-      rigaSu.selectNodeContents(studio.previousElementSibling);rigaGiu.selectNodeContents(piccola);
-      var su=rigaSu.getBoundingClientRect().bottom,giu=rigaGiu.getBoundingClientRect().top,yb=(su+giu)/2,dl=dich.getBoundingClientRect().left,xg=dl-Math.min(24,dl/2);
+      // la corsia sotto «studio»: dal fondo delle sue lettere fino alla riga piccola, se c'è; altrimenti una corsia alta mezza riga (misure del testo, non dei riquadri)
+      rigaSu.selectNodeContents(studio.previousElementSibling);
+      var su=rigaSu.getBoundingClientRect().bottom,giu;
+      if(piccola){rigaGiu.selectNodeContents(piccola);giu=rigaGiu.getBoundingClientRect().top}else giu=su+Math.max(28,.5*rigaSu.getBoundingClientRect().height);
+      var yb=(su+giu)/2,dl=dich.getBoundingClientRect().left,xg=dl-Math.min(24,dl/2);
       P=[[A[0],A[1]],[A[0],yb],[xg,yb],[xg,B[1]],[B[0],B[1]]];
       e=ioc(seg(s,F.T0,F.R0));
       // misura: piccolo tra le righe (al massimo metà della corsia), poi, giù nel margine, quella della lettura
