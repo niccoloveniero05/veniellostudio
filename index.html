@@ -328,6 +328,9 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .carta li{display:flex;gap:10px;align-items:flex-start}
 .carta li .i{width:15px;height:15px;margin-top:4px}
 .carta .btn{margin-top:24px;align-self:flex-start}
+.carta .per{margin-top:10px;color:var(--testo);font-size:15px}
+.carta ul+.btn{margin-top:auto;padding-top:0}
+.carta ul{margin-bottom:24px}
 .nota{color:var(--testo3);font-size:14px;margin-top:16px;max-width:60ch}
 .serieta{display:flex;flex-wrap:wrap;gap:8px;margin-top:36px}
 .serieta span{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--testo2);box-shadow:inset 0 0 0 1px var(--line);border-radius:999px;padding:10px 14px}
@@ -595,8 +598,7 @@ html.fermo .carta-s .rec i{opacity:1}
       <div class="gruppo">
         <div class="gruppo-testa"><h3>Una volta sola</h3><span class="mono">per partire</span></div>
         <div class="carte">
-          <article class="carta top">
-            <span class="consigliato">Consigliato</span>
+          <article class="carta">
             <h4>Sito + Google + Instagram</h4>
             <p class="prezzo">119 €</p>
             <p class="quando">una volta sola</p>
@@ -627,17 +629,20 @@ html.fermo .carta-s .rec i{opacity:1}
             <h4>Base</h4>
             <p class="prezzo">79 € <small>al mese</small></p>
             <p class="quando">8 pubblicazioni al mese</p>
+            <p class="per">Per esserci con costanza.</p>
             <ul>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Post e caroselli, con le tue foto e i tuoi video</li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Storie per le serate e le novità</li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Li prepariamo e pubblichiamo noi</li>
             </ul>
+            <a class="btn btn-linea" href="https://wa.me/393273331949?text=Ciao%2C%20mi%20interessa%20l%E2%80%99abbonamento%20Base" target="_blank" rel="noopener">Scegli Base</a>
           </article>
           <article class="carta top">
             <span class="consigliato">Consigliato</span>
             <h4>Plus</h4>
             <p class="prezzo">149 € <small>al mese</small></p>
             <p class="quando">12 pubblicazioni al mese</p>
+            <p class="per">Per farti scegliere ogni settimana.</p>
             <ul>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Di cui 4 reel</li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>1 giornata di riprese al mese nel tuo locale</li>
@@ -645,20 +650,23 @@ html.fermo .carta-s .rec i{opacity:1}
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><b>Sito + Google + Instagram inclusi</b></li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Aggiornamenti al sito</li>
             </ul>
+            <a class="btn btn-pieno" href="https://wa.me/393273331949?text=Ciao%2C%20mi%20interessa%20l%E2%80%99abbonamento%20Plus" target="_blank" rel="noopener">Scegli Plus</a>
           </article>
           <article class="carta">
             <h4>Pro</h4>
             <p class="prezzo">249 € <small>al mese</small></p>
             <p class="quando">20 pubblicazioni al mese</p>
+            <p class="per">Per chi fa anche pubblicità.</p>
             <ul>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Di cui 8 reel e 2 giornate di riprese</li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Sponsorizzate su Instagram e Facebook gestite da noi</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Uno spot pubblicitario ogni 3 mesi</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Uno spot pubblicitario all’anno</li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Tutto il resto del Plus, sito compreso</li>
             </ul>
+            <a class="btn btn-linea" href="https://wa.me/393273331949?text=Ciao%2C%20mi%20interessa%20l%E2%80%99abbonamento%20Pro" target="_blank" rel="noopener">Scegli Pro</a>
           </article>
         </div>
-        <p class="nota">Si disdice quando vuoi. Prezzi finali, senza sorprese. Il dominio è l’unica spesa a parte: circa 10-15 € l’anno, intestato a te. Nel Pro i soldi delle sponsorizzate li paghi tu direttamente a Meta, quanto vuoi tu.</p>
+        <p class="nota">Si disdice quando vuoi: se disdici il Plus o il Pro, il sito resta tuo. Prezzi finali, senza sorprese. Il dominio è l’unica spesa a parte: circa 10-15 € l’anno, intestato a te. Nel Pro i soldi delle sponsorizzate li paghi tu direttamente a Meta, quanto vuoi tu.</p>
       </div>
       <div class="gruppo">
         <div class="gruppo-testa"><h3>Video</h3><span class="mono">a lavoro</span></div>
@@ -688,6 +696,7 @@ html.fermo .carta-s .rec i{opacity:1}
       <div class="domande-elenco">
         <details><summary>L’anteprima è davvero gratis?</summary><p>Sì. La prepariamo, la guardi con calma sul telefono e decidi. Se non ti convince, non paghi niente e non ti impegni.</p></details>
         <details><summary>Ci sono altre spese oltre al prezzo?</summary><p>Solo il dominio, cioè il nome del sito (per esempio latuaattivita.it). È intestato a te e costa circa 10-15 € l’anno.</p></details>
+        <details><summary>Se disdico l’abbonamento, il sito resta mio?</summary><p>Sì. Il sito è tuo e resta online anche se smetti: paghi solo il dominio, circa 10-15 € l’anno. Da lì in poi le modifiche si pagano a parte.</p></details>
         <details><summary>Devo pagare ogni mese?</summary><p>No. Sito, Google e Instagram si pagano una volta sola. La gestione social è a parte, solo se la vuoi, e si disdice quando vuoi.</p></details>
         <details><summary>Le foto da dove le prendete?</summary><p>Usiamo solo foto vere della tua attività: quelle che hai già sui social, quelle che ci mandi o quelle che scattiamo noi quando passiamo.</p></details>
         <details><summary>In che zona lavorate?</summary><p>Siamo a Montecatini Terme e lavoriamo con le attività di tutta la Valdinievole. Se vuoi, ci vediamo di persona.</p></details>
