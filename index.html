@@ -532,6 +532,11 @@ html.fermo .carta-s .rec i{opacity:1}
           <div class="testo"><span class="mono"><i class="rec"><i></i></i>06 · Motion design</span><h3>Il tuo marchio, in movimento.</h3><p>Logo animato, scritte a tempo di musica e i tuoi lavori veri montati in uno showreel da venti secondi. Per il sito, i social e le presentazioni.</p></div>
           <i class="scuro" aria-hidden="true"></i>
         </article>
+        <article class="carta-s" style="--i:6">
+          <div class="media"><div class="strip"><img src="img/spot-3-2.jpg" alt="Lo spot del Jué: il gin versato nel bicchiere" loading="lazy"><img src="img/spot-6-2.jpg" alt="Lo spot del Jué: il lime nel drink" loading="lazy"><img src="img/spot-13-6.jpg" alt="Lo spot del Jué: il drink finito con la promozione della serata" loading="lazy"></div></div>
+          <div class="testo"><span class="mono"><i class="rec"><i></i></i>07 · Spot pubblicitari</span><h3>Lo spot della tua attività.</h3><p>Un'idea, il copione, le inquadrature e il montaggio: uno spot da 15-30 secondi per Instagram, TikTok e le sponsorizzate, come quelli dei grandi marchi.</p></div>
+          <i class="scuro" aria-hidden="true"></i>
+        </article>
       </div>
     </div>
   </section>
@@ -638,6 +643,23 @@ html.fermo .carta-s .rec i{opacity:1}
           </article>
         </div>
         <p class="nota">Si disdice quando vuoi. Prezzi finali, senza sorprese. Il dominio è l’unica spesa a parte: circa 10-15 € l’anno, intestato a te.</p>
+      </div>
+      <div class="gruppo">
+        <div class="gruppo-testa"><h3>Video</h3><span class="mono">a lavoro</span></div>
+        <div class="carte">
+          <article class="carta">
+            <h4>Spot pubblicitario</h4>
+            <p class="prezzo"><small>da</small> 300 €</p>
+            <p class="quando">a spot</p>
+            <ul>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Idea, copione e inquadrature</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Montaggio, musica e scritte</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Versioni per Reel, TikTok e storie</li>
+            </ul>
+            <a class="btn btn-linea" href="https://wa.me/393273331949?text=Ciao%2C%20mi%20interessa%20uno%20spot%20pubblicitario" target="_blank" rel="noopener">Chiedi uno spot</a>
+          </article>
+        </div>
+        <p class="nota">Il prezzo finale dipende da durata e riprese: te lo diciamo prima, per scritto.</p>
       </div>
       <div class="serieta"><span>Prezzi scritti prima</span><span>Anteprima senza impegno</span><span>Il dominio è tuo</span><span>Solo foto vere</span></div>
     </div>
@@ -1239,7 +1261,7 @@ addEventListener('DOMContentLoaded',function(){
       dentro:c.querySelector('.media').firstElementChild,video:c.querySelector('video')};acc+=g.h+14;return g});
     function arr(g,sy){return clamp((vh-(g.nat-sy))/(vh-g.st))}
     function yDi(i,a){var g=cg[i];return g.nat-vh+a*(vh-g.st)}
-    var tel1=carte[0].querySelectorAll('.telefoni img'),strip=carte[2].querySelectorAll('.strip img'),tocco=carte[3].querySelector('.tocco'),onda=carte[3].querySelector('.tocco-onda');
+    var tel1=carte[0].querySelectorAll('.telefoni img'),ventagli=carte.map(function(c,i){var s=c.querySelectorAll('.strip img');return s.length?{i:i,s:s}:null}).filter(Boolean),tocco=carte[3].querySelector('.tocco'),onda=carte[3].querySelector('.tocco-onda');
     var cal=carte[4].querySelector('.calendario'),righeCal=[].slice.call(cal.querySelectorAll('div')),oggi=cal.querySelector('.oggi');
     var rc=righeCal.map(function(r){return r.offsetTop+r.offsetHeight/2});
     var calA=yDi(4,.45),calB=yDi(5,.42),tocA=yDi(3,.7),tocB=yDi(4,.3);
@@ -1253,10 +1275,10 @@ addEventListener('DOMContentLoaded',function(){
         scrivi(g.rec,'opacity',(a[i]*(1-clamp(lv*1.6))).toFixed(2));
         var u=1-a[i];
         if(g.video){scrivi(g.video,'transform','scale('+(1+.06*u).toFixed(4)+')');var on=a[i]>.5&&lv<.5;if(g.video._attivo!==on){g.video._attivo=on;aggiornaVideo(g.video)}}
-        else if(i!==0&&i!==2)scrivi(g.dentro,'transform','translateY('+(u*30).toFixed(1)+'px)');
+        else if(i!==0&&!carte[i].querySelector('.strip'))scrivi(g.dentro,'transform','translateY('+(u*30).toFixed(1)+'px)');
       });
       var u0=1-a[0];scrivi(tel1[0],'transform','translateY('+(u0*16).toFixed(1)+'px)');scrivi(tel1[1],'transform','translateY('+(36+u0*50).toFixed(1)+'px)');
-      var u2=1-a[2],ap=dolce((a[2]-.35)/.65);[-1,0,1].forEach(function(d,k){scrivi(strip[k],'transform','translate('+(d*40*ap).toFixed(2)+'%,'+(u2*(d?24:36)).toFixed(1)+'px) rotate('+(d*8*ap).toFixed(2)+'deg) scale('+(d?.94+.06*ap:1).toFixed(3)+')')});
+      ventagli.forEach(function(v){var u2=1-a[v.i],ap=dolce((a[v.i]-.35)/.65);[-1,0,1].forEach(function(d,k){scrivi(v.s[k],'transform','translate('+(d*40*ap).toFixed(2)+'%,'+(u2*(d?24:36)).toFixed(1)+'px) rotate('+(d*8*ap).toFixed(2)+'deg) scale('+(d?.94+.06*ap:1).toFixed(3)+')')})});
       var tt=clamp((sy-tocA)/(tocB-tocA));scrivi(tocco,'transform','scale('+(dolce(tt/.22)*(1-.25*dolce((tt-.38)/.1)+.25*dolce((tt-.5)/.12))).toFixed(3)+')');
       var on=clamp((tt-.42)/.58);scrivi(onda,'transform','scale('+(.3+1.5*on).toFixed(3)+')');scrivi(onda,'opacity',(on>0&&on<1?(1-on):0).toFixed(2));
       var c=clamp((sy-calA)/(calB-calA)),pos=c*(righeCal.length-1),k0=Math.floor(pos),k1=Math.min(righeCal.length-1,k0+1);
