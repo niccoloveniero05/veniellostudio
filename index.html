@@ -837,7 +837,11 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
 // «Scorri» → «Continua a scorrere»: fisso in basso finché la scena bloccata non è finita
 (function(){var c=document.getElementById('continua'),t=c&&c.firstChild,d=document.querySelector('.dichiara');if(!c||!d)return;
   var ora=-1;function aggiorna(){var y=scrollY,fine=d.getBoundingClientRect().top+y-innerHeight*.9,st=y>fine?2:y>40?1:0;if(st===ora)return;ora=st;
-    c.classList.toggle('via',st===2);t.textContent=st===0?'Scorri':'Continua a scorrere'}
+    // via: prima sfuma, poi display:none. Safari su iOS 26 colora la barra in basso con gli elementi fissi
+    // che toccano il bordo, anche se trasparenti (il pallino arancio la faceva diventare arancione)
+    clearTimeout(c._t);if(st===2){c.classList.add('via');c._t=setTimeout(function(){c.style.display='none'},500)}
+    else{c.style.display='';c.offsetWidth;c.classList.remove('via')}
+    t.textContent=st===0?'Scorri':'Continua a scorrere'}
   addEventListener('scroll',aggiorna,{passive:true});addEventListener('resize',aggiorna);aggiorna()})();
 // Testata piena dopo lo scorrimento, anno nel piede
 var testata=document.getElementById('testata');
@@ -1510,7 +1514,8 @@ addEventListener('DOMContentLoaded',function(){
     scrivi(studio,'visibility',f===0?'':'hidden'); // finché la scena è ferma il punto di «studio» è suo, com'era
     scrivi(cursore,'opacity',f===2?'1':'0');
     if(puntoI)scrivi(puntoI,'opacity',f===4?'1':'0');
-    if(f!==1&&f!==3){scrivi(filo,'opacity','0');return}
+    if(f!==1&&f!==3){scrivi(filo,'opacity','0');scrivi(filo,'display','none');return} // display:none e non solo opacity 0: Safari su iOS 26 prende il colore degli elementi fissi anche trasparenti per la barra in basso
+    scrivi(filo,'display','');
     var A,B,P,e,al=1,dd=null;
     if(f===1){ // dalla scena alla frase: il punto scende appena sotto «studio», va a capo appena sotto «studio», poi giù nel margine sinistro
       A=centro(studio);B=centro(cursore);
