@@ -12,7 +12,7 @@ Leggi tutto prima di lavorare. Sono regole e decisioni già prese, non ipotesi. 
 
 ## Il sito (questo repo)
 
-- Sito statico: `index.html`, `img/`, `video/`, `fonts/`, `js/` (GSAP e ScrollTrigger copiati qui). Non deve fare richieste esterne: caratteri e script si tengono in locale.
+- Sito statico: `index.html`, `img/`, `video/`, `fonts/`, `js/` (GSAP, ScrollTrigger e Lenis copiati qui; Lenis solo al computer, per «contare» la rotella). Non deve fare richieste esterne: caratteri e script si tengono in locale.
 - Pubblicato da GitHub Pages su `veniellostudio.it` (vedi `CNAME`).
 - I commit si scrivono in italiano, nella forma «Veniello Studio: cosa è cambiato».
 - Lo spot Jué × Bombay sta intero nella scheda «Video e reel» (`video/spot.mp4`). L'ha deciso Niccolò: non toglierlo e non tagliarlo se non lo chiede lui.
