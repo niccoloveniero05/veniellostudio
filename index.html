@@ -1148,6 +1148,9 @@ addEventListener('DOMContentLoaded',function(){
   // in un disco (g0-g1) e il cerchio si allarga fino a coprire lo schermo (IR): da lì il momento V.
   // Tutto entro un terzo di schermata dall'inizio, così non c'è mai uno schermo vuoto col solo puntino.
   var PU={d0:.02,d1:.22,b0:.23,g0:.31,g1:.39},LB=340,lampo=-1e9,ultimaU=0,scorriEl=copertina.querySelector('.scorri');
+  // tornando su il palco si chiude solo quando la V se n'è andata, e intanto il dito può essere già sotto lo schermo
+  // arancio: il cerchio allora non salta dallo schermo pieno alla sua misura, ci arriva in 0,3 s (chiusa.k da 1 a 0)
+  var chiusa={k:0};
   function lampeggia(){rendi(stato.u);if(performance.now()-lampo>LB)gsap.ticker.remove(lampeggia)}
   function puntino(u,a){
     var s=scrollY-D.top,titolo=s<D.sd-.5&&u<=0; // con la copertina alta il punto resta nel titolo finché non arriva a sd
@@ -1158,6 +1161,7 @@ addEventListener('DOMContentLoaded',function(){
     if(u<PU.g0)r=lerp(D.r0,D.rM,dolce(seg(u,PU.d0+.02,PU.d1)));
     else if(u<PU.g1)r=lerp(D.rM,D.rD,1-Math.pow(1-seg(u,PU.g0,PU.g1),3));
     else r=D.rD*Math.pow(D.R/D.rD,Math.pow(seg(u,PU.g1,TL.IR),1.1));
+    if(chiusa.k>0&&u>PU.g1)r*=Math.pow(D.R/r,chiusa.k); // tornando su, appena il palco si chiude: dallo schermo pieno al cerchio del dito (vedi rendi)
     if(u>=PU.b0&&ultimaU<PU.b0&&u<PU.g1){lampo=performance.now();gsap.ticker.add(lampeggia)} // scendendo: lampeggia una volta
     var q=(performance.now()-lampo)/LB;disco(x,y,r,a*(q<1?1-.85*Math.sin(Math.PI*q):1));
   }
@@ -1231,7 +1235,9 @@ addEventListener('DOMContentLoaded',function(){
   function rendi(uv){
     uv=frena(uv);
     var giu=uv>=TL.IR||sT>0; // (tornando su, il momento V finisce di riavvolgersi: vedi stringi())
-    if(giu!==aperto){aperto=giu;stage.classList.toggle('aperto',giu);gsap.killTweensOf(ritardo);ritardo.v=0;if(!giu)tenuto=false}
+    if(giu!==aperto){aperto=giu;stage.classList.toggle('aperto',giu);gsap.killTweensOf(ritardo);ritardo.v=0;if(!giu)tenuto=false;
+      gsap.killTweensOf(chiusa);chiusa.k=0;
+      if(!giu&&inVista&&uv>PU.g1&&uv<TL.IR&&performance.now()-saltoLink>=1600)gsap.fromTo(chiusa,{k:1},{k:0,duration:.3,ease:'power2.out',overwrite:true,onUpdate:ridisegna})}
     if(!guida&&aperto&&!tenuto&&ritardo.v<=0&&!vPronto())tenuto=true; // sul telefono la camera aspetta il nome (vedi camera())
     var u=camera(uv);
     // a) la copertina scorre via con la pagina; quando il cerchio è grande quel poco che ne resta sullo schermo (su schermi
