@@ -316,6 +316,7 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .gruppo-testa h3{font-size:26px}
 .carte{display:grid;gap:14px}
 @media (min-width:760px){.carte{grid-template-columns:1fr 1fr}}
+@media (min-width:1000px){.carte.tre{grid-template-columns:repeat(3,1fr)}}
 .carta{background:var(--surf);border-radius:var(--r2);padding:26px 24px;position:relative;display:flex;flex-direction:column}
 .carta.top{background:var(--surf2);box-shadow:inset 0 0 0 1px var(--line2)}
 .consigliato{position:absolute;top:20px;right:20px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;background:var(--testo);color:var(--bg);padding:6px 10px;border-radius:999px}
@@ -621,7 +622,7 @@ html.fermo .carta-s .rec i{opacity:1}
       </div>
       <div class="gruppo">
         <div class="gruppo-testa"><h3>Ogni mese</h3><span class="mono">gestione social</span></div>
-        <div class="carte">
+        <div class="carte tre">
           <article class="carta">
             <h4>Base</h4>
             <p class="prezzo">79 € <small>al mese</small></p>
@@ -632,7 +633,8 @@ html.fermo .carta-s .rec i{opacity:1}
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Li prepariamo e pubblichiamo noi</li>
             </ul>
           </article>
-          <article class="carta">
+          <article class="carta top">
+            <span class="consigliato">Consigliato</span>
             <h4>Plus</h4>
             <p class="prezzo">149 € <small>al mese</small></p>
             <p class="quando">12 pubblicazioni al mese</p>
@@ -644,8 +646,20 @@ html.fermo .carta-s .rec i{opacity:1}
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Aggiornamenti al sito</li>
             </ul>
           </article>
+          <article class="carta">
+            <h4>Pro</h4>
+            <p class="prezzo">249 € <small>al mese</small></p>
+            <p class="quando">20 pubblicazioni al mese</p>
+            <ul>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Di cui 8 reel e 2 giornate di riprese</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Sponsorizzate su Instagram e Facebook gestite da noi</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Uno spot pubblicitario ogni 3 mesi</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Risposte alle recensioni su Google</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Tutto il resto del Plus, sito compreso</li>
+            </ul>
+          </article>
         </div>
-        <p class="nota">Si disdice quando vuoi. Prezzi finali, senza sorprese. Il dominio è l’unica spesa a parte: circa 10-15 € l’anno, intestato a te.</p>
+        <p class="nota">Si disdice quando vuoi. Prezzi finali, senza sorprese. Il dominio è l’unica spesa a parte: circa 10-15 € l’anno, intestato a te. Nel Pro i soldi delle sponsorizzate li paghi tu direttamente a Meta, quanto vuoi tu.</p>
       </div>
       <div class="gruppo">
         <div class="gruppo-testa"><h3>Video</h3><span class="mono">a lavoro</span></div>
