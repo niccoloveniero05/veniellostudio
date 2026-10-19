@@ -95,10 +95,11 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 
 /* «Da uno a tutti» (scelta da Niccolò il 18/10), con l'inizio del «puntino» (proposta B, 18/10): scorrendo, la copertina
    sale da sola come una pagina normale e passa davanti al punto arancio di «scegliere», che si stacca, scende al centro,
-   lampeggia una volta e si gonfia in un cerchio che si allarga fino a riempire lo schermo; da lì parte lo showreel, la
-   camera si allontana e lo showreel diventa un riquadro nel muro dei lavori veri del Jué; il muro si inclina, scorre sotto
-   le tre frasi e se ne va con la pagina. Tutto legato allo scorrimento, solo transform e opacity. La sezione non ha
-   overflow-x:clip (rompe le animazioni): taglia il palco. */
+   lampeggia una volta e si gonfia in un cerchio che si allarga fino a riempire lo schermo; lo schermo arancio si stringe
+   nel puntino della V del logo e dalla V esce il nome (il «momento V», disegnato dalla pagina: .lv), la camera si
+   allontana e quel riquadro diventa uno dei lavori nel muro dei lavori veri del Jué; il muro si inclina, scorre sotto
+   le tre frasi e se ne va con la pagina. Solo transform e opacity. La sezione non ha overflow-x:clip (rompe le
+   animazioni): taglia il palco. */
 .rec-punto{display:inline-block;width:.19em;height:.19em;border-radius:50%;background:#FF5A1F;margin-left:.045em;vertical-align:baseline}
 .apertura{position:relative}
 /* la copertina scorre con la pagina (il dito la sente subito). A strati: la sua luce (.macchia) sotto il palco, i testi
@@ -134,9 +135,17 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .tessere{position:absolute;left:0;top:0;width:100%;height:100%}
 .muro img,.muro .tv{position:absolute;display:block;border-radius:var(--rt,10px);background:var(--surf)}
 .muro img{height:auto;max-width:none}
-.muro .tv{overflow:hidden;background:var(--bg);box-shadow:0 0 0 1px rgba(245,244,239,var(--orlo,0))} /* nel muro un filo chiaro (dallo script): il riquadro dello showreel si riconosce tra gli altri lavori */
-.muro .tv img{position:static;width:100%;height:auto}
-.muro .tv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none;border-radius:var(--rt,10px)}
+.muro .tv{overflow:hidden;background:var(--bg);box-shadow:0 0 0 1px rgba(245,244,239,var(--orlo,0))} /* nel muro un filo chiaro (dallo script): il riquadro del logo si riconosce tra gli altri lavori */
+/* il «momento V» (19/10, al posto del video): il logo disegnato dentro il riquadro, come la scritta della testata (V in
+   Instrument Serif corsiva ingrossata, «eniello», il punto tondo arancio, «studio»). Le misure e i movimenti li dà lo
+   script (logoMisura, logoDisegna): la scritta è al suo posto finale, il simbolo (V grande col puntino REC) è una
+   trasformazione della stessa V */
+.lv{position:absolute;left:0;top:0;width:100%;height:100%;color:var(--testo);pointer-events:none}
+.lv .n{position:absolute;left:0;top:0;font-weight:700;letter-spacing:-.05em;line-height:1;white-space:nowrap}
+.lv .n>*{display:inline-block}
+.lv .vv{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.18em;letter-spacing:0;margin-right:.01em;-webkit-text-stroke:.036em currentColor;paint-order:stroke fill;transform-origin:50% 50%}
+.lv .pt{width:.21em;height:.21em;border-radius:50%;background:#FF5A1F;margin:0 .035em 0 .045em;transform-origin:50% 50%}
+.lv .e,.lv .st{-webkit-clip-path:inset(-20% 100% -20% 0);clip-path:inset(-20% 100% -20% 0)}
 .velo{position:absolute;inset:0;opacity:0;background:radial-gradient(ellipse 88% 46% at 50% 50%,rgba(16,15,9,.9) 0%,rgba(16,15,9,.72) 45%,rgba(16,15,9,.3) 82%,rgba(16,15,9,.18) 100%)}
 .bordi{position:absolute;inset:0;opacity:0;background:linear-gradient(180deg,var(--bg) 0%,rgba(16,15,9,0) 26%,rgba(16,15,9,0) 78%,var(--bg) 100%)}
 .scena-testo{position:absolute;left:0;right:0;top:0;height:100svh;display:grid;place-items:center;text-align:center;padding:0 var(--lato)}
@@ -364,7 +373,7 @@ html.fermo .apertura>.copertina{position:relative}
 html.fermo .scena{margin-top:0}
 html.fermo .scena-stage{position:relative;height:100svh}
 html.fermo .fondo,html.fermo .velo,html.fermo .bordi{opacity:1}
-/* fermo: niente showreel (il suo posto resta sotto il palco), velo uniforme e un po' più scuro solo dietro le frasi, bordi corti:
+/* fermo: niente riquadro del logo (il suo posto resta sotto il palco), velo uniforme e un po' più scuro solo dietro le frasi, bordi corti:
    i riquadri si vedono tutti e nessuno sembra vuoto; nessun lavoro ripetuto (lo sceglie lo script) */
 html.fermo .muro .tv{display:none}
 html.fermo .velo{background:radial-gradient(ellipse 60% 40% at 50% 50%,rgba(16,15,9,.68),rgba(16,15,9,0) 100%),rgba(16,15,9,.58)}
@@ -711,29 +720,33 @@ var nastro=document.getElementById('loghi-nastro');nastro.appendChild(fila(false
 new IntersectionObserver(function(e){document.getElementById('loghi').classList.toggle('attivo',e[0].isIntersecting)}).observe(document.getElementById('loghi'));
 
 // «Da uno a tutti»: il muro dei lavori veri fatti per il Jué (miniature larghe 400 px in img/muro/), già al loro posto
-// intorno al riquadro dello showreel. Si vede quando la camera si allontana dallo showreel.
+// intorno al riquadro del logo. Si vede quando la camera si allontana dal logo.
 var LAVORI=[['sito-1',711,'s'],['reel-5-5',711,'b','bottiglia'],['jue-neon',400,'f'],['sito-cocktail',400,'s','oldfashioned'],['locandina',533,'b','martedi'],['jue-oldfashioned',400,'f','oldfashioned'],['sito-3',711,'c','galleria'],['spot-0-3',711,'b','bottiglia'],['jue-locale',533,'f'],['google-mappa',533,'c','google'],['reel-1-2',711,'f'],['jue-dj-pioneer',400,'f'],['sito-4',711,'c'],['reel-14-0',711,'b'],['jue-parete',400,'f'],['sito-salotto',533,'c'],['spot-6-0',711,'b'],['jue-luci',400,'f'],['sito-2',711,'b','martedi'],['reel-23-0',711,'b','drink'],['google',400,'c','google'],['reel-9-0',711,'b','ghiaccio'],['spot-2-0',711,'b','ghiaccio'],['sito-bistrot',400,'s'],['reel-19-5',711,'b','drink'],['spot-3-3',711,'b','ghiaccio'],['sito-dj',400,'s'],['spot-7-3',711,'b','drink'],['spot-8-7',711,'f','bottiglia']]; // nome, altezza a 400 di larghezza, tono (s scuro, b blu, f foto, c chiaro), gruppo di lavori che si somigliano
 // Tempi, in altezze di schermo scorse dalla cima della pagina: il puntino si stacca, scende, lampeggia e si allarga
-// fino a riempire lo schermo mentre la copertina se ne va (0-IR, vedi PU nel secondo script); lo
-// showreel parte e resta a tutto schermo fino a Z0, e la camera non va oltre finché non ha girato almeno GT secondi (la V
-// col suo puntino si vede anche con un colpo di dito veloce: vedi camera() nel secondo script); la camera si allontana
-// (Z0-Z1): lo showreel si stringe nel suo posto e il muro arretra da W0 volte; prima lo showreel passa per il buio e lascia
-// il posto al suo fermo immagine (VF0-VF1, nessuna doppia immagine), poi compare il muro (WF0-WF1); il muro si inclina
-// (T0-T1) e scorre (P0-P1) sotto il velo (VE0-VE1) e le tre frasi (FR, nel secondo script); a T se ne va con la pagina.
+// fino a riempire lo schermo mentre la copertina se ne va (0-IR, vedi PU nel secondo script); da IR il «momento V»: lo
+// schermo arancio si stringe nel puntino della V del logo e dalla V esce il nome (fino a Z0; sul telefono la camera non
+// va oltre finché il nome non è uscito, anche con un colpo di dito veloce: vedi LV e camera() nel secondo script); la
+// camera si allontana (Z0-Z1): il riquadro del logo si stringe nel suo posto e il muro arretra da W0 volte; compare il
+// muro (WF0-WF1); il muro si inclina (T0-T1) e scorre (P0-P1) sotto il velo (VE0-VE1) e le tre frasi (FR, nel secondo
+// script); a T se ne va con la pagina.
 // SH: l'inizio del puntino (18/10) è più lungo di SH schermate di quello di prima; dallo schermo arancio in poi tutto è
 // com'era, solo SH più in là.
-var TL={T:3.5,IR:.5,Z0:.72,GT:1.15,Z1:1.5,W0:1.45,VF0:.8,VF1:.92,WF0:.92,WF1:1.2,T0:1.3,T1:1.85,P0:1.45,P1:3.5,VE0:1.3,VE1:1.6,AX:46,AZ:-16,SH:.32};
-['T','IR','Z0','Z1','VF0','VF1','WF0','WF1','T0','T1','P0','P1','VE0','VE1'].forEach(function(k){TL[k]+=TL.SH});
+var TL={T:3.5,IR:.5,Z0:.72,Z1:1.5,W0:1.45,WF0:.92,WF1:1.2,T0:1.3,T1:1.85,P0:1.45,P1:3.5,VE0:1.3,VE1:1.6,AX:46,AZ:-16,SH:.32};
+['T','IR','Z0','Z1','WF0','WF1','T0','T1','P0','P1','VE0','VE1'].forEach(function(k){TL[k]+=TL.SH});
 var stage=document.getElementById('scena-stage'),plano=document.getElementById('plano'),muro=document.getElementById('muro');
 var tessere=document.createElement('div');tessere.className='tessere';muro.appendChild(tessere);
-var tv=document.createElement('div');tv.className='tv';var fermoTv=document.createElement('img');fermoTv.alt='';fermoTv.decoding='async';tv.appendChild(fermoTv);muro.appendChild(tv);
+var tv=document.createElement('div');tv.className='tv';muro.appendChild(tv);
+// il logo del «momento V», disegnato dentro il riquadro (vedi .lv): V, «eniello», il punto arancio, «studio»
+var lv=document.createElement('div');lv.className='lv';lv.setAttribute('aria-hidden','true');
+lv.innerHTML='<span class="n"><span class="vv">V</span><span class="e">eniello</span><i class="pt"></i><span class="st">studio</span></span>';tv.appendChild(lv);
+var lvN=lv.firstChild,lvV=lvN.children[0],lvE=lvN.children[1],lvP=lvN.children[2],lvS=lvN.children[3];
 var sonda=document.createElement('div');sonda.style.cssText='position:absolute;left:0;top:0;width:1px;height:100vh;height:100svh;visibility:hidden;pointer-events:none';document.body.appendChild(sonda);
 var G={};
 function seg(u,a,b){return u<=a?0:u>=b?1:(u-a)/(b-a)}
 function ioq(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2}
 function muroCostruisci(zone,fermo,soloMisure){ // zone: per ogni colonna il tratto che con questa camera entra nello schermo (null = tutto);
-  // fermo: «Riduci movimento»; soloMisure: solo le misure della camera e del riquadro dello showreel (veloce), senza i riquadri
-  var Wd=stage.clientWidth,V=sonda.offsetHeight,hdr=64,pc=matchMedia('(min-width:900px)').matches||Wd>V*1.15; // schermo largo (anche telefono girato): showreel orizzontale
+  // fermo: «Riduci movimento»; soloMisure: solo le misure della camera e del riquadro del logo (veloce), senza i riquadri
+  var Wd=stage.clientWidth,V=sonda.offsetHeight,hdr=64,pc=matchMedia('(min-width:900px)').matches||Wd>V*1.15; // schermo largo (anche telefono girato): riquadro del logo orizzontale
   // riquadri larghi in proporzione al lato corto (su un tablet in verticale non diventano enormi), colonne quante ne servono.
   // Sugli schermi larghi riquadri più grandi: ne servono meno (meno doppioni sullo stesso schermo, meno da disegnare)
   var cw=Math.round(pc?.15*Math.min(Wd,1.75*V):.27*Math.min(Wd,.5*V));
@@ -741,10 +754,10 @@ function muroCostruisci(zone,fermo,soloMisure){ // zone: per ogni colonna il tra
   var g=Math.max(6,Math.round(cw*(pc?.078:.082))),span=pc?3:1;
   var C=Math.max(pc?11:9,2*Math.ceil(((pc?1.57:2.6)*Wd/(cw+g)-1)/2)+1);
   var Hw=Math.round(V*2.4),W=C*cw+(C-1)*g,c0=(C-span)>>1,bw=span*cw+(span-1)*g;
-  // il riquadro dello showreel (9:16 sul telefono, 16:9 sugli schermi larghi) a inizio scena riempie lo schermo senza tagli
+  // il riquadro del logo (9:16 sul telefono, 16:9 sugli schermi larghi) a inizio scena riempie lo schermo senza tagli
   var asp=pc?16/9:9/16,bh=Math.round(bw/asp),s0=Math.min(Wd/bw,(V-hdr)/bh);
   var bx=c0*(cw+g),by=Math.round(Hw*.58-bh/2),fx=Wd/2,fy=(V+hdr)/2,ml=Math.round(fx-bx-bw/2),mt=Math.round(fy-by-bh/2),P=Math.round(V*(pc?1.67:1.125));
-  if(fermo)mt+=Math.round((V-hdr)/2+bh/2+2*g); // con «Riduci movimento» lo showreel non c'è: il muro scende e il suo posto resta sotto il palco
+  if(fermo)mt+=Math.round((V-hdr)/2+bh/2+2*g); // con «Riduci movimento» il riquadro del logo non c'è: il muro scende e il suo posto resta sotto il palco
   muro.style.cssText='width:'+W+'px;height:'+Hw+'px;left:'+ml+'px;top:'+mt+'px;--rt:'+(pc?12:8)+'px';
   var ra=TL.AX*Math.PI/180,rz=TL.AZ*Math.PI/180,myR=-.16*V;
   function vista(x,y){ // dove cade sullo schermo il punto (x,y) del muro: con il muro piatto e con il muro inclinato (a metà delle frasi)
@@ -757,15 +770,14 @@ function muroCostruisci(zone,fermo,soloMisure){ // zone: per ogni colonna il tra
   function doppio(i,d){return 3000*d*(LAVORI[i][2]==='c'?8:1)+(fermo?20000:0)}
   plano.style.transformOrigin=fx+'px '+fy+'px';
   tv.style.cssText='left:'+bx+'px;top:'+by+'px;width:'+bw+'px;height:'+bh+'px';
-  var fermoSrc='img/muro/showreel-'+(pc?'o':'v')+'-fermo.jpg'; // «Fatti scegliere.» con il sito del Jué sul telefono e la luce REC accesa (showreel a 9,6 s)
-  if(!fermo&&fermoTv.getAttribute('src')!==fermoSrc){fermoTv.width=pc?1280:720;fermoTv.height=pc?720:1280;fermoTv.src=fermoSrc}
+  if(!fermo)logoMisura(bw,bh,s0,Wd,V,hdr,fx+TL.W0*(ml+bx+bw/2-fx),fy+TL.W0*(mt+by+bh/2-fy));
   G.pc=pc;G.Wd=Wd;G.V=V;G.hdr=hdr;G.s0=s0;G.fx=fx;G.fy=fy;G.C=C;G.P=P; // P: prospettiva in proporzione all'altezza dello schermo
   if(soloMisure)return;
   tessere.textContent='';
   // ogni posto che si vedrà prende il lavoro meno usato che non sia già nei dintorni, senza due toni uguali uno accanto all'altro
   // (i posti che restano fuori dallo schermo prendono un lavoro qualsiasi e poi si tolgono)
   var n=LAVORI.length,posti=[],usi=LAVORI.map(function(){return 0}),giro=0,simile=0;
-  for(var q=0;q<n;q++)if(LAVORI[q][0]==='sito-3')simile=q; // il fermo dello showreel mostra la stessa galleria: mai lì vicino
+  for(var q=0;q<n;q++)if(LAVORI[q][0]==='sito-3')simile=q; // (dal video di prima, che mostrava la stessa galleria: mai lì vicino; così il muro resta quello di prima)
   function alt(i){return Math.round(cw*LAVORI[i][1]/400)}
   function conta(c,t,h){ // il posto si vedrà? (con il muro fermo si sa con esattezza: è dentro il palco)
     if(fermo){var X=ml+c*(cw+g);return X<Wd&&X+cw>0&&mt+t<V&&mt+t+h>0}
@@ -785,7 +797,7 @@ function muroCostruisci(zone,fermo,soloMisure){ // zone: per ogni colonna il tra
     posti.push({i:i,x:x,y:y,h:h,tono:L[2],conta:k,v:vista(x+cw/2,y+h/2),el:im});if(k)usi[i]++;return h}
   if(!fermo)posti.push({i:simile,x:bx,y:by,h:bh,tono:'s',conta:true,v:vista(bx+bw/2,by+bh/2)});
   for(var c=0;c<C;c++){var x=c*(cw+g),y,i;
-    if(c>=c0&&c<c0+span){ // colonne dello showreel: lavori sopra e sotto, attaccati al riquadro
+    if(c>=c0&&c<c0+span){ // colonne del riquadro del logo: lavori sopra e sotto, attaccati al riquadro
       y=by-g;while(y>0){i=scegli(c,x,y,true);y-=alt(i);metti(i,c,x,y);y-=g}
       y=by+bh+g;while(y<Hw){i=scegli(c,x,y,false);y+=metti(i,c,x,y)+g}
     }else{y=-Math.round(((c*53)%97)/97*cw*1.2);while(y<Hw){i=scegli(c,x,y,false);y+=metti(i,c,x,y)+g}}
@@ -804,12 +816,29 @@ function muroCostruisci(zone,fermo,soloMisure){ // zone: per ogni colonna il tra
       for(var j=0;j<n;j++)if(j!==vivi[x].i&&alt(j)===alt(vivi[x].i)&&costo(x,j)<costo(x,vivi[x].i)-1)metti2(x,j)}
   };
 }
+// Il «momento V» (19/10, al posto del video che partiva lì): il logo è disegnato dentro il riquadro, alla misura che ha a
+// tutto schermo (il riquadro è ingrandito s0 volte e centrato sotto la testata; cx, cy: il suo centro sul palco).
+// Due stati della stessa scritta: il simbolo (la V grande col puntino REC in alto a destra, misure del logo in
+// logo/finale/logo.html: V da F px, puntino largo .1733 F a +.32 F, -.2747 F dal centro della V) e la scritta
+// «Veniello.studio» (Geist, la V a 1,18 em). L'arancio a tutto schermo si stringe esattamente nel puntino del simbolo.
+var LVT={V:450,D0:250,D1:800,DY:620,S0:680,S1:1050}; // ms della scritta: la V si rimpicciolisce (0-V), il puntino scende e corre a fare il punto scrivendo «eniello» (D0-D1, in basso entro DY), «studio» esce dal punto (S0-S1)
+function logoMisura(bw,bh,s0,Wd,V,hdr,cx,cy){
+  var Vh=V-hdr,F=Math.min(.7*Wd,.42*Vh)/s0,N=Math.min(.105*Wd,.09*Vh)/s0,em=1.18*N; // misure a schermo divise per s0
+  lvN.style.fontSize=N.toFixed(3)+'px';
+  var wn=lvN.offsetWidth,hn=lvN.offsetHeight,nl=(bw-wn)/2,nt=(bh-hn)/2-.04*N; // (un filo più su: la scritta è bassa nella sua riga)
+  lvN.style.left=nl.toFixed(2)+'px';lvN.style.top=nt.toFixed(2)+'px';
+  function box(e){return {x:nl+e.offsetLeft,y:nt+e.offsetTop,w:e.offsetWidth,h:e.offsetHeight}}
+  var v=box(lvV),e=box(lvE),p=box(lvP),st=box(lvS),S=F/em;
+  var sv=[bw/2-.04*F,bh/2+.0533*F],off=[.32*em,-.2747*em],sp=[sv[0]+S*off[0],sv[1]+S*off[1]],rs=.1733*F/2;
+  G.L={S:S,em:em,N:N,v:v,e:e,p:p,st:st,cv:[v.x+v.w/2,v.y+v.h/2],sv:sv,off:off,sp:sp,rs:rs,cp:[p.x+p.w/2,p.y+p.h/2],
+    px:cx+s0*(sp[0]-bw/2),py:cy+s0*(sp[1]-bh/2),pr:s0*rs}; // px, py, pr: il puntino del simbolo sul palco (dove arriva l'arancio)
+}
 function posa(u){ // la camera: allontanamento, inclinazione e scorrimento del muro
   var z=ioq(seg(u,TL.Z0,TL.Z1)),w=Math.pow(TL.W0,1-z),s=Math.pow(G.s0,1-z),k=ioq(seg(u,TL.T0,TL.T1));
-  var sc=w*(1+.12*k),my=-.32*G.V*seg(u,TL.P0,TL.P1),cy=-.2*G.V*k; // inclinandosi il muro sale un po': lo showreel va sopra le frasi
+  var sc=w*(1+.12*k),my=-.32*G.V*seg(u,TL.P0,TL.P1),cy=-.2*G.V*k; // inclinandosi il muro sale un po': il riquadro del logo va sopra le frasi
   plano.style.transform='translate3d(0,'+cy.toFixed(1)+'px,0) perspective('+G.P+'px) rotateX('+(TL.AX*k).toFixed(2)+'deg) rotateZ('+(TL.AZ*k).toFixed(2)+'deg) scale('+sc.toFixed(4)+')';
   muro.style.transform='translate3d(0,'+my.toFixed(1)+'px,0)';
-  tv.style.transform=z<1?'scale('+(s/w).toFixed(4)+')':''; // lo showreel si stringe più in fretta del muro e si posa al suo posto
+  tv.style.transform=z<1?'scale('+(s/w).toFixed(4)+')':''; // il riquadro del logo si stringe più in fretta del muro e si posa al suo posto
   return k;
 }
 function pota(fermo){ // toglie i riquadri che non entrano mai nello schermo e dice, colonna per colonna, quale tratto si vede
@@ -956,36 +985,75 @@ addEventListener('DOMContentLoaded',function(){
   // ogni frase sale quando la camera passa la prima soglia e se ne va alla seconda. Le righe si muovono a tempo (circa 0,6 s),
   // non legate al dito: se lo scorrimento si ferma, una frase c'è intera o non c'è, mai tagliata a metà dalla sua maschera
   var FR=[[1.66,2.2],[2.32,2.86],[2.98,99]].map(function(f){return [f[0]+TL.SH,f[1]+TL.SH]}),statoFrasi=[null,null,null],attesa=[0,0,0],partenza=[1e15,1e15,1e15],uscita=-1e9;
-  var D={},E=0,stato={u:0,p:0},aperto=false,inOnda=false,inVista=true,caricato=false,innesco=false,negato=false,scenaST=null;
-  var tenuto=false,t0=0,ritardo={v:0},prima=null,primaV=null,riavvolto=false,voPrima=-1,battendo=false,orlo=null;
-  // lo showreel della scena è solo il suo inizio (2,4 s: l'arancio che si stringe nel puntino della V, poi il nome), circa
-  // 190 KB, con i colori dichiarati (bt709) e il nero uguale al fondo della pagina; la carta «06 · Motion design» ha il suo
-  // file, com'era. All'apertura della pagina solo i dati iniziali (preload="metadata"); si scarica al primo scorrimento nella scena.
-  var vid=document.createElement('video');vid.muted=true;vid.loop=false;vid.playsInline=true;vid.preload='metadata';
-  vid.setAttribute('muted','');vid.setAttribute('playsinline','');vid.setAttribute('aria-hidden','true');tv.appendChild(vid);
-  function sorgente(){var o=G.pc?'o':'v',src='video/showreel-apertura-'+o+'.mp4';
-    if(vid.getAttribute('src')!==src){vid.poster='img/muro/showreel-'+o+'-avvio.jpg';vid.preload=caricato?'auto':'metadata';vid.setAttribute('src',src)}}
-  function carica(){if(caricato)return;caricato=true;vid.preload='auto';
-    // su iPhone un video si scarica solo quando parte: lo avvio nascosto e lo fermo subito, così è pronto quando il punto riempie lo schermo
-    if(!aperto){var pr=vid.play();if(pr&&pr.then){innesco=true;pr.then(function(){innesco=false;if(!aperto){vid.pause();try{vid.currentTime=0}catch(e){}}},function(){innesco=false})}}}
-  function parti(){var pr=vid.play();if(pr&&pr.catch)pr.catch(function(e){if(e&&e.name==='NotAllowedError')negato=true})} // negato: niente autoplay (es. risparmio energetico), non insiste
+  var D={},E=0,stato={u:0,p:0},aperto=false,inVista=true,scenaST=null;
+  var tenuto=false,ritardo={v:0},prima=null,battendo=false,orlo=null;
+  // Il «momento V» (19/10, al posto del video che partiva qui; logoMisura e LVT nel primo script). Da IR l'arancio a tutto
+  // schermo si stringe nel puntino della V del logo (sp da 0 a 1), la V col puntino resta un attimo, poi dalla V esce il
+  // nome (np da 0 a 1, a tempo: LVT.S1 ms; come le frasi non resta mai a metà se il dito si ferma, e tornando indietro
+  // rientra). Al computer l'arancio si stringe col dito (nel tratto LV.dP) e il nome esce quando la scena passa LV.nP.
+  // Sul telefono l'arancio si stringe a tempo (LV.S ms: un colpo di dito veloce non lo salta; tornando su invece si
+  // riallarga col dito, nel tratto LV.dT), il nome esce LV.H ms dopo, e la camera resta sul logo finché il nome non è
+  // uscito per LV.GO (vedi camera()): circa 1,2 s, come l'attesa della V del video di prima. La pagina non si ferma mai.
+  var LV={S:450,H:180,GO:.55,dT:.15,dP:.075,nP:.115},sT=0,tS=0,s1=-1,nome={p:0},nomeSu=null;
   function ridisegna(){rendi(stato.u)}
-  function muroFatto(){orlo=null;rendi(stato.u)} // muroCostruisci riscrive lo stile del riquadro dello showreel: il filo va rimesso
-  function batti(si){if(si===battendo)return;battendo=si;if(si)gsap.ticker.add(ridisegna);else gsap.ticker.remove(ridisegna)} // ridisegna a ogni fotogramma mentre la camera aspetta il video
-  function inizia(tieni){ // il punto ha riempito lo schermo: lo showreel riparte dall'inizio (il primo fotogramma è arancio come il punto)
-    inOnda=false;negato=false;riavvolto=false;if(vid.currentTime>.01)try{vid.currentTime=0}catch(e){} // (un salto inutile toglierebbe la copertina del video se non parte)
-    tenuto=!!tieni&&!guida;t0=performance.now();ritardo.v=0;batti(tenuto); // al computer la camera non aspetta (vedi «Al computer»)
-    var ok=function(){if(aperto&&!vid.paused&&!inOnda){inOnda=true;rendi(stato.u)}};
-    if(vid.requestVideoFrameCallback)vid.requestVideoFrameCallback(function(){ok()});else vid.addEventListener('timeupdate',ok,{once:true});
+  function muroFatto(){orlo=null;rendi(stato.u)} // muroCostruisci riscrive lo stile del riquadro del logo: il filo va rimesso
+  function batti(si){if(si===battendo)return;battendo=si;if(si)gsap.ticker.add(ridisegna);else gsap.ticker.remove(ridisegna)} // ridisegna a ogni fotogramma mentre qualcosa va a tempo
+  function scritta(su,subito){ // il nome esce (su) o rientra; subito: senza animazione (la pagina si apre già qui)
+    if(subito){gsap.killTweensOf(nome);nomeSu=su;nome.p=su?1:0;return}
+    if(su===nomeSu)return;nomeSu=su;
+    gsap.to(nome,{p:su?1:0,duration:(su?LVT.S1/1000*(1-nome.p):.28*nome.p),ease:'none',overwrite:true,onUpdate:ridisegna});
   }
-  // dove sta la camera: se lo showreel è partito dalla copertina, resta a tutto schermo finché il video non ha girato GT
-  // secondi (la V col suo puntino), anche se il dito è già più avanti; poi raggiunge il dito con dolcezza. Se il video
-  // non parte (risparmio energetico, rete lenta) aspetta al massimo 2 secondi.
+  function vPronto(){return sT>=1&&nome.p>=LV.GO}
+  // L'arancio insegue il suo traguardo senza mai andare più svelto di LV.S ms per tutto il tratto (niente scatti anche con
+  // un colpo di dito o una rotella veloce). Traguardo: al computer il dito (sS); sul telefono 1 andando avanti (si stringe
+  // da solo) e il dito tornando su. Tornando su prima rientra il nome, poi l'arancio si riallarga: mai i due insieme; se
+  // il dito torna sopra lo schermo arancio prima che sia finito, finisce lo stesso (più svelto), poi riprende il puntino.
+  var avanti=true,sG=0;
+  function stringi(u,uv){ // quanto l'arancio si è stretto (sp); uv: il dito, u: la camera
+    var t=performance.now(),dt=Math.min(34,t-tS);tS=t;
+    var sotto=uv<TL.IR;
+    if(sotto&&(prima===null||sT<=0)){sT=sG=0;s1=-1;avanti=true;scritta(false,true);return 0}
+    var sS=sotto?0:seg(u,TL.IR,TL.IR+(guida?LV.dP:LV.dT));
+    if(prima===null){sT=sG=sS;avanti=true}
+    else{if(sotto||uv<prima-1e-6)avanti=false;else if(uv>prima+1e-6)avanti=true;
+      var g=sG=nome.p>0?1:guida||!avanti?sS:1,v=dt/(LV.S*(avanti?1:.6));sT=g>sT?Math.min(g,sT+v):Math.max(g,sT-v)}
+    if(sT>=1){if(s1<0)s1=prima===null?t-LV.H:t}else s1=-1;
+    scritta(guida?!sotto&&u>=TL.IR+LV.nP:s1>=0&&t-s1>=LV.H&&(avanti||sS>=1),prima===null);
+    return sT;
+  }
+  // il cerchio arancio che si stringe: è il puntino del simbolo visto da vicino, che la camera lascia andare (stessa
+  // misura e stesso posto del puntino quando arriva, poi lo disegna il logo)
+  function stretto(sp){
+    var L=G.L,K=D.R/L.pr,r=D.R*Math.pow(L.pr/D.R,dolce(sp)),q=(r/L.pr-1)/(K-1);
+    disco(L.px+(D.cx-L.px)*q,L.py+(D.cy-L.py)*q,r,1);return r/L.pr;
+  }
+  // sp, k (quante volte l'arancio è più grande del puntino: la V arriva con lui, da un po' più grande), np (0 simbolo,
+  // 1 scritta composta), o (opacità del logo)
+  function logoDisegna(sp,k,np,o){
+    var L=G.L;if(!L)return;
+    var t=np*LVT.S1,ev=ioc(t/LVT.V),sc=Math.pow(L.S,1-ev),c=[lerp(L.sv[0],L.cv[0],ev),lerp(L.sv[1],L.cv[1],ev)],ov=1;
+    if(sp<1){var z=Math.pow(k,.35);c=[L.sp[0]+z*(c[0]-L.sp[0]),L.sp[1]+z*(c[1]-L.sp[1])];sc*=z;ov=dolce(seg(sp,0,.32))}
+    scrivi(lvV,'transform','translate('+(c[0]-L.cv[0]).toFixed(2)+'px,'+(c[1]-L.cv[1]).toFixed(2)+'px) scale('+sc.toFixed(4)+')');
+    scrivi(lvV,'webkitTextStrokeWidth',lerp(.0467,.036,ev).toFixed(4)+'em');
+    scrivi(lvV,'opacity',ov<1?ov.toFixed(3):'');
+    // il puntino: attaccato alla V (in alto a destra) finché scende e corre a fare il punto
+    var a=[c[0]+sc*L.off[0],c[1]+sc*L.off[1]],ex=ioc(seg(t,LVT.D0,LVT.D1)),ey=ioc(seg(t,LVT.D0,LVT.DY));
+    var dx=lerp(a[0],L.cp[0],ex),dy=lerp(a[1],L.cp[1],ey),dd=lerp(sc*.1733*L.em,L.p.w,ex);
+    scrivi(lvP,'transform','translate('+(dx-L.cp[0]).toFixed(2)+'px,'+(dy-L.cp[1]).toFixed(2)+'px) scale('+(dd/L.p.w).toFixed(4)+')');
+    scrivi(lvP,'visibility',sp<1?'hidden':''); // finché si stringe, il puntino è l'arancio del palco
+    // «eniello» si scrive dietro al puntino; «studio» esce dal punto
+    var re=Math.min(ex,clamp((dx-dd/2-L.e.x)/L.e.w)),q=1-Math.pow(1-seg(t,LVT.S0,LVT.S1),3);
+    var ce=re>=1?'none':'inset(-20% '+(100-100*re).toFixed(2)+'% -20% 0)',cs=q>=1?'none':'inset(-20% '+(100-100*q).toFixed(2)+'% -20% 0)';
+    scrivi(lvE,'webkitClipPath',ce);scrivi(lvE,'clipPath',ce);scrivi(lvS,'webkitClipPath',cs);scrivi(lvS,'clipPath',cs);
+    scrivi(lvS,'transform',q<1?'translateX('+(-(1-q)*.25*L.N).toFixed(2)+'px)':'');
+    scrivi(lv,'opacity',o<1?o.toFixed(3):'');
+  }
+  // dove sta la camera: sul telefono, dallo schermo arancio resta sul logo (a tutto schermo) finché il nome non è uscito,
+  // anche se il dito è già più avanti; poi raggiunge il dito con dolcezza
   function camera(u){
     if(guida)return u; // al computer la camera è legata allo scorrimento
     if(tenuto){
-      if(u<TL.IR){tenuto=false;batti(false)}
-      else if(negato||(inOnda&&vid.currentTime>=TL.GT)||performance.now()-t0>(inOnda?2600:2000)){tenuto=false;batti(false);
+      if(u<TL.IR||vPronto()){tenuto=false;
         var d=u-TL.Z0;if(d>.004){ritardo.v=d;gsap.to(ritardo,{v:0,duration:Math.min(1.1,.5+.4*d),ease:'power2.inOut',overwrite:true,onUpdate:ridisegna})}}
       else return Math.min(u,TL.Z0);
     }
@@ -999,14 +1067,14 @@ addEventListener('DOMContentLoaded',function(){
     var x=dr.left+dr.width/2-sr.left,y=dr.top+dr.height/2-cr.top,H=stage.clientHeight,Wd=G.Wd,cx=G.fx,cy=G.fy,m=Math.min(Wd,G.V-G.hdr);
     var R=Math.hypot(Math.max(cx,Wd-cx),Math.max(cy,H-cy))*1.03; // il cerchio pieno copre anche gli angoli dello schermo
     // x, y: il punto del titolo a pagina ferma (rispetto al palco); cx, cy: il centro dello schermo sotto la testata, dove
-    // si allarga (lo stesso centro dello showreel); r0 il punto, rM il puntino che scende, rD il disco (misure in px)
+    // si allarga (lo stesso centro del riquadro del logo); r0 il punto, rM il puntino che scende, rD il disco (misure in px)
     D={top:cr.top+scrollY,x:x,y:y,sd:Math.min(E,Math.max(0,y-Math.max(G.hdr+24,.3*G.V))),cx:cx,cy:cy,r0:dr.width/2,rM:G.pc?12:10,rD:Math.round(.085*m),R:R};
   }
   // il puntino: a pagina ferma è il punto di «scegliere» (lo disegna il palco, al posto preciso del punto del titolo). Al
   // primo scorrimento resta fermo mentre la copertina sale e gli passa davanti (si stacca da solo, senza aspettare lo
   // script), scende al centro dello schermo (d0-d1), lampeggia una volta come la luce REC appena le ultime righe della
   // copertina gli sono passate davanti (da b0, a tempo: LB millisecondi, come le frasi non resta mai a metà), si gonfia
-  // in un disco (g0-g1) e il cerchio si allarga fino a coprire lo schermo (IR): da lì parte lo showreel, arancio come lui.
+  // in un disco (g0-g1) e il cerchio si allarga fino a coprire lo schermo (IR): da lì il momento V.
   // Tutto entro un terzo di schermata dall'inizio, così non c'è mai uno schermo vuoto col solo puntino.
   var PU={d0:.02,d1:.22,b0:.23,g0:.31,g1:.39},LB=340,lampo=-1e9,ultimaU=0,scorriEl=copertina.querySelector('.scorri');
   function lampeggia(){rendi(stato.u);if(performance.now()-lampo>LB)gsap.ticker.remove(lampeggia)}
@@ -1020,9 +1088,11 @@ addEventListener('DOMContentLoaded',function(){
     else if(u<PU.g1)r=lerp(D.rM,D.rD,1-Math.pow(1-seg(u,PU.g0,PU.g1),3));
     else r=D.rD*Math.pow(D.R/D.rD,Math.pow(seg(u,PU.g1,TL.IR),1.1));
     if(u>=PU.b0&&ultimaU<PU.b0&&u<PU.g1){lampo=performance.now();gsap.ticker.add(lampeggia)} // scendendo: lampeggia una volta
-    var q=(performance.now()-lampo)/LB,o=a*(q<1?1-.85*Math.sin(Math.PI*q):1);
-    // piccolo è disegnato alla sua misura (bordi netti come il punto del titolo); grande è il disco di 240 px ingrandito
-    // (il browser non lo ridisegna a ogni fotogramma)
+    var q=(performance.now()-lampo)/LB;disco(x,y,r,a*(q<1?1-.85*Math.sin(Math.PI*q):1));
+  }
+  // piccolo è disegnato alla sua misura (bordi netti come il punto del titolo); grande è il disco di 240 px ingrandito
+  // (il browser non lo ridisegna a ogni fotogramma)
+  function disco(x,y,r,o){
     var pic=r<40,w=pic?(2*r).toFixed(2)+'px':'';scrivi(punto,'width',w);scrivi(punto,'height',w);
     punto.style.transform='translate3d('+(x-r).toFixed(2)+'px,'+(y-r).toFixed(2)+'px,0)'+(pic?'':' scale('+(r/120).toFixed(5)+')');
     scrivi(punto,'opacity',o<1?o.toFixed(3):'1');scrivi(punto,'visibility','visible');
@@ -1030,7 +1100,7 @@ addEventListener('DOMContentLoaded',function(){
   // l'inizio (dal puntino allo schermo arancio) non corre più di VI schermate al secondo: anche con un colpo di dito veloce
   // si vede il puntino che scende, lampeggia e si allarga (circa un secondo in tutto: il disco aspetta che il lampeggio
   // finisca, poi si gonfia a non più di VG schermate al secondo, almeno 0,2 s, invece di scattare in un fotogramma); finito
-  // l'inizio il resto segue il dito come prima (la camera aspetta la V). Non frena tornando su, dopo un link del menu e
+  // l'inizio il resto segue il dito come prima (la camera aspetta il nome). Non frena tornando su, dopo un link del menu e
   // con la scena fuori dallo schermo.
   var ui=null,uiT=0,frenando=false,VI=1.15,VG=.36;
   function rincorri(){rendi(stato.u)}
@@ -1064,12 +1134,12 @@ addEventListener('DOMContentLoaded',function(){
     metti(false,s===1,function(j){return !mossa(j)});partenza[i]=1e15;
   }
   // Al computer (rotella, trackpad, tastiera; 19/10) la scena è LEGATA ALLO SCORRIMENTO: niente freno dell'inizio, niente
-  // attesa della V, niente rincorse, e lo script non tocca mai la posizione della pagina (prima la riportava indietro e con lo
+  // attesa del nome, niente rincorse, e lo script non tocca mai la posizione della pagina (prima la riportava indietro e con lo
   // scorrimento morbido della rotella lo schermo ballava). Per dare il tempo di vedere tutto la scena è più lunga solo qui
   // (lungoPc schermate di scorrimento invece di TL.T) e le fasi sono distribuite lungo lo scorrimento: VEL dice quante
   // schermate di scorrimento vale ogni unità di u in quel punto (tra un punto e l'altro cambia piano, così nessun movimento
   // fa scatti di velocità). Fino al lampeggio come sul telefono (il puntino resta in pari con la copertina), poi più spazio
-  // al lampeggio e al disco, tanto spazio allo showreel a tutto schermo (la V col suo puntino), allontanamento e muro un
+  // al lampeggio e al disco, tanto spazio al momento V a tutto schermo (l'arancio che si stringe nel puntino, la V, il nome), allontanamento e muro un
   // po' più svelti, le prime due frasi 1,7 volte più lunghe e la terza 1,1 (resta sullo schermo anche mentre il palco esce).
   // Con la rotella «contata» (vedi «Rotella», 110 px a scatto) tutta la scena è ~5,4 schermate: ~45 scatti a 900 px di
   // altezza (prima 7,6 schermate per compensare i 333 px a scatto). Lo «scrub» di GSAP (0,4 s) ammorbidisce senza lasciare
@@ -1089,44 +1159,37 @@ addEventListener('DOMContentLoaded',function(){
   }
   function rendi(uv){
     uv=frena(uv);
-    var giu=uv>=TL.IR;
-    if(giu!==aperto){aperto=giu;stage.classList.toggle('aperto',giu);if(giu)inizia(prima!==null&&prima<TL.IR);else{inOnda=false;tenuto=false;riavvolto=false;batti(false)}}
+    var giu=uv>=TL.IR||sT>0; // (tornando su, il momento V finisce di riavvolgersi: vedi stringi())
+    if(giu!==aperto){aperto=giu;stage.classList.toggle('aperto',giu);gsap.killTweensOf(ritardo);ritardo.v=0;if(!giu)tenuto=false}
+    if(!guida&&aperto&&!tenuto&&ritardo.v<=0&&!vPronto())tenuto=true; // sul telefono la camera aspetta il nome (vedi camera())
     var u=camera(uv);
-    if(uv>.002&&uv<TL.Z1)carica(); // solo scorrendo dentro la scena: chi apre la pagina più in basso (#prezzi, ricarica) non scarica lo showreel
     // a) la copertina scorre via con la pagina; quando il cerchio è grande quel poco che ne resta sullo schermo (su schermi
     //    molto bassi) sparisce e non si tocca più: niente scritte sopra l'arancio
     var op=1-seg(u,.58,.78);
     scrivi(wrap,'opacity',op<1?op.toFixed(3):'');scrivi(wrap,'visibility',op>0?'':'hidden');scrivi(wrap,'pointerEvents',op<.5?'none':'');
-    // b) lo showreel gira a tutto schermo; poi passa per il buio (VF0-vm) e al suo posto compare il fermo immagine (vm-VF1)
-    var vm=(TL.VF0+TL.VF1)/2,vo=1-seg(u,TL.VF0,vm),fo=seg(u,vm,TL.VF1);
-    // tornando su dal muro: lo showreel si rimette sul primo fotogramma (arancio, come il punto) e aspetta; si riparte in avanti
-    if(aperto&&voPrima===0&&vo>0&&primaV!==null&&u<primaV){riavvolto=true;tenuto=false;batti(false);vid.pause();try{vid.currentTime=0}catch(e){}}
-    else if(riavvolto&&primaV!==null&&u>primaV+.0005&&u<TL.VF0)inizia(u<=TL.Z0+.02);
-    voPrima=vo;
-    // quando arrivano le frasi il fermo immagine si spegne quasi del tutto (resta il riquadro col suo filo): niente scritte sotto le frasi
-    var fd=fo*(1-.9*seg(u,1.42+TL.SH,1.64+TL.SH));vid.style.opacity=vo<1?vo:'';fermoTv.style.opacity=fd<1?fd.toFixed(3):'';
-    var vuole=aperto&&inVista&&vo>0&&!riavvolto;
-    if(vuole&&vid.paused&&!negato&&!vid.ended)parti();else if(!vuole&&!vid.paused&&!innesco)vid.pause();
-    // il punto copre lo schermo finché lo showreel non parte; se non parte resta arancio e poi passa per il buio come il video
-    puntino(u,uv<TL.IR?1:(inOnda?0:1-seg(u,TL.VF0,vm)));ultimaU=u;
-    // c) la camera: allontanamento, il muro che compare, l'inclinazione, il velo per le frasi; il riquadro dello showreel
-    //    prende il suo filo quando è al suo posto (prima, ingrandito, sarebbe una riga spessa)
+    // b) il momento V: l'arancio si stringe nel puntino della V, poi dalla V esce il nome. Quando arrivano le frasi il logo
+    //    si spegne quasi del tutto (resta il riquadro col suo filo): niente scritte sotto le frasi
+    var sp=stringi(u,uv);
+    puntino(u,aperto?0:1);ultimaU=u;
+    if(aperto&&G.L){var kk=sp<1?stretto(sp):1;logoDisegna(sp,kk,nome.p,1-.9*seg(u,1.42+TL.SH,1.64+TL.SH))}
+    // c) la camera: allontanamento, il muro che compare, l'inclinazione, il velo per le frasi; il riquadro del logo prende
+    //    il suo filo quando è al suo posto (prima, ingrandito, sarebbe una riga spessa)
     var k=posa(u),oo=(.26*seg(u,1.12+TL.SH,1.42+TL.SH)).toFixed(3);
     tessere.style.opacity=seg(u,TL.WF0,TL.WF1);velo.style.opacity=seg(u,TL.VE0,TL.VE1);bordi.style.opacity=k;
     if(oo!==orlo){orlo=oo;tv.style.setProperty('--orlo',oo)}
-    vid.style.visibility=vo>0?'':'hidden';fermoTv.style.visibility=fo>0?'':'hidden'; // ciò che non si vede non si disegna
     // d) le tre frasi
     for(var i=0;i<FR.length;i++){var s=u<FR[i][0]?-1:u<FR[i][1]?0:1;if(s!==statoFrasi[i])frase(i,s)}
-    prima=uv;primaV=u;
+    prima=uv;
+    batti(aperto&&inVista&&(Math.abs(sG-sT)>1e-4||!guida&&(tenuto||s1>=0&&!nomeSu))); // l'arancio che si stringe e l'attesa del nome vanno a tempo
   }
 
   function imposta(){
     ScrollTrigger.getAll().forEach(function(t){t.kill()});
     var pc=matchMedia('(min-width:900px)').matches;
 
-    // 1. apertura: il puntino, lo showreel, il muro, le tre frasi (il palco è sticky: niente pin di GSAP).
+    // 1. apertura: il puntino, il momento V, il muro, le tre frasi (il palco è sticky: niente pin di GSAP).
     //    Qui solo le misure; i riquadri del muro si costruiscono dopo il primo disegno (muroPronto).
-    muroCostruisci(null,false,true);orlo=null;sorgente();misuraPunto();
+    muroCostruisci(null,false,true);orlo=null;misuraPunto();
     scena.style.marginTop=-copertina.offsetHeight+'px';
     guida=matchMedia('(hover:hover) and (pointer:fine)').matches;if(guida)preparaPc(); // al computer: vedi «Al computer»
     var tw;
