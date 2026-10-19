@@ -90,8 +90,15 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .azioni{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:32px;align-items:center}
 .fiducia{margin-top:40px;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--testo3);max-width:30ch;line-height:1.9}
 @media (min-width:700px){.fiducia{max-width:none}}
-.scorri{margin-top:44px;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--testo3)}
-.scorri i{display:block;width:1px;height:40px;background:linear-gradient(var(--testo3),transparent)}
+/* «Scorri / Continua a scorrere»: fisso in basso dalla copertina alla fine della scena, così nessuno resta fermo sulla prima schermata
+   o pensa che la scena bloccata sia finita; un puntino arancio scende lungo la riga */
+.continua{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;line-height:1;letter-spacing:.18em;text-transform:uppercase;color:var(--testo2);background:rgba(16,15,9,.66);padding:9px 14px 9px 16px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line);pointer-events:none;transition:opacity .45s ease;white-space:nowrap}
+.continua.via{opacity:0}
+.continua i{position:relative;display:block;width:1px;height:14px;background:linear-gradient(rgba(245,244,239,.4),rgba(245,244,239,.08))}
+.continua i::after{content:"";position:absolute;left:-2.5px;top:-2px;width:6px;height:6px;border-radius:50%;background:var(--rec);animation:continua-scende 1.6s cubic-bezier(.45,0,.2,1) infinite}
+@keyframes continua-scende{0%{transform:translateY(0);opacity:0}15%{opacity:1}75%{opacity:1}100%{transform:translateY(12px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.continua i::after{animation:none;top:4px}}
+@media (max-height:760px){.copertina{padding-bottom:96px}}
 
 /* «Da uno a tutti» (scelta da Niccolò il 18/10), con l'inizio del «puntino» (proposta B, 18/10): scorrendo, la copertina
    sale da sola come una pagina normale e passa davanti al punto arancio di «scegliere», che si stacca, scende al centro,
@@ -438,6 +445,7 @@ html.fermo .carta-s .rec i{opacity:1}
   </div>
 </header>
 
+<div class="continua" id="continua" aria-hidden="true"><span>Scorri</span><i></i></div>
 <main id="contenuto">
   <div class="apertura">
   <section class="copertina" id="inizio" aria-labelledby="titolo">
@@ -451,7 +459,6 @@ html.fermo .carta-s .rec i{opacity:1}
         <a class="link" href="#servizi">Cosa facciamo</a>
       </div>
       <p class="fiducia">Prezzi scritti prima · Paghi solo se ti piace · Risposta su WhatsApp</p>
-      <p class="scorri" aria-hidden="true">Scorri<i></i></p>
     </div>
   </section>
 
@@ -749,6 +756,11 @@ html.fermo .carta-s .rec i{opacity:1}
 </footer>
 
 <script>
+// «Scorri» → «Continua a scorrere»: fisso in basso finché la scena bloccata non è finita
+(function(){var c=document.getElementById('continua'),t=c&&c.firstChild,d=document.querySelector('.dichiara');if(!c||!d)return;
+  var ora=-1;function aggiorna(){var y=scrollY,fine=d.getBoundingClientRect().top+y-innerHeight*.9,st=y>fine?2:y>40?1:0;if(st===ora)return;ora=st;
+    c.classList.toggle('via',st===2);t.textContent=st===0?'Scorri':'Continua a scorrere'}
+  addEventListener('scroll',aggiorna,{passive:true});addEventListener('resize',aggiorna);aggiorna()})();
 // Testata piena dopo lo scorrimento, anno nel piede
 var testata=document.getElementById('testata');
 var piena=function(){testata.classList.toggle('piena',scrollY>30)};piena();addEventListener('scroll',piena,{passive:true});
@@ -1137,7 +1149,7 @@ addEventListener('DOMContentLoaded',function(){
   function puntino(u,a){
     var s=scrollY-D.top,titolo=s<D.sd-.5&&u<=0; // con la copertina alta il punto resta nel titolo finché non arriva a sd
     scrivi(dot,'visibility',titolo?'':'hidden');
-    var so=1-clamp((s-E)/(.1*G.V));scrivi(scorriEl,'opacity',so<1?so.toFixed(3):''); // «Scorri» ha fatto il suo lavoro: non passa sul puntino
+    if(scorriEl){var so=1-clamp((s-E)/(.1*G.V));scrivi(scorriEl,'opacity',so<1?so.toFixed(3):'')} // («Scorri» ora sta fisso in basso: vedi «Continua a scorrere»)
     if(titolo||a<=0){scrivi(punto,'visibility','hidden');return}
     var by=D.y-Math.min(Math.max(s,0),D.sd),t=seg(u,PU.d0,PU.d1),x=lerp(D.x,D.cx,dolce(t)),y=lerp(by,D.cy,ioc(t)),r;
     if(u<PU.g0)r=lerp(D.r0,D.rM,dolce(seg(u,PU.d0+.02,PU.d1)));
