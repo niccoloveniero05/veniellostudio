@@ -419,6 +419,16 @@ html.fermo .rec-tag{display:none} /* con «Riduci movimento» i video restano fe
 .carta li .i{width:15px;height:15px;margin-top:4px}
 .carta .btn{margin-top:24px;align-self:flex-start}
 .carta .per{margin-top:10px;color:var(--testo);font-size:15px}
+/* chi fa foto e video: stesso punto in ogni carta; al computer i tre riquadri stanno alla stessa altezza (subgrid) */
+.carta .chi-gira{display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:start;align-content:center;margin-top:16px;padding:12px 14px;border-radius:14px;background:rgba(245,244,239,.05);box-shadow:inset 0 0 0 1px var(--line);color:var(--testo2);font-size:14.5px;line-height:1.5;text-wrap:balance}
+.carta .chi-gira b{color:var(--testo);font-weight:600}
+.carta .chi-gira .i{width:17px;height:17px;margin-top:2px;color:var(--rec)}
+@supports (grid-template-rows:subgrid){@media (min-width:1000px){
+  .carte.tre{row-gap:0}
+  .carte.tre .carta{display:grid;grid-row:span 7;grid-template-rows:subgrid}
+  .carte.tre .carta ul{align-content:start}
+  .carte.tre .carta .btn{justify-self:start}
+}}
 .carta ul+.btn{margin-top:auto;padding-top:0}
 .carta ul{margin-bottom:24px}
 .nota{color:var(--testo3);font-size:14px;margin-top:16px;max-width:60ch}
@@ -503,6 +513,7 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
   <symbol id="i-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l4.5 4.5L19.5 7"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
   <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></symbol>
+  <symbol id="i-cellulare" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></symbol>
 </svg>
 
 <header class="testata" id="testata">
@@ -703,10 +714,11 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
             <p class="prezzo">59 € <small>al mese</small></p>
             <p class="quando">8 pubblicazioni al mese</p>
             <p class="per">Per esserci con costanza.</p>
+            <p class="chi-gira"><svg class="i" aria-hidden="true"><use href="#i-cellulare"/></svg><span><b>Foto e video li fai tu</b> con il telefono, seguendo la nostra guida passo per passo.</span></p>
             <ul>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Post e caroselli con le foto e i video della tua attività</li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Storie per le novità e gli eventi</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Li prepariamo e pubblichiamo noi</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Montaggio, testi e pubblicazione: ci pensiamo noi</li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><b>Sito + Google + Instagram inclusi</b></li>
             </ul>
             <a class="btn btn-linea" href="https://wa.me/393273331949?text=Ciao%2C%20mi%20interessa%20l%E2%80%99abbonamento%20Base" target="_blank" rel="noopener">Scegli Base</a>
@@ -717,9 +729,9 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
             <p class="prezzo">99 € <small>al mese</small></p>
             <p class="quando">12 pubblicazioni al mese</p>
             <p class="per">Per farti scegliere ogni settimana.</p>
+            <p class="chi-gira"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg><span><b>Le riprese le facciamo noi:</b> veniamo da&nbsp;te una volta al mese.</span></p>
             <ul>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Di cui 4 reel</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Riprese da te una volta al mese</li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Storie per le novità e gli eventi</li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><b>Sito + Google + Instagram inclusi</b></li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Aggiornamenti al sito</li>
@@ -731,8 +743,9 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
             <p class="prezzo">199 € <small>al mese</small></p>
             <p class="quando">20 pubblicazioni al mese</p>
             <p class="per">Per chi fa anche pubblicità.</p>
+            <p class="chi-gira"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg><span><b>Le riprese le facciamo noi:</b> veniamo da&nbsp;te due volte al mese.</span></p>
             <ul>
-              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Di cui 8 reel, con riprese da te due volte al mese</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Di cui 8 reel</li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Pubblicità su Instagram e Facebook, gestita da noi</li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Uno spot pubblicitario all’anno</li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Tutto il resto del Plus, sito compreso</li>
@@ -800,7 +813,8 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
         <details><summary>Ci sono altre spese oltre al prezzo?</summary><p>Solo il dominio, cioè il nome del sito (per esempio latuaattivita.it). È intestato a te e costa circa 10-15 € l’anno.</p></details>
         <details><summary>Se disdico l’abbonamento, il sito resta mio?</summary><p>Sì. Il sito è tuo e resta online anche se smetti: paghi solo il dominio, circa 10-15 € l’anno. Da lì in poi le modifiche si pagano a parte.</p></details>
         <details><summary>Devo pagare ogni mese?</summary><p>No. Sito, Google e Instagram si possono pagare una volta sola, 129 €. Se vuoi anche la gestione social, il sito è compreso nell’abbonamento: da 59 € al mese, e disdici quando vuoi.</p></details>
-        <details><summary>Le foto da dove le prendete?</summary><p>Usiamo solo foto vere della tua attività: quelle che hai già sui social, quelle che ci mandi o quelle che scattiamo noi quando passiamo.</p></details>
+        <details><summary>Le foto da dove le prendete?</summary><p>Usiamo solo foto vere della tua attività: quelle che hai già sui social, quelle che ci mandi o quelle che facciamo noi quando veniamo a fare le riprese.</p></details>
+        <details><summary>Venite voi a fare le riprese?</summary><p>Dipende dall’abbonamento. Nel Base no: foto e video li fai tu con il telefono, seguendo la nostra guida passo per passo, che ti dice cosa riprendere e come. Al resto pensiamo noi: montaggio, testi, pubblicazione e scheda Google. Nel Plus veniamo noi da te a fare le riprese una volta al mese, nel Pro due volte.</p></details>
         <details><summary>In che zona lavorate?</summary><p>Siamo a Montecatini Terme e lavoriamo con le attività di tutta la Valdinievole. Se vuoi, ci vediamo di persona.</p></details>
       </div>
     </div>
