@@ -374,11 +374,12 @@ html.fermo .rec-tag{display:none} /* con «Riduci movimento» i video restano fe
 
 /* partner */
 .partner-griglia{display:grid;gap:16px;margin-top:44px}
-@media (min-width:880px){.partner-griglia{grid-template-columns:2fr 1fr}}
+@media (min-width:880px){.partner-griglia{grid-template-columns:1fr 1fr}}
 .partner-carta{position:relative;border-radius:var(--r2);overflow:hidden;background:var(--surf);min-height:440px;display:flex}
 .partner-foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
 .partner-testo{position:relative;z-index:1;margin-top:auto;width:100%;padding:140px 26px 26px;background:linear-gradient(0deg,rgba(16,15,9,.97) 40%,rgba(16,15,9,0))}
 .partner-logo{width:170px;height:auto;margin-bottom:10px}
+.partner-logo.eb{width:168px}
 .partner-tipo{color:var(--testo2);font-size:15.5px}
 .partner-lavori{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px}
 .partner-lavori li{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;padding:8px 12px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line2)}
@@ -387,6 +388,8 @@ html.fermo .rec-tag{display:none} /* con «Riduci movimento» i video restano fe
 .partner-piu{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-size:30px;line-height:1;background:var(--testo);color:var(--bg);margin-bottom:auto}
 .partner-tu p{color:var(--testo2);font-size:15.5px}
 .partner-link{margin-top:6px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+@media (min-width:880px){.partner-tu{grid-column:1/-1;min-height:0;flex-direction:row;align-items:center;justify-content:flex-start;gap:20px}
+  .partner-tu .partner-piu{margin-bottom:0;flex:none}.partner-tu .partner-link{margin:0 0 0 auto}}
 .loghi{padding:26px 0;border-top:1px solid var(--line);overflow:hidden;position:relative}
 .loghi::before,.loghi::after{content:"";position:absolute;top:0;bottom:0;width:14%;z-index:1;pointer-events:none}
 .loghi::before{left:0;background:linear-gradient(90deg,var(--bg),rgba(16,15,9,0))}
@@ -692,6 +695,15 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
             <a class="btn btn-linea" href="https://jueclub.it" target="_blank" rel="noopener">Visita jueclub.it<svg class="i" aria-hidden="true"><use href="#i-link"/></svg></a>
           </div>
         </article>
+        <article class="partner-carta">
+          <img class="partner-foto" src="img/elena-dettagli.jpg" alt="Fedi, partecipazioni e fiori di un matrimonio curato da Elena Baldi" style="object-position:50% 30%" width="720" height="1080" loading="lazy">
+          <div class="partner-testo">
+            <img class="partner-logo eb" src="img/elena-logo.png" alt="Elena Baldi Wedding Planner" width="619" height="375" loading="lazy">
+            <p class="partner-tipo">Wedding planner · Matrimoni · Montecatini Terme</p>
+            <ul class="partner-lavori"><li>Social</li><li>Video</li></ul>
+            <a class="btn btn-linea" href="https://www.elenabaldiwp.it/" target="_blank" rel="noopener">Visita elenabaldiwp.it<svg class="i" aria-hidden="true"><use href="#i-link"/></svg></a>
+          </div>
+        </article>
         <a class="partner-carta partner-tu" href="#contatti">
           <span class="partner-piu" aria-hidden="true">+</span>
           <h3>La tua attività, qui.</h3>
@@ -893,7 +905,7 @@ addEventListener('scroll',chiediVideo,{passive:true});addEventListener('resize',
 chiediVideo();
 
 // Barra dei partner: scorre solo quando è sullo schermo
-var loghi=[{src:'img/jue-logo.png',alt:'Jué Club',href:'https://jueclub.it'}];
+var loghi=[{src:'img/jue-logo.png',alt:'Jué Club',href:'https://jueclub.it'},{src:'img/elena-logo.png',alt:'Elena Baldi Wedding Planner',href:'https://www.elenabaldiwp.it/'}];
 var fila=function(nascosta){var ul=document.createElement('ul');ul.className='loghi-fila';if(nascosta)ul.setAttribute('aria-hidden','true');
   for(var r=0;r<4;r++){loghi.forEach(function(l){var li=document.createElement('li'),a=document.createElement('a'),im=document.createElement('img');a.href=l.href;a.target='_blank';a.rel='noopener';if(nascosta)a.tabIndex=-1;im.src=l.src;im.alt=l.alt;im.loading='lazy';a.appendChild(im);li.appendChild(a);ul.appendChild(li)});
     var v=document.createElement('li');v.className='vuoto';v.textContent='Il tuo logo qui';ul.appendChild(v)}
