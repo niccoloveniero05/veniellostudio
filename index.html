@@ -410,6 +410,7 @@ html.fermo .rec-tag{display:none} /* con «Riduci movimento» i video restano fe
 .carte{display:grid;gap:14px}
 @media (min-width:760px){.carte{grid-template-columns:1fr 1fr}}
 @media (min-width:1000px){.carte.tre{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:1180px){.carte.quattro{grid-template-columns:repeat(4,1fr)}}
 .carta{background:var(--surf);border-radius:var(--r2);padding:26px 24px;position:relative;display:flex;flex-direction:column}
 .carta.top{background:var(--surf2);box-shadow:inset 0 0 0 1px var(--line2)}
 .consigliato{position:absolute;top:20px;right:20px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;background:var(--rec);color:var(--bg);padding:6px 10px;border-radius:999px}
@@ -616,17 +617,17 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
         <li class="servizio">
           <div class="m m-fan"><img src="img/reel-9-0.jpg" alt="" width="600" height="1067" loading="lazy"><img src="img/locandina.jpg" alt="La locandina della serata Martedì Blu" width="600" height="803" loading="lazy"><img src="img/reel-23-0.jpg" alt="" width="600" height="1067" loading="lazy"></div>
           <div class="t"><h3>Instagram e TikTok</h3><p class="riga">Profilo in ordine, storie in evidenza, link giusti.</p>
-            <p class="costo"><b>129 €</b>una volta sola</p><p class="dove">Con la scheda Google. Incluso in <b>ogni abbonamento</b>.</p></div>
+            <p class="costo"><b>Incluso</b>nel sito da 390 €</p><p class="dove">E in <b>ogni abbonamento</b>.</p></div>
         </li>
         <li class="servizio">
           <div class="m m-video"><video src="video/spot.mp4" muted loop playsinline preload="none" aria-label="Lo spot Jué × Bombay Sapphire: il Bombay &amp; Tonic e la bottiglietta in omaggio"></video><img class="ferma" src="img/spot.jpg" alt="" width="540" height="960" loading="lazy"><span class="rec-tag" aria-hidden="true"><i></i>Rec</span></div>
           <div class="t"><h3>Video e reel</h3><p class="riga">Riprese vere, montate per Reel, TikTok e storie.</p>
-            <p class="costo"><b>da 299 €</b>al mese</p><p class="dove">4 reel al mese nel <b>Plus</b>, 8 nel <b>Pro</b>.</p></div>
+            <p class="costo"><b>90 €</b>a reel</p><p class="dove">Pacchetti da 320 € al mese. 4 reel nel <b>Plus</b>, 8 nel <b>Pro</b>.</p></div>
         </li>
         <li class="servizio">
           <div class="m m-g"><div class="box"><img src="img/scheda-google.jpg" alt="Un esempio di scheda Google: il nome dell’attività, le stelle, gli orari e i tasti Indicazioni, Sito web e Chiama" width="750" height="578" loading="lazy"><i class="tocco" aria-hidden="true"></i></div></div>
           <div class="t"><h3>Scheda Google</h3><p class="riga">Chi cerca in zona trova orari, foto e recensioni.</p>
-            <p class="costo"><b>129 €</b>una volta sola</p><p class="dove">Con Instagram. Incluso in <b>ogni abbonamento</b>.</p></div>
+            <p class="costo"><b>Incluso</b>nel sito da 390 €</p><p class="dove">E in <b>ogni abbonamento</b>.</p></div>
         </li>
         <li class="servizio">
           <div class="m m-sito"><div class="in"><img src="img/sito-1.jpg" alt="La copertina di jueclub.it sul telefono" width="520" height="1125" loading="lazy"><img src="img/sito-4.jpg" alt="Il menù di jueclub.it sul telefono" width="520" height="1125" loading="lazy"></div></div>
@@ -641,7 +642,7 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
         <li class="servizio">
           <div class="m m-spot"><div class="in"><img src="img/spot-3-2.jpg" alt="Lo spot del Jué: il gin versato nel bicchiere" width="600" height="1067" loading="lazy"><img src="img/spot-6-2.jpg" alt="Lo spot del Jué: il lime nel drink" width="600" height="1067" loading="lazy"><img src="img/spot-13-6.jpg" alt="Lo spot del Jué: il drink finito con la promozione della serata" width="600" height="1067" loading="lazy"></div></div>
           <div class="t"><h3>Spot pubblicitari</h3><p class="riga">Idea, copione e montaggio, come i grandi marchi.</p>
-            <p class="costo"><b>da 300 €</b>a spot</p><p class="dove">Uno all’anno incluso nel <b>Pro</b>.</p></div>
+            <p class="costo"><b>300 €</b>a spot</p><p class="dove">1 min / 1 min e 10 s. Uno all’anno incluso nel <b>Pro</b>.</p></div>
         </li>
         <li class="servizio tutto">
           <span class="consigliato">Consigliato</span>
@@ -782,35 +783,92 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
             </ul>
             <a class="btn btn-linea" href="https://wa.me/393273331949?text=Ciao%2C%20mi%20interessa%20Sito%20%2B%20Google%20%2B%20Instagram" target="_blank" rel="noopener">Inizia con l’anteprima</a>
           </article>
-          <article class="carta">
-            <h4>Google + Instagram</h4>
-            <p class="prezzo">129 €</p>
-            <p class="quando">una volta sola</p>
-            <ul>
-              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Scheda Google sistemata</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Profilo Instagram in ordine</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Per chi il sito ce l’ha già</li>
-            </ul>
-          </article>
         </div>
         <p class="nota">Per siti aziendali con più pagine, catalogo prodotti o negozio online facciamo un preventivo su misura.</p>
       </div>
       <div class="gruppo">
         <div class="gruppo-testa"><h3>Video</h3><span class="mono">a lavoro</span></div>
-        <div class="carte">
+        <div class="carte tre">
+          <article class="carta">
+            <h4>Reel</h4>
+            <p class="prezzo">90 €</p>
+            <p class="quando">a reel, 30-40 secondi</p>
+            <p class="per">Come quelli che vedi sul nostro Instagram.</p>
+            <ul>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Idea e scaletta</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Effetti, montaggio, musica e scritte</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Pronto per Instagram e TikTok</li>
+            </ul>
+            <a class="btn btn-linea" href="https://wa.me/393273331949?text=Ciao,%20mi%20interessa%20un%20reel" target="_blank" rel="noopener">Chiedi un reel</a>
+          </article>
+          <article class="carta">
+            <h4>Anteprima del reel</h4>
+            <p class="prezzo">50 €</p>
+            <p class="quando">12-13 secondi</p>
+            <p class="per">Vedi come viene prima di decidere.</p>
+            <ul>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Un pezzo vero del tuo reel</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Stessa qualità del video finito</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Se ti piace, continuiamo</li>
+            </ul>
+            <a class="btn btn-linea" href="https://wa.me/393273331949?text=Ciao,%20mi%20interessa%20l%E2%80%99anteprima%20di%20un%20reel" target="_blank" rel="noopener">Chiedi l’anteprima</a>
+          </article>
           <article class="carta">
             <h4>Spot pubblicitario</h4>
-            <p class="prezzo"><small>da</small> 300 €</p>
-            <p class="quando">a spot</p>
+            <p class="prezzo">300 €</p>
+            <p class="quando">1 minuto / 1 minuto e 10 secondi</p>
+            <p class="per">Idea e regia, come i grandi marchi.</p>
             <ul>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Idea, copione e inquadrature</li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Montaggio, musica e scritte</li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Versioni per Reel, TikTok e storie</li>
             </ul>
-            <a class="btn btn-linea" href="https://wa.me/393273331949?text=Ciao%2C%20mi%20interessa%20uno%20spot%20pubblicitario" target="_blank" rel="noopener">Chiedi uno spot</a>
+            <a class="btn btn-linea" href="https://wa.me/393273331949?text=Ciao,%20mi%20interessa%20uno%20spot%20pubblicitario" target="_blank" rel="noopener">Chiedi uno spot</a>
           </article>
         </div>
-        <p class="nota">Il prezzo finale dipende da durata e riprese: te lo diciamo prima, per scritto.</p>
+        <p class="nota">Per durate diverse o riprese fuori zona il prezzo te lo scriviamo prima.</p>
+      </div>
+      <div class="gruppo">
+        <div class="gruppo-testa"><h3>Pacchetti reel</h3><span class="mono">ogni mese</span></div>
+        <div class="carte quattro">
+          <article class="carta">
+            <h4>4 reel al mese</h4>
+            <p class="prezzo">320 € <small>al mese</small></p>
+            <p class="quando">80 € a reel</p>
+            <ul>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Risparmi 40 € al mese</li>
+            </ul>
+            <a class="btn btn-linea" href="https://wa.me/393273331949?text=Ciao,%20mi%20interessa%20il%20pacchetto%20da%204%20reel%20al%20mese" target="_blank" rel="noopener">Scegli 4 reel</a>
+          </article>
+          <article class="carta">
+            <h4>8 reel al mese</h4>
+            <p class="prezzo">600 € <small>al mese</small></p>
+            <p class="quando">75 € a reel</p>
+            <ul>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Risparmi 120 € al mese</li>
+            </ul>
+            <a class="btn btn-linea" href="https://wa.me/393273331949?text=Ciao,%20mi%20interessa%20il%20pacchetto%20da%208%20reel%20al%20mese" target="_blank" rel="noopener">Scegli 8 reel</a>
+          </article>
+          <article class="carta">
+            <h4>12 reel al mese</h4>
+            <p class="prezzo">840 € <small>al mese</small></p>
+            <p class="quando">70 € a reel</p>
+            <ul>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Risparmi 240 € al mese</li>
+            </ul>
+            <a class="btn btn-linea" href="https://wa.me/393273331949?text=Ciao,%20mi%20interessa%20il%20pacchetto%20da%2012%20reel%20al%20mese" target="_blank" rel="noopener">Scegli 12 reel</a>
+          </article>
+          <article class="carta">
+            <h4>16 reel al mese</h4>
+            <p class="prezzo">1.040 € <small>al mese</small></p>
+            <p class="quando">65 € a reel</p>
+            <ul>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Risparmi 400 € al mese</li>
+            </ul>
+            <a class="btn btn-linea" href="https://wa.me/393273331949?text=Ciao,%20mi%20interessa%20il%20pacchetto%20da%2016%20reel%20al%20mese" target="_blank" rel="noopener">Scegli 16 reel</a>
+          </article>
+        </div>
+        <p class="nota">Reel da 30-40 secondi. Le riprese le fai tu con il telefono, seguendo la nostra scaletta: se preferisci che veniamo noi, il prezzo te lo scriviamo prima.</p>
       </div>
       <div class="serieta"><span>Prezzi scritti prima</span><span>Anteprima senza impegno</span><span>Il dominio è tuo</span><span>Solo foto vere</span></div>
     </div>
@@ -821,7 +879,7 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
       <span class="etichetta">Domande</span>
       <h2 id="t-domande">Le domande che ci fanno <em>tutti</em>.</h2>
       <div class="domande-elenco">
-        <details><summary>L’anteprima è davvero gratis?</summary><p>Sì. La prepariamo, la guardi con calma sul telefono e decidi. Se non ti convince, non paghi niente e non ti impegni.</p></details>
+        <details><summary>L’anteprima è davvero gratis?</summary><p>Quella del sito sì. La prepariamo, la guardi con calma sul telefono e decidi. Se non ti convince, non paghi niente e non ti impegni. L’anteprima di un reel invece costa 50 €: 12-13 secondi per vedere come viene.</p></details>
         <details><summary>Ci sono altre spese oltre al prezzo?</summary><p>Solo il dominio, cioè il nome del sito (per esempio latuaattivita.it). È intestato a te e costa circa 10-15 € l’anno.</p></details>
         <details><summary>Se disdico l’abbonamento, il sito resta mio?</summary><p>Sì. Il sito è tuo e resta online anche se smetti: paghi solo il dominio, circa 10-15 € l’anno. Da lì in poi le modifiche si pagano a parte.</p></details>
         <details><summary>Devo pagare ogni mese?</summary><p>No. Sito, Google e Instagram si possono pagare una volta sola, 390 €. Se vuoi anche la gestione social, il sito è compreso nell’abbonamento: da 149 € al mese, e disdici quando vuoi.</p></details>
