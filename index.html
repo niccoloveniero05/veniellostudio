@@ -90,6 +90,15 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .azioni{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:32px;align-items:center}
 .fiducia{margin-top:40px;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--testo3);max-width:30ch;line-height:1.9}
 @media (min-width:700px){.fiducia{max-width:none}}
+/* Nuovo sito, punto 1 (14/11/2026, solo telefono e tablet): la frase dell'anteprima gratis risalta sopra il pulsante,
+   il pulsante è largo e «Vedi i prezzi» diventa un link. Testi, colori e caratteri uguali; al computer tutto come prima. */
+@media (max-width:999px){
+  .copertina .intro .gancio{display:block;margin-top:14px;color:var(--testo);font-weight:500;font-size:1.06em}
+  .copertina .azioni{flex-direction:column;gap:12px;width:100%;max-width:360px}
+  .copertina .azioni .btn-pieno{width:100%;min-height:56px;font-size:16px}
+  .copertina .azioni .link-prezzi{min-height:0;padding:6px 10px;border:0;box-shadow:none;background:none;color:var(--testo2);text-decoration:underline;text-underline-offset:3px}
+  .copertina .fiducia{margin-top:28px}
+}
 /* «Scorri / Continua a scorrere»: fisso in basso dalla copertina alla fine della scena, così nessuno resta fermo sulla prima schermata
    o pensa che la scena bloccata sia finita; un puntino arancio scende lungo la riga */
 .continua{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;line-height:1;letter-spacing:.18em;text-transform:uppercase;color:var(--testo2);background:rgba(16,15,9,.66);padding:9px 14px 9px 16px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line);pointer-events:none;transition:opacity .45s ease;white-space:nowrap}
@@ -255,7 +264,7 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 
 /* ===== Servizi, proposta «griglia» (19/10): i sette servizi tutti insieme, in schede basse. Ogni scheda: il lavoro vero,
    il nome, a cosa serve e in basso quanto costa o in quale abbonamento c'è già (gli stessi prezzi della sezione Prezzi).
-   L'ottava scheda è «Tutto insieme», cioè il Plus. Telefono: una colonna, immagine a sinistra e testo a destra;
+   Dal 14/11 c'è un'ottava scheda, il Virtual Assistant (presto disponibile); «Tutto insieme», cioè il Plus, viene dopo, a tutta larghezza. Telefono: una colonna, immagine a sinistra e testo a destra;
    da 600 px due colonne, da 1024 px quattro. Niente che entra o si muove scorrendo: gira solo il video della scheda più
    vicina al centro dello schermo (uno alla volta, vedi «Video dei servizi»), e il suo puntino REC si accende. ===== */
 .servizi .intro b{color:var(--testo);font-weight:500}
@@ -265,11 +274,80 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .servizio .m>*{position:absolute}
 .servizio .t{display:flex;flex-direction:column;min-width:0;padding:13px 12px 13px 15px}
 .servizio h3{font-size:22px;line-height:1.08}
+/* l'Instrument Serif è stretto: nei titoli delle schede lo allarghiamo del 14% (scelta di Niccolò, 14/11, versione B).
+   Lo span e non il link: un link trasformato si terrebbe il riquadro cliccabile dell'::after. max-width: allargato non esce dalla colonna */
+.servizio h3{letter-spacing:.01em}
+.servizio h3 .largo{display:inline-block;transform:scaleX(1.14);transform-origin:0 50%;max-width:calc(100% / 1.14)}
 .servizio .riga{color:var(--testo2);font-size:14px;line-height:1.4;margin:4px 0 10px;text-wrap:pretty}
 .servizio .costo{margin-top:auto;display:flex;align-items:baseline;flex-wrap:wrap;gap:0 7px;font-size:13px;line-height:1.3;color:var(--testo2)}
 .servizio .costo b{font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.05;letter-spacing:-.01em;color:var(--testo)}
 .servizio .dove{font-size:12.5px;line-height:1.38;color:var(--testo2);margin-top:2px;text-wrap:pretty}
 .servizio .dove b{font-weight:500;color:var(--testo)}
+/* 08: Virtual Assistant, presto disponibile (proposta D scelta da Niccolò il 14/11): Giulia scrive, il puntino arancio porta la
+   richiesta giù e compare il riepilogo che arriva al titolare. Gira solo con la scheda sullo schermo (classe «anima», vedi lo
+   script «Virtual Assistant» in fondo); da ferma e con «Riduci movimento» si vede la scena finale. */
+.m-riep .in{inset:0;display:flex;flex-direction:column;justify-content:flex-start;gap:6px;padding:11px 9px 10px}
+.m-riep .bolla{max-width:92%;padding:6px 8px 5px;border-radius:10px;font-size:10.5px;line-height:1.32;color:var(--testo)}
+.m-riep .cli{align-self:flex-end;background:var(--surf2);border-bottom-right-radius:3px}
+.m-riep .punto{position:absolute;right:16px;top:44px;width:8px;height:8px;border-radius:50%;background:var(--rec);opacity:0}
+.m-riep .riep{margin-top:auto;display:flex;flex-direction:column;gap:1px;padding:7px 8px;border-radius:9px;background:var(--surf);box-shadow:inset 0 0 0 1px var(--line2);font-size:9.5px;line-height:1.3;color:var(--testo2)}
+.m-riep .riep-t{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--rec);display:flex;align-items:center;gap:5px;margin-bottom:2px}
+.m-riep .riep-t i{width:6px;height:6px;border-radius:50%;background:var(--rec)}
+.m-riep .riep b{font-weight:500;color:var(--testo)}
+.m-riep .lungo{display:none}
+@media (min-width:600px){.m-riep .in{padding:12px}.m-riep .bolla{font-size:11.5px}.m-riep .riep{font-size:10.5px}.m-riep .lungo{display:inline}}
+/* tablet: l'immagine è alta (4:3), testi più grandi così il riquadro non resta vuoto; il puntino si ferma sul riepilogo */
+@media (min-width:600px) and (max-width:1023px){.m-riep .in{padding:16px}.m-riep .bolla{font-size:13.5px}.m-riep .riep{font-size:12.5px;padding:9px 10px}.m-riep .riep-t{font-size:10px}.m-riep .punto{--fine:88px}}
+.servizio.anima .m-riep .cli{animation:riep-cli 8s ease infinite both}
+.servizio.anima .m-riep .punto{animation:riep-punto 8s ease-in-out infinite both}
+.servizio.anima .m-riep .riep{animation:riep-avviso 8s ease infinite both}
+@keyframes riep-cli{0%,4%{opacity:0;transform:translateY(5px)}8%,88%{opacity:1;transform:none}94%,100%{opacity:0}}
+@keyframes riep-punto{0%,12%{opacity:0;top:44px}15%{opacity:1;top:44px}27%{opacity:1;top:calc(100% - var(--fine,66px))}30%,100%{opacity:0;top:calc(100% - var(--fine,66px))}}
+@keyframes riep-avviso{0%,27%{opacity:0;transform:translateY(5px)}32%,88%{opacity:1;transform:none}94%,100%{opacity:0}}
+.servizio .dove a{color:var(--rec);font-weight:500;text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
+/* ogni scheda dei servizi porta giù al gruppo dei prezzi che la contiene (Motion design ai contatti): il link è sul titolo
+   e copre tutta la scheda; la freccia in basso a destra dice che si può toccare; il link «Prenota» resta sopra */
+.servizio h3 a{color:inherit;text-decoration:none}
+.servizio h3 a::after{content:"";position:absolute;inset:0;z-index:3}
+.servizio h3 a:focus-visible{outline:none}
+.servizio:has(h3 a:focus-visible){box-shadow:0 0 0 2px var(--rec)}
+.servizio:has(h3 a){transition:background-color .2s ease}
+.servizio:has(h3 a):hover{background:var(--surf2)}
+.servizio:has(h3 a)::after{content:"↓";position:absolute;right:12px;bottom:10px;font-family:var(--mono);font-size:13px;line-height:1;color:var(--testo3)}
+.servizio:has(h3 a):hover::after{color:var(--rec)}
+.servizio:has(h3 a) .dove{padding-right:16px}
+.servizio .dove a{position:relative;z-index:4}
+@media (prefers-reduced-motion:reduce){.servizio:has(h3 a){transition:none}}
+/* «Nuovi servizi» in arancio con il puntino arancio della novità */
+.mono.nuovo{color:var(--rec);display:inline-flex;align-items:center;gap:8px}
+.mono.nuovo i{width:7px;height:7px;border-radius:50%;background:var(--rec)}
+/* parte spento e, quando il titolo arriva sullo schermo, si accende piano una volta sola e resta acceso (scelta di Niccolò, 14/11);
+   le classi le mette lo script «Virtual Assistant» in fondo: senza script o con «Riduci movimento» è acceso da subito */
+.mono.nuovo.attesa i{opacity:.15}
+.mono.nuovo.acceso i{animation:nuovo-accendi 2s ease-in-out forwards}
+@keyframes nuovo-accendi{from{opacity:.15}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.mono.nuovo i{animation:none!important;opacity:1!important}}
+/* Video e Pacchetti reel (14/11, Niccolò; prima solo sul telefono, dalla sera anche al computer): le carte sono quelle di sempre, ma chiuse:
+   si vedono nome, prezzo e durata; toccando la carta (o la freccia) si aprono descrizione, elenco e pulsante, solo di quella carta.
+   Lo fa lo script «Carte che si aprono» in fondo: senza script restano tutte aperte. */
+.carta[hidden]{display:none!important}
+.apri{display:none}
+.carta.si-apre{cursor:pointer}
+/* finché sono tutte chiuse le carte di una riga sono alte uguali; quando una si apre le altre restano basse, non si allungano vuote */
+.carte:has(.carta.si-apre.aperta){align-items:start}
+.carta.si-apre h4{padding-right:48px}
+.carta.si-apre .apri{display:grid;place-items:center;position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);background:transparent;color:var(--testo);cursor:pointer}
+.apri svg{width:16px;height:16px;transition:transform .2s ease}
+.carta.si-apre.aperta .apri svg{transform:rotate(180deg)}
+.carta.si-apre:not(.aperta) .per,.carta.si-apre:not(.aperta) ul,.carta.si-apre:not(.aperta) .btn{display:none}
+.apri:focus-visible{outline:2px solid var(--rec);outline-offset:2px}
+/* Presto disponibili: da chiuse restano visibili anche la frase e «Prenota un’anteprima» (è il pulsante che contiamo); si chiude solo l'elenco */
+#assistente .carta.si-apre:not(.aperta) .per{display:block}
+#assistente .carta.si-apre:not(.aperta) .btn{display:inline-flex}
+#assistente .carta.si-apre:not(.aperta) ul+.btn{margin-top:20px}
+@media (prefers-reduced-motion:reduce){.apri svg{transition:none}}
+.prezzo s,.costo s{color:var(--testo3);font-weight:400;text-decoration-thickness:1px}
+.prezzo s{font-size:.5em;margin-right:.2em}
 /* il puntino REC sui video: grigio da fermo, arancio (e lampeggia piano, come la luce di una cinepresa) mentre gira */
 .rec-tag{left:8px;top:8px;z-index:2;display:flex;align-items:center;gap:5px;padding:4px 7px 4px 6px;border-radius:999px;background:rgba(16,15,9,.72);font-family:var(--mono);font-size:10px;line-height:1;letter-spacing:.12em;text-transform:uppercase;color:var(--testo2)}
 .rec-tag i{width:6px;height:6px;border-radius:50%;background:var(--line2)}
@@ -346,6 +424,10 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
   .servizio.tutto ul{grid-template-columns:1fr;font-size:15px}
 }
 @media (min-width:1024px){.griglia-s{grid-template-columns:repeat(4,1fr);gap:16px}.servizio .m{aspect-ratio:16/10}.servizio .t{padding:16px 18px 18px}.servizio .riga{margin-bottom:16px}.m-fan img{width:36%}.m-sito .in{padding-top:16px}.m-sito img{width:36%}.cal div{padding:6px 0 6px 16px}}
+/* dal 14/11 le schede sono otto (c'è anche il Virtual Assistant): «Social e Google insieme» va sempre a tutta larghezza,
+   sul computer in orizzontale (titolo, elenco, prezzo e pulsante) */
+@media (min-width:600px){.servizio.tutto{grid-column:1/-1}.servizio.tutto ul{grid-template-columns:1fr 1fr}}
+@media (min-width:1024px){.servizio.tutto .t{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr) auto;align-items:center;column-gap:40px}.servizio.tutto ul{margin:0}.servizio.tutto .piede-t{margin:0;padding-top:0;border-top:0;flex-direction:column;align-items:flex-start;gap:12px}}
 @media (prefers-reduced-motion:reduce){.servizio.gira .rec-tag i{animation:none}.m-video .ferma{transition:none}}
 html.fermo .rec-tag{display:none} /* con «Riduci movimento» i video restano fermi: niente REC */
 
@@ -504,6 +586,60 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
   .fase-t,.fase-s,.btn,summary::after,.recapito,.partner-tu{transition:none}
   .loghi-nastro{animation:none}
 }
+/* ===== Nuovo sito, punti 3-10 (14/11/2026; prima solo sul telefono, la sera del 14/11 anche al computer, richiesta di Niccolò) =====
+   Ordine: prima schermata, scena, clienti in piccolo, Come funziona, tre servizi più il Virtual Assistant, prezzi (prima il sito),
+   domande, contatti. «Perché serve» e «Trovato, scelto, ricordato» non ci sono più (e con loro il puntino che le percorre). */
+.solo-pc{display:none}
+.dichiara,.fasi,#filo,.cursore{display:none!important}
+.griglia-s .servizio.secondario{display:none}
+/* clienti: tre riquadri con il logo e il link, più «La tua attività, qui» in una riga */
+.partner-griglia{grid-template-columns:repeat(3,1fr);gap:10px;margin-top:26px}
+.partner-carta{min-height:0}
+.partner-foto,.partner-tipo,.partner-lavori{display:none}
+.partner-testo{margin-top:0;padding:18px 8px 14px;background:none;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:12px;text-align:center}
+.partner-logo,.partner-logo.eb{width:100%;max-width:110px;height:auto;margin:0}
+.partner-logo.gb{width:auto;height:52px}
+.partner-testo .btn{min-height:0;padding:0;box-shadow:none;background:none;font-size:12px;line-height:1.3;color:var(--testo2);text-decoration:underline;text-underline-offset:2px;white-space:normal;text-align:center;max-width:100%;overflow-wrap:anywhere}
+.partner-testo .btn .i{display:none}
+.partner-tu{grid-column:1/-1;min-height:0;flex-direction:row;align-items:center;gap:14px;padding:14px 18px}
+.partner-tu .partner-piu{width:34px;height:34px;font-size:22px;margin:0;flex:none}
+.partner-tu h3{font-size:19px}
+.partner-tu p{display:none}
+.partner-tu .partner-link{margin:0 0 0 auto}
+/* prezzi: il pulsante pieno è quello del sito (l'anteprima), gli abbonamenti hanno pulsanti a contorno */
+#p-sito .btn-linea{background:var(--testo);color:var(--bg);box-shadow:none}
+#p-mese .btn-pieno{background:transparent;color:var(--testo);box-shadow:inset 0 0 0 1px var(--line2)}
+/* al computer i clienti un po' più grandi, e nella riga «La tua attività» c'è posto anche per la frase */
+@media (min-width:1000px){
+  .partner-griglia{gap:16px;margin-top:40px}
+  .partner-testo{padding:30px 16px 24px;gap:20px}
+  .partner-logo,.partner-logo.eb{max-width:170px}
+  .partner-logo.gb{height:76px}
+  .partner-testo .btn{font-size:14.5px}
+  .partner-tu{gap:20px;padding:20px 28px}
+  .partner-tu .partner-piu{width:42px;height:42px;font-size:26px}
+  .partner-tu h3{font-size:24px;flex:none}
+  .partner-tu p{display:block;margin:0}
+  .partner-logo.eb{max-width:116px}
+  /* meno vuoto tra le sezioni anche qui (era 128 px sopra e sotto: quasi 300 px di nero tra una e l'altra) */
+  .partner,.servizi,.prezzi,.domande,.chiusura{padding-top:88px;padding-bottom:88px}
+  .binario{padding:88px 0}
+}
+@media (max-width:999px){
+  /* meno vuoto tra una sezione e l'altra (era 72 px sopra e sotto) */
+  .partner,.servizi,.prezzi,.domande,.chiusura{padding-top:52px;padding-bottom:52px}
+  /* contatti: pulsanti larghi come nella prima schermata */
+  .chiusura .azioni{flex-direction:column;align-items:stretch;width:100%;max-width:360px}
+  .chiusura .azioni .btn{width:100%;min-height:54px}
+}
+/* Come funziona sul telefono: il palco è alto quanto il suo contenuto e si ferma a metà schermo solo mentre le carte scorrono
+   (prima era alto uno schermo intero: lasciava un buco nero prima e dopo). Lo spazio per scorrere è l'::after (80svh, come prima). */
+@media (max-width:899px){
+  .binario{height:auto;padding:52px 0 0}
+  .binario::after{content:"";display:block;height:80svh}
+  .binario-stage{height:auto;top:var(--bin-top,76px);padding:0 0 8px}
+}
+html.fermo .binario::after{display:none}
 </style>
 <noscript><style>.apertura>.copertina{position:relative}.scena{display:none}.dichiara .pf{color:inherit}.macchia{display:none}</style></noscript>
 <script type="application/ld+json">
@@ -525,7 +661,7 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
 <header class="testata" id="testata">
   <div class="wrap">
     <a class="marchio" href="#inizio" aria-label="Veniello Studio, torna all'inizio"><span class="parola" aria-hidden="true"><span class="vv">V</span><span class="e">eniello</span><span class="pt"></span><span class="st">studio</span></span></a>
-    <nav aria-label="Menu principale"><a href="#servizi">Servizi</a><a href="#come">Come funziona</a><a href="#partner">Partner</a><a href="#prezzi">Prezzi</a><a href="#domande">Domande</a></nav>
+    <nav aria-label="Menu principale"><a href="#partner">Partner</a><a href="#come">Come funziona</a><a href="#servizi">Servizi</a><a href="#prezzi">Prezzi</a><a href="#domande">Domande</a></nav>
     <a class="btn btn-pieno" href="https://wa.me/393520338377?text=Ciao%2C%20vorrei%20informazioni%20per%20la%20mia%20attivit%C3%A0" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-wa"/></svg>Scrivici</a>
   </div>
 </header>
@@ -538,10 +674,10 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
     <div class="wrap" id="copertina-wrap">
       <p class="mono">Social · Google · Video · Siti</p>
       <h1 id="titolo">Fatti trovare.<br>Fatti <em>scegliere</em><span class="rec-punto" id="rec-punto" aria-hidden="true"></span></h1>
-      <p class="intro">Instagram, TikTok, scheda Google e video, ogni mese. Per ogni attività della Valdinievole: negozi, ristoranti, saloni, studi, artigiani e strutture. Vedi il tuo sito prima di pagare un euro.</p>
+      <p class="intro">Instagram, TikTok, scheda Google e video, ogni mese. Per ogni attività della Valdinievole: negozi, ristoranti, saloni, studi, artigiani e strutture.</p>
       <div class="azioni">
         <a class="btn btn-pieno" href="https://wa.me/393520338377?text=Ciao%2C%20vorrei%20un%27anteprima%20gratis%20per%20la%20mia%20attivit%C3%A0" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-wa"/></svg>Chiedi l’anteprima gratis</a>
-        <a class="btn btn-linea" href="#prezzi">Vedi i prezzi</a>
+        <a class="btn btn-linea link-prezzi" href="#prezzi">Vedi i prezzi</a>
       </div>
       <p class="fiducia">Prezzi scritti prima · Paghi solo se ti piace · Risposta su WhatsApp</p>
     </div>
@@ -605,85 +741,7 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
     </div>
   </section>
 
-  <section class="servizi" id="servizi" aria-labelledby="t-servizi">
-    <div class="wrap">
-      <span class="etichetta">Servizi</span>
-      <h2 id="t-servizi">Tutto quello che serve per farti <em>scegliere</em>.</h2>
-      <p class="intro">Sette servizi. Li prendi <b>uno alla volta</b>, oppure più di uno insieme in un <b>abbonamento al mese</b>.</p>
-      <ul class="griglia-s">
-        <li class="servizio">
-          <div class="m m-cal"><div class="in"><div class="cal" role="img" aria-label="Un calendario di pubblicazioni: reel, post e storie, un giorno dopo l'altro"><div class="oggi"><b>Ven 16</b><span>Reel</span><span>La novità</span></div><div><b>Sab 17</b><span>Post</span><span>Locandina</span></div><div><b>Dom 18</b><span>Storia</span><span>Video da 6 s</span></div><div><b>Lun 19</b><span>Storia</span><span>«Da domani»</span></div><div><b>Mar 20</b><span>Storie</span><span>Dal vivo</span></div></div></div></div>
-          <div class="t"><h3>Gestione social</h3><p class="riga">Post, storie e grafiche ogni mese, pubblicati da noi.</p>
-            <p class="costo"><b>da 149 €</b>al mese</p><p class="dove"><b>Base</b>, <b>Plus</b> o <b>Pro</b>.</p></div>
-        </li>
-        <li class="servizio">
-          <div class="m m-fan"><img src="img/reel-9-0.jpg" alt="" width="600" height="1067" loading="lazy"><img src="img/locandina.jpg" alt="La locandina della serata Martedì Blu" width="600" height="803" loading="lazy"><img src="img/reel-23-0.jpg" alt="" width="600" height="1067" loading="lazy"></div>
-          <div class="t"><h3>Instagram e TikTok</h3><p class="riga">Profilo in ordine, storie in evidenza, link giusti.</p>
-            <p class="costo"><b>Incluso</b>nel sito da 390 €</p><p class="dove">E in <b>ogni abbonamento</b>.</p></div>
-        </li>
-        <li class="servizio">
-          <div class="m m-video"><video src="video/spot.mp4" muted loop playsinline preload="none" aria-label="Lo spot Jué × Bombay Sapphire: il Bombay &amp; Tonic e la bottiglietta in omaggio"></video><img class="ferma" src="img/spot.jpg" alt="" width="540" height="960" loading="lazy"><span class="rec-tag" aria-hidden="true"><i></i>Rec</span></div>
-          <div class="t"><h3>Video e reel</h3><p class="riga">Riprese vere, montate per Reel, TikTok e storie.</p>
-            <p class="costo"><b>100 €</b>a reel</p><p class="dove">Pacchetti da 320 € al mese. 4 reel nel <b>Plus</b>, 8 nel <b>Pro</b>.</p></div>
-        </li>
-        <li class="servizio">
-          <div class="m m-g"><div class="box"><img src="img/scheda-google.jpg" alt="Un esempio di scheda Google: il nome dell’attività, le stelle, gli orari e i tasti Indicazioni, Sito web e Chiama" width="750" height="578" loading="lazy"><i class="tocco" aria-hidden="true"></i></div></div>
-          <div class="t"><h3>Scheda Google</h3><p class="riga">Chi cerca in zona trova orari, foto e recensioni.</p>
-            <p class="costo"><b>Incluso</b>nel sito da 390 €</p><p class="dove">E in <b>ogni abbonamento</b>.</p></div>
-        </li>
-        <li class="servizio">
-          <div class="m m-sito"><div class="in"><img src="img/sito-1.jpg" alt="La copertina di jueclub.it sul telefono" width="520" height="1125" loading="lazy"><img src="img/sito-4.jpg" alt="Il menù di jueclub.it sul telefono" width="520" height="1125" loading="lazy"></div></div>
-          <div class="t"><h3>Sito su misura</h3><p class="riga">Chi sei, cosa fai e un tasto per chiamarti.</p>
-            <p class="costo"><b>390 €</b>una volta sola</p><p class="dove">Con Google e Instagram.</p></div>
-        </li>
-        <li class="servizio">
-          <div class="m m-video showreel"><video src="video/showreel-verticale.mp4" data-largo="video/showreel-orizzontale.mp4" muted loop playsinline preload="none" aria-label="Lo showreel in motion design di Veniello Studio"></video><img class="ferma" src="img/showreel-verticale.jpg" data-largo="img/showreel-orizzontale.jpg" alt="" width="720" height="1280" loading="lazy"><span class="rec-tag" aria-hidden="true"><i></i>Rec</span></div>
-          <div class="t"><h3>Motion design</h3><p class="riga">Logo animato e scritte a tempo di musica.</p>
-            <p class="costo"><b>Su preventivo</b></p><p class="dove">Il prezzo te lo scriviamo prima.</p></div>
-        </li>
-        <li class="servizio">
-          <div class="m m-spot"><div class="in"><img src="img/spot-3-2.jpg" alt="Lo spot del Jué: il gin versato nel bicchiere" width="600" height="1067" loading="lazy"><img src="img/spot-6-2.jpg" alt="Lo spot del Jué: il lime nel drink" width="600" height="1067" loading="lazy"><img src="img/spot-13-6.jpg" alt="Lo spot del Jué: il drink finito con la promozione della serata" width="600" height="1067" loading="lazy"></div></div>
-          <div class="t"><h3>Spot pubblicitari</h3><p class="riga">Idea, copione e montaggio, come i grandi marchi.</p>
-            <p class="costo"><b>da 100 €</b>a spot</p><p class="dove">Fino a 35 secondi. Da 150 € quelli più lunghi. Uno all’anno incluso nel <b>Pro</b>.</p></div>
-        </li>
-        <li class="servizio tutto">
-          <span class="consigliato">Consigliato</span>
-          <div class="t"><h3>Social e Google insieme</h3>
-            <ul>
-              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Scheda Google</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Instagram in ordine</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Fino a 12 pubblicazioni al mese, di cui 4 reel</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Riprese da noi una volta al mese</li>
-            </ul>
-            <div class="piede-t"><p class="costo"><b>299 €</b>al mese · Plus</p><a class="btn btn-pieno" href="#prezzi">Vedi i prezzi</a></div></div>
-        </li>
-      </ul>
-      <p class="fonte">Siti, video e grafiche: lavori veri fatti per il Jué Club di Montecatini Terme. La scheda Google è un esempio.</p>
-    </div>
-  </section>
-
-  <section class="binario" id="come" aria-labelledby="t-come">
-    <div class="binario-stage">
-      <div class="binario-testa">
-        <span class="etichetta">Come funziona</span>
-        <h2 id="t-come">Prima lo vedi. <em>Poi decidi</em>.</h2>
-      </div>
-      <div class="vagoni" id="vagoni">
-        <article class="vagone"><span class="n">01</span><h3>Ci scrivi</h3><p>Su WhatsApp o per telefono. Ci racconti la tua attività in due minuti.</p></article>
-        <article class="vagone"><span class="n">02</span><h3>Ti prepariamo l’anteprima <span class="gratis">Gratis</span></h3><p>Con foto e informazioni vere della tua attività. Ti arriva un link da aprire sul telefono.</p></article>
-        <article class="vagone"><span class="n">03</span><h3>Se ti piace, va online</h3><p>Sul tuo dominio, insieme a Google e ai social. Da lì in poi ti trovano.</p></article>
-      </div>
-      <div class="rotaia" aria-hidden="true">
-        <i class="linea"><i class="pieno" id="rotaia-pieno"></i></i>
-        <span class="stazione s0" style="--s:0"><i></i><span>Ci scrivi</span></span>
-        <span class="stazione s1" style="--s:1"><i></i><span>Anteprima</span></span>
-        <span class="stazione s2" style="--s:2"><i></i><span>Online</span></span>
-        <i class="treno" id="treno"></i>
-      </div>
-    </div>
-  </section>
-
-  <section class="partner" id="partner" aria-labelledby="t-partner">
+  <section class="partner dopo-scena" id="partner" aria-labelledby="t-partner">
     <div class="wrap">
       <span class="etichetta">Partner</span>
       <h2 id="t-partner">Chi ha scelto <em>Veniello Studio</em>.</h2>
@@ -726,11 +784,114 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
     </div>
   </section>
 
+  <section class="binario" id="come" aria-labelledby="t-come">
+    <div class="binario-stage">
+      <div class="binario-testa">
+        <span class="etichetta">Come funziona</span>
+        <h2 id="t-come">Prima lo vedi. <em>Poi decidi</em>.</h2>
+      </div>
+      <div class="vagoni" id="vagoni">
+        <article class="vagone"><span class="n">01</span><h3>Ci scrivi</h3><p>Su WhatsApp o per telefono. Ci racconti la tua attività in due minuti.</p></article>
+        <article class="vagone"><span class="n">02</span><h3>Ti prepariamo l’anteprima <span class="gratis">Gratis</span></h3><p>Con foto e informazioni vere della tua attività. Ti arriva un link da aprire sul telefono.</p></article>
+        <article class="vagone"><span class="n">03</span><h3>Se ti piace, va online</h3><p>Sul tuo dominio, insieme a Google e ai social. Da lì in poi ti trovano.</p></article>
+      </div>
+      <div class="rotaia" aria-hidden="true">
+        <i class="linea"><i class="pieno" id="rotaia-pieno"></i></i>
+        <span class="stazione s0" style="--s:0"><i></i><span>Ci scrivi</span></span>
+        <span class="stazione s1" style="--s:1"><i></i><span>Anteprima</span></span>
+        <span class="stazione s2" style="--s:2"><i></i><span>Online</span></span>
+        <i class="treno" id="treno"></i>
+      </div>
+    </div>
+  </section>
+
+  <section class="servizi" id="servizi" aria-labelledby="t-servizi">
+    <div class="wrap">
+      <span class="etichetta">Servizi</span>
+      <h2 id="t-servizi">Tutto quello che serve per farti <em>scegliere</em>.</h2>
+      <p class="intro"><span class="solo-pc">Sette servizi, più uno in arrivo.</span><span class="solo-tel">Tre servizi, più uno in arrivo.</span> Li prendi <b>uno alla volta</b>, oppure più di uno insieme in un <b>abbonamento al mese</b>.</p>
+      <ul class="griglia-s">
+        <li class="servizio">
+          <div class="m m-sito"><div class="in"><img src="img/sito-1.jpg" alt="La copertina di jueclub.it sul telefono" width="520" height="1125" loading="lazy"><img src="img/sito-4.jpg" alt="Il menù di jueclub.it sul telefono" width="520" height="1125" loading="lazy"></div></div>
+          <div class="t"><h3><a href="#p-sito"><span class="largo">Sito su misura</span></a></h3><p class="riga">Chi sei, cosa fai e un tasto per chiamarti.</p>
+            <p class="costo"><b>390 €</b>una volta sola</p><p class="dove">Con Google e Instagram.</p></div>
+        </li>
+        <li class="servizio">
+          <div class="m m-cal"><div class="in"><div class="cal" role="img" aria-label="Un calendario di pubblicazioni: reel, post e storie, un giorno dopo l'altro"><div class="oggi"><b>Ven 16</b><span>Reel</span><span>La novità</span></div><div><b>Sab 17</b><span>Post</span><span>Locandina</span></div><div><b>Dom 18</b><span>Storia</span><span>Video da 6 s</span></div><div><b>Lun 19</b><span>Storia</span><span>«Da domani»</span></div><div><b>Mar 20</b><span>Storie</span><span>Dal vivo</span></div></div></div></div>
+          <div class="t"><h3><a href="#p-mese"><span class="largo">Gestione social</span></a></h3><p class="riga">Post, storie e grafiche ogni mese, pubblicati da noi.</p>
+            <p class="costo"><b>da 149 €</b>al mese</p><p class="dove"><b>Base</b>, <b>Plus</b> o <b>Pro</b>.</p></div>
+        </li>
+        <li class="servizio">
+          <div class="m m-video"><video src="video/spot.mp4" muted loop playsinline preload="none" aria-label="Lo spot Jué × Bombay Sapphire: il Bombay &amp; Tonic e la bottiglietta in omaggio"></video><img class="ferma" src="img/spot.jpg" alt="" width="540" height="960" loading="lazy"><span class="rec-tag" aria-hidden="true"><i></i>Rec</span></div>
+          <div class="t"><h3><a href="#p-video"><span class="largo">Video e reel</span></a></h3><p class="riga">Riprese vere, montate per Reel, TikTok e storie.</p>
+            <p class="costo"><b>100 €</b>a reel</p><p class="dove">Pacchetti da 320 € al mese. 4 reel nel <b>Plus</b>, 8 nel <b>Pro</b>.</p></div>
+        </li>
+        <li class="servizio">
+          <div class="m m-riep"><div class="in" role="img" aria-label="Un esempio: Giulia chiede su WhatsApp se può venire sabato alle 10, e al titolare arriva il riepilogo: appuntamento, sabato 21 alle 10, da confermare"><p class="bolla cli">Posso venire sabato alle 10? Sono Giulia</p><i class="punto" aria-hidden="true"></i><div class="riep"><span class="riep-t"><i></i>Per te<span class="lungo"> · nuova richiesta</span></span><b>Appuntamento · Giulia</b><span>Sabato 21, ore 10</span><span>da confermare</span></div></div></div>
+          <div class="t"><h3><a href="#assistente"><span class="largo">Virtual Assistant</span></a></h3><p class="riga">Risponde ai tuoi clienti su WhatsApp, anche quando non puoi.</p>
+            <p class="costo"><s>229 €</s><b>179 €</b>al mese</p><p class="dove"><b>Presto disponibile</b>, con il prezzo di lancio. <a href="https://wa.me/393520338377?text=Ciao%2C%20vorrei%20prenotare%20un%E2%80%99anteprima%20del%20Virtual%20Assistant%20per%20la%20mia%20attivit%C3%A0" target="_blank" rel="noopener" data-conta="anteprima-servizi">Prenota un’anteprima</a></p></div>
+        </li>
+        <li class="servizio secondario">
+          <div class="m m-fan"><img src="img/reel-9-0.jpg" alt="" width="600" height="1067" loading="lazy"><img src="img/locandina.jpg" alt="La locandina della serata Martedì Blu" width="600" height="803" loading="lazy"><img src="img/reel-23-0.jpg" alt="" width="600" height="1067" loading="lazy"></div>
+          <div class="t"><h3><a href="#p-sito"><span class="largo">Instagram e TikTok</span></a></h3><p class="riga">Profilo in ordine, storie in evidenza, link giusti.</p>
+            <p class="costo"><b>Incluso</b>nel sito da 390 €</p><p class="dove">E in <b>ogni abbonamento</b>.</p></div>
+        </li>
+        <li class="servizio secondario">
+          <div class="m m-g"><div class="box"><img src="img/scheda-google.jpg" alt="Un esempio di scheda Google: il nome dell’attività, le stelle, gli orari e i tasti Indicazioni, Sito web e Chiama" width="750" height="578" loading="lazy"><i class="tocco" aria-hidden="true"></i></div></div>
+          <div class="t"><h3><a href="#p-sito"><span class="largo">Scheda Google</span></a></h3><p class="riga">Chi cerca in zona trova orari, foto e recensioni.</p>
+            <p class="costo"><b>Incluso</b>nel sito da 390 €</p><p class="dove">E in <b>ogni abbonamento</b>.</p></div>
+        </li>
+        <li class="servizio secondario">
+          <div class="m m-video showreel"><video src="video/showreel-verticale.mp4" data-largo="video/showreel-orizzontale.mp4" muted loop playsinline preload="none" aria-label="Lo showreel in motion design di Veniello Studio"></video><img class="ferma" src="img/showreel-verticale.jpg" data-largo="img/showreel-orizzontale.jpg" alt="" width="720" height="1280" loading="lazy"><span class="rec-tag" aria-hidden="true"><i></i>Rec</span></div>
+          <div class="t"><h3><a href="#contatti"><span class="largo">Motion design</span></a></h3><p class="riga">Logo animato e scritte a tempo di musica.</p>
+            <p class="costo"><b>Su preventivo</b></p><p class="dove">Il prezzo te lo scriviamo prima.</p></div>
+        </li>
+        <li class="servizio secondario">
+          <div class="m m-spot"><div class="in"><img src="img/spot-3-2.jpg" alt="Lo spot del Jué: il gin versato nel bicchiere" width="600" height="1067" loading="lazy"><img src="img/spot-6-2.jpg" alt="Lo spot del Jué: il lime nel drink" width="600" height="1067" loading="lazy"><img src="img/spot-13-6.jpg" alt="Lo spot del Jué: il drink finito con la promozione della serata" width="600" height="1067" loading="lazy"></div></div>
+          <div class="t"><h3><a href="#p-video"><span class="largo">Spot pubblicitari</span></a></h3><p class="riga">Idea, copione e montaggio, come i grandi marchi.</p>
+            <p class="costo"><b>da 100 €</b>a spot</p><p class="dove">Fino a 35 secondi. Da 150 € quelli più lunghi. Uno all’anno incluso nel <b>Pro</b>.</p></div>
+        </li>
+        <li class="servizio tutto secondario">
+          <span class="consigliato">Consigliato</span>
+          <div class="t"><h3><span class="largo">Social e Google insieme</span></h3>
+            <ul>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Scheda Google</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Instagram in ordine</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Fino a 12 pubblicazioni al mese, di cui 4 reel</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Riprese da noi una volta al mese</li>
+            </ul>
+            <div class="piede-t"><p class="costo"><b>299 €</b>al mese · Plus</p><a class="btn btn-pieno" href="#p-mese">Vedi i prezzi</a></div></div>
+        </li>
+      </ul>
+      <p class="fonte">Siti, video e grafiche: lavori veri fatti per il Jué Club di Montecatini Terme. La scheda Google e il Virtual Assistant sono esempi.</p>
+    </div>
+  </section>
+
+
+
   <section class="prezzi" id="prezzi" aria-labelledby="t-prezzi">
     <div class="wrap">
       <span class="etichetta">Prezzi</span>
       <h2 id="t-prezzi">Prezzi chiari, <em>fin da subito</em>.</h2>
-      <div class="gruppo">
+      <div class="gruppo" id="p-sito">
+        <div class="gruppo-testa"><h3>Una volta sola</h3><span class="mono">senza abbonamento</span></div>
+        <div class="carte">
+          <article class="carta">
+            <h4>Sito + Google + Instagram</h4>
+            <p class="prezzo">390 €</p>
+            <p class="quando">una volta sola</p>
+            <ul>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Sito su misura, fatto per il telefono</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Sul tuo dominio</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Scheda Google sistemata</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Profilo Instagram in ordine</li>
+            </ul>
+            <a class="btn btn-linea" href="https://wa.me/393520338377?text=Ciao%2C%20mi%20interessa%20Sito%20%2B%20Google%20%2B%20Instagram" target="_blank" rel="noopener">Inizia con l’anteprima</a>
+          </article>
+        </div>
+        <p class="nota">Il dominio è l’unica spesa a parte: circa 10-15 € l’anno, intestato a te. Per siti aziendali con più pagine, catalogo prodotti o negozio online facciamo un preventivo su misura.</p>
+      </div>
+      <div class="gruppo" id="p-mese">
         <div class="gruppo-testa"><h3>Ogni mese</h3><span class="mono">gestione social</span></div>
         <div class="carte tre">
           <article class="carta">
@@ -779,25 +940,7 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
         </div>
         <p class="nota">Il numero dipende dal tipo di contenuti: lo decidiamo insieme ogni mese. Si disdice quando vuoi. Prezzi finali, senza sorprese. Nel Pro i soldi della pubblicità li paghi tu direttamente a Meta, quanto vuoi tu.</p>
       </div>
-      <div class="gruppo">
-        <div class="gruppo-testa"><h3>Una volta sola</h3><span class="mono">senza abbonamento</span></div>
-        <div class="carte">
-          <article class="carta">
-            <h4>Sito + Google + Instagram</h4>
-            <p class="prezzo">390 €</p>
-            <p class="quando">una volta sola</p>
-            <ul>
-              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Sito su misura, fatto per il telefono</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Sul tuo dominio</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Scheda Google sistemata</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Profilo Instagram in ordine</li>
-            </ul>
-            <a class="btn btn-linea" href="https://wa.me/393520338377?text=Ciao%2C%20mi%20interessa%20Sito%20%2B%20Google%20%2B%20Instagram" target="_blank" rel="noopener">Inizia con l’anteprima</a>
-          </article>
-        </div>
-        <p class="nota">Il dominio è l’unica spesa a parte: circa 10-15 € l’anno, intestato a te. Per siti aziendali con più pagine, catalogo prodotti o negozio online facciamo un preventivo su misura.</p>
-      </div>
-      <div class="gruppo">
+      <div class="gruppo" id="p-video">
         <div class="gruppo-testa"><h3>Video</h3><span class="mono">a lavoro</span></div>
         <div class="carte quattro">
           <article class="carta">
@@ -851,7 +994,7 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
         </div>
         <p class="nota">Per durate diverse o riprese fuori zona il prezzo te lo scriviamo prima.</p>
       </div>
-      <div class="gruppo">
+      <div class="gruppo" id="p-reel">
         <div class="gruppo-testa"><h3>Pacchetti reel</h3><span class="mono">ogni mese</span></div>
         <div class="carte quattro">
           <article class="carta">
@@ -894,6 +1037,42 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
         <p class="nota">I reel compresi nei pacchetti durano al massimo 30-35 secondi. Le riprese le fai tu con il telefono, seguendo la nostra scaletta: se preferisci che veniamo noi, il prezzo te lo scriviamo prima.</p>
       </div>
       <div class="serieta"><span>Prezzi scritti prima</span><span>Anteprima senza impegno</span><span>Il dominio è tuo</span><span>Solo foto vere</span></div>
+      <div class="gruppo" id="assistente">
+        <div class="gruppo-testa"><h3>Presto disponibili</h3><span class="mono nuovo"><i aria-hidden="true"></i>Nuovi servizi</span></div>
+        <div class="carte">
+          <article class="carta">
+            <h4>Virtual Assistant</h4>
+            <p class="prezzo"><s>229 €</s> 179 € <small>al mese</small></p>
+            <p class="quando">Attivazione 350 € invece di 450 €</p>
+            <p class="per">Risponde ai tuoi clienti su WhatsApp, anche quando non puoi.</p>
+            <ul>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Risposte in pochi secondi, a qualsiasi ora, anche di notte e la domenica</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Dà orari (festivi e ferie compresi), indirizzo, servizi e prezzi fissi</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Raccoglie appuntamenti, preventivi e richieste, e te li manda riassunti</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Risponde in tutte le lingue e traduce automaticamente i messaggi per te</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Completamente personalizzabile: decidi tu i limiti e quando deve passarti direttamente la conversazione</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><b>Per le prime due settimane ci assicuriamo, con una revisione personale, che funzioni e risolviamo eventuali errori</b></li>
+            </ul>
+            <a class="btn btn-linea" href="https://wa.me/393520338377?text=Ciao%2C%20vorrei%20prenotare%20un%E2%80%99anteprima%20del%20Virtual%20Assistant%20per%20la%20mia%20attivit%C3%A0" target="_blank" rel="noopener" data-conta="anteprima-va">Prenota un’anteprima</a>
+          </article>
+          <article class="carta top">
+            <h4>Sito + Virtual Assistant</h4>
+            <p class="prezzo"><s>750 €</s> 650 € <small>una volta sola</small></p>
+            <p class="quando">poi 179 € al mese per l’assistente</p>
+            <p class="per">Il sito e l’assistente nascono insieme: lui risponde, il sito ti fa trovare.</p>
+            <ul>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Sito su misura, sul tuo dominio, fatto per il telefono</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Scheda Google sistemata e profilo Instagram in ordine</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Virtual Assistant attivato con le informazioni della tua attività</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg>Tutto quello che fa il Virtual Assistant</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><b>Costa 90 € meno che presi separati</b></li>
+            </ul>
+            <a class="btn btn-pieno" href="https://wa.me/393520338377?text=Ciao%2C%20vorrei%20prenotare%20un%E2%80%99anteprima%20del%20pacchetto%20Sito%20%2B%20Virtual%20Assistant" target="_blank" rel="noopener" data-conta="anteprima-pacchetto">Prenota un’anteprima</a>
+          </article>
+        </div>
+        <p class="nota">Il Virtual Assistant è in fase di prova: i primi clienti hanno il prezzo di lancio e ci aiutano a metterlo a punto. Per personalizzarlo ti mandiamo una scheda semplice da compilare, circa 30 minuti: orari, servizi, prezzi e le domande che ricevi di più. Con quelle informazioni preparamo l’anteprima e lo vedi rispondere prima di decidere. Non paghi niente e non ti impegni.</p>
+        <p class="nota">Dopo le prime due settimane le modifiche leggere all’assistente (per esempio un orario o un prezzo) sono gratuite. Per quelle più grandi il prezzo lo decidiamo insieme.</p>
+      </div>
     </div>
   </section>
 
@@ -902,13 +1081,14 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
       <span class="etichetta">Domande</span>
       <h2 id="t-domande">Le domande che ci fanno <em>tutti</em>.</h2>
       <div class="domande-elenco">
-        <details><summary>L’anteprima è davvero gratis?</summary><p>Quella del sito sì. La prepariamo, la guardi con calma sul telefono e decidi. Se non ti convince, non paghi niente e non ti impegni. L’anteprima di un video invece costa 50 € e dura circa 12-13 secondi: è una prova per farti vedere come lavoriamo, con una qualità più bassa del video finito.</p></details>
+        <details><summary>L’anteprima è davvero gratis?</summary><p>Quella del sito e quella del Virtual Assistant sì. Le prepariamo, le guardi con calma sul telefono e decidi. Se non ti convince, non paghi niente e non ti impegni. L’anteprima di un video invece costa 50 € e dura circa 12-13 secondi: è una prova per farti vedere come lavoriamo, con una qualità più bassa del video finito.</p></details>
         <details><summary>Ci sono altre spese oltre al prezzo?</summary><p>Se fai il sito, solo il dominio, cioè il nome del sito (per esempio latuaattivita.it). È intestato a te e costa circa 10-15 € l’anno.</p></details>
         <details><summary>Il sito resta mio?</summary><p>Sì. Una volta pagato è tuo e resta online anche senza abbonamento: paghi solo il dominio, circa 10-15 € l’anno. Le modifiche si pagano a parte, tranne nel Plus e nel Pro.</p></details>
         <details><summary>Devo pagare ogni mese?</summary><p>No. Sito, Google e Instagram si possono pagare una volta sola, 390 €. La gestione social è un abbonamento a parte, che non comprende il sito: da 149 € al mese, e disdici quando vuoi.</p></details>
         <details><summary>Le foto da dove le prendete?</summary><p>Usiamo solo foto vere della tua attività: quelle che hai già sui social, quelle che ci mandi o quelle che facciamo noi quando veniamo a fare le riprese.</p></details>
         <details><summary>Venite voi a fare le riprese?</summary><p>Dipende dall’abbonamento. Nel Base no: foto e video li fai tu con il telefono, seguendo la nostra guida passo per passo, che ti dice cosa riprendere e come. Al resto pensiamo noi: montaggio, testi, pubblicazione e scheda Google. Nel Plus veniamo noi da te a fare le riprese una volta al mese, nel Pro due volte.</p></details>
         <details><summary>In che zona lavorate?</summary><p>Siamo a Montecatini Terme e lavoriamo con le attività di tutta la Valdinievole. Se vuoi, ci vediamo di persona.</p></details>
+        <details><summary>Cosa devo fare io per avere il Virtual Assistant?</summary><p>Compili una scheda semplice, circa 30 minuti: gli orari, i servizi, i prezzi che non cambiano, le domande che ricevi di più e le cose che non deve mai dire. Con quelle informazioni lo prepariamo e lo vedi rispondere in anteprima. Se ti convince, lo attiviamo, e per le prime due settimane lo controlliamo noi. Se poi cambia qualcosa, ci scrivi.</p></details>
       </div>
     </div>
   </section>
@@ -948,8 +1128,9 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
 
 <script>
 // «Scorri» → «Continua a scorrere»: fisso in basso finché la scena bloccata non è finita
-(function(){var c=document.getElementById('continua'),t=c&&c.firstChild,d=document.querySelector('.dichiara');if(!c||!d)return;
-  var ora=-1;function aggiorna(){var y=scrollY,fine=d.getBoundingClientRect().top+y-innerHeight*.9,st=y>fine?2:y>40?1:0;if(st===ora)return;ora=st;
+(function(){var c=document.getElementById('continua'),t=c&&c.firstChild,d0=document.querySelector('.dichiara'),d1=document.querySelector('.dopo-scena');if(!c||!(d0||d1))return;
+  // (nuovo sito, 14/11: sul telefono «Perché serve» è nascosta, allora conta la prima sezione dopo la scena)
+  var ora=-1;function aggiorna(){var d=d0&&d0.offsetParent!==null?d0:(d1||d0),y=scrollY,fine=d.getBoundingClientRect().top+y-innerHeight*.9,st=y>fine?2:y>40?1:0;if(st===ora)return;ora=st;
     // via: prima sfuma, poi display:none. Safari su iOS 26 colora la barra in basso con gli elementi fissi
     // che toccano il bordo, anche se trasparenti (il pallino arancio la faceva diventare arancione)
     clearTimeout(c._t);if(st===2){c.classList.add('via');c._t=setTimeout(function(){c.style.display='none'},500)}
@@ -1600,7 +1781,10 @@ addEventListener('DOMContentLoaded',function(){
           v.style.opacity=(1-.45*ad).toFixed(3);num[i].style.transform='translateX('+(d*-34).toFixed(1)+'px)'});
         rotaia(pos);
       },.2);
-      ScrollTrigger.create({trigger:binario,start:'top top',end:'bottom bottom',onUpdate:function(s){binAgg(s.progress)},onRefresh:function(s){binAgg(s.progress)}});
+      // il palco si ferma a metà schermo (sotto la testata): le carte scorrono solo mentre è fermo
+      var bSt=binario.querySelector('.binario-stage'),bH=bSt.offsetHeight,bTop=Math.round(Math.max(76,(innerHeight-bH)/2)),bPad=parseFloat(getComputedStyle(binario).paddingTop)||0;
+      binario.style.setProperty('--bin-top',bTop+'px');
+      ScrollTrigger.create({trigger:binario,start:'top '+(bTop-bPad)+'px',end:'bottom '+(bTop+bH)+'px',onUpdate:function(s){binAgg(s.progress)},onRefresh:function(s){binAgg(s.progress)}});
     }else{
       vag.style.transform='';vg.forEach(function(v,i){v.style.transform='';num[i].style.transform=''});
       var binPc=morbido(function(p){var pos=p*2;vg.forEach(function(v,i){v.style.opacity=(.4+.6*clamp((pos-i)*3+1)).toFixed(3)});rotaia(pos)},.2);
@@ -1660,6 +1844,7 @@ addEventListener('DOMContentLoaded',function(){
   var filoAgg=morbido(disegnaFilo,.22,function(){return 1.5*innerHeight});
   function misuraFilo(){
     if(!scenaST||!geo.length||!puntoS)return;
+    if(!dich.offsetParent){F=null;scrivi(studio,'visibility','');return} // «Perché serve» non c'è più: niente filo
     var vh=innerHeight,y=scrollY,dr=dich.getBoundingClientRect(),ft=fasi.getBoundingClientRect().top+y;
     var T0=scenaST.end,R0=Math.max(dr.top+y-.76*vh,T0+120),R1=Math.max(dr.bottom+y-.45*vh,R0+150),F1=ft,F0=Math.min(Math.max(R1+30,ft-.5*vh),F1-60);
     R1=Math.min(R1,F0-10);
@@ -1909,6 +2094,41 @@ addEventListener('DOMContentLoaded',function(){
   if(mq){var cambia=function(){fermo=mq.matches;if(fermo){gS=0;disegna()}else sveglia()};if(mq.addEventListener)mq.addEventListener('change',cambia);else if(mq.addListener)mq.addListener(cambia)}
   cv.addEventListener('webglcontextlost',function(e){e.preventDefault();perso=true;if(raf){cancelAnimationFrame(raf);raf=0}});
   cv.addEventListener('webglcontextrestored',function(){perso=false;try{prepara();misura();disegna();sveglia()}catch(x){ripiego()}});
+})();
+</script>
+<script>
+// Virtual Assistant: il riepilogo animato nei servizi gira solo mentre la scheda è sullo schermo (come i video delle altre schede)
+// e il puntino di «Nuovi servizi» nei prezzi si accende una volta; con «Riduci movimento» o senza IntersectionObserver è tutto fermo e acceso.
+(function(){if(!('IntersectionObserver' in window))return;
+  try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return}catch(x){}
+  // «Nuovi servizi»: il puntino parte spento e si accende una volta sola quando il titolo si vede
+  var n=document.querySelector('.mono.nuovo');if(n){n.classList.add('attesa');var o=new IntersectionObserver(function(v){if(v[0].isIntersecting){n.classList.add('acceso');o.disconnect()}},{threshold:1});o.observe(n)}
+  var m=document.querySelector('.m-riep');if(!m)return;
+  var s=m.closest('.servizio');new IntersectionObserver(function(v){s.classList.toggle('anima',v[0].isIntersecting)},{threshold:.4}).observe(m);
+})();
+</script>
+<script>
+// Contatore dei «Prenota un’anteprima» del Virtual Assistant (scelta di Niccolò, 14/11): a ogni tocco aggiunge 1 al contatore
+// gratuito Abacus (abacus.jasoncameron.dev, niente account). È l'unica richiesta esterna del sito e parte solo al tocco, mai
+// all'apertura della pagina; non manda dati della persona. I numeri: abacus.jasoncameron.dev/get/veniellostudio/<chiave>.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-conta]');if(!a)return;
+  try{fetch('https://abacus.jasoncameron.dev/hit/veniellostudio/'+a.getAttribute('data-conta'),{mode:'no-cors',keepalive:true,cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'}).catch(function(){})}catch(x){}
+});
+</script>
+<script>
+// Carte che si aprono: le carte di Video, Pacchetti reel e Presto disponibili mostrano solo nome, prezzo e durata
+// (in Presto disponibili anche la frase e il pulsante «Prenota»); toccandole si aprono dettagli e pulsante.
+// Ognuna si apre da sola (Niccolò, 14/11: «una freccia apre solo la sua»); le altre della riga restano basse (CSS, :has). Senza script restano aperte.
+(function(){
+  var carte=[].slice.call(document.querySelectorAll('#p-video .carta, #p-reel .carta, #assistente .carta'));
+  var freccia='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+  carte.forEach(function(c){var b=document.createElement('button');b.type='button';b.className='apri';b.innerHTML=freccia;
+    b.setAttribute('aria-label','Dettagli: '+c.querySelector('h4').textContent.trim());b.setAttribute('aria-expanded','false');c.appendChild(b);
+    function gira(){var a=!c.classList.contains('aperta');c.classList.toggle('aperta',a);b.setAttribute('aria-expanded',a?'true':'false')}
+    b.addEventListener('click',function(e){e.stopPropagation();gira()});
+    c.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('a,button'))return;gira()});
+    c.classList.add('si-apre');
+  });
 })();
 </script>
 </body>
