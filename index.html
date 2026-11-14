@@ -152,6 +152,9 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .scena-stage.aperto.vivo .plano{will-change:transform}
 .scena-stage.aperto.vivo .tessere{will-change:opacity}
 .scena-stage.aperto.vivo .tv{will-change:transform}
+/* il logo ha un suo strato disegnato già a misura di schermo (vedi logoMisura): Safari su iPhone disegna lo strato una volta
+   e poi lo ingrandisce, e il logo disegnato piccolo e ingrandito s0 volte usciva sgranato (14/11) */
+.scena-stage.aperto.vivo .lv{will-change:transform}
 .muro{position:absolute;left:0;top:0}
 .tessere{position:absolute;left:0;top:0;width:100%;height:100%}
 .muro img,.muro .tv{position:absolute;display:block;border-radius:var(--rt,10px);background:var(--surf)}
@@ -166,6 +169,9 @@ section{padding:clamp(72px,10vw,128px) 0;position:relative}
 .lv .n{position:absolute;left:0;top:0;font-weight:700;letter-spacing:-.05em;line-height:1;white-space:nowrap}
 .lv .n>*{display:inline-block}
 .lv .vv{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.18em;letter-spacing:0;margin-right:.01em;-webkit-text-stroke:.036em currentColor;paint-order:stroke fill;transform-origin:50% 50%}
+/* spazio intorno alla V (riquadro più grande, centro e posto nella riga uguali): la grazia in alto a destra della corsiva esce
+   dalla lettera, e su iPhone quello che esce dal riquadro non veniva disegnato (V tagliata, 14/11) */
+.lv .vv{padding:.14em .22em;margin:-.14em calc(.01em - .22em) -.14em -.22em}
 .lv .pt{width:.21em;height:.21em;margin:0 .035em 0 .045em;visibility:hidden} /* solo il posto del punto nella riga: il puntino lo disegna .pd */
 /* il puntino disegnato (nero sull'arancio): largo 100 px e ridotto dallo script alla misura giusta (il punto della riga è
    largo 2-3 px e il browser lo arrotonderebbe al pixel prima di ingrandirlo) */
@@ -1226,7 +1232,11 @@ function muroCostruisci(zone,fermo,soloMisure){ // zone: per ogni colonna il tra
   function doppio(i,d){return 3000*d*(LAVORI[i][2]==='c'?8:1)+(fermo?20000:0)}
   plano.style.transformOrigin=fx+'px '+fy+'px';
   tv.style.cssText='left:'+bx+'px;top:'+by+'px;width:'+bw+'px;height:'+bh+'px';
-  if(!fermo)logoMisura(bw,bh,s0,Wd,V,hdr,fx+TL.W0*(ml+bx+bw/2-fx),fy+TL.W0*(mt+by+bh/2-fy));
+  // il logo si misura e si disegna a misura di schermo (riquadro s0 volte più grande) e lo strato .lv si rimpicciolisce di s0:
+  // la camera lo riporta a 1 e il logo resta nitido anche su iPhone, che non ridisegna gli strati ingranditi
+  if(!fermo){lv.style.width=(bw*s0).toFixed(2)+'px';lv.style.height=(bh*s0).toFixed(2)+'px';lv.style.transformOrigin='0 0';lv.style.transform='scale('+(1/s0).toFixed(6)+')';
+    logoMisura(bw*s0,bh*s0,1,Wd,V,hdr,fx+TL.W0*(ml+bx+bw/2-fx),fy+TL.W0*(mt+by+bh/2-fy))}
+  else lv.style.width=lv.style.height=lv.style.transformOrigin=lv.style.transform='';
   G.pc=pc;G.Wd=Wd;G.V=V;G.hdr=hdr;G.s0=s0;G.fx=fx;G.fy=fy;G.C=C;G.P=P; // P: prospettiva in proporzione all'altezza dello schermo
   if(soloMisure)return;
   tessere.textContent='';
