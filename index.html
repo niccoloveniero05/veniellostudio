@@ -2125,7 +2125,12 @@ addEventListener('DOMContentLoaded',function(){
 // - sezioni raggiunte scorrendo (una volta a visita), per vedere dove si smette di scorrere.
 // La provenienza si sceglie col link: veniellostudio.it/?ref=instagram (o tiktok, biglietto, qr...).
 (function(){
-  function conta(path,titolo){try{if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:path,title:titolo||path,event:true})}catch(x){}}
+  // gli eventi aspettano in coda finché count.js (caricato async) non è pronto: senza, «sezione/inizio» andava perso
+  var coda=[];
+  function pronto(){return window.goatcounter&&window.goatcounter.count}
+  function manda(){if(!pronto())return;while(coda.length){try{window.goatcounter.count(coda.shift())}catch(x){}}}
+  function conta(path,titolo){coda.push({path:path,title:titolo||path,event:true});manda()}
+  var giri=0,attesa=setInterval(function(){manda();if(pronto()||++giri>60)clearInterval(attesa)},250);
   document.addEventListener('click',function(e){
     var a=e.target.closest&&e.target.closest('a[href*="wa.me"]');if(!a)return;
     var t='';try{t=decodeURIComponent((a.getAttribute('href').split('text=')[1]||'')).replace(/\s+/g,' ').trim()}catch(x){}
