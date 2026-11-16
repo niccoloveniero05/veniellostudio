@@ -2117,6 +2117,28 @@ addEventListener('DOMContentLoaded',function(){
   var s=m.closest('.servizio');new IntersectionObserver(function(v){s.classList.toggle('anima',v[0].isIntersecting)},{threshold:.4}).observe(m);
 })();
 </script>
+<script data-goatcounter="https://veniellostudio.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>
+// Statistiche con GoatCounter (scelta di Niccolò, 16/11): senza cookie e senza dati della persona, quindi niente banner.
+// Conta le visite (con provenienza, telefono o computer, Paese) da solo; qui sotto aggiungiamo gli «eventi»:
+// - clic su ogni pulsante che apre WhatsApp, col testo del messaggio (si confronta con le chat arrivate sul Business);
+// - sezioni raggiunte scorrendo (una volta a visita), per vedere dove si smette di scorrere.
+// La provenienza si sceglie col link: veniellostudio.it/?ref=instagram (o tiktok, biglietto, qr...).
+(function(){
+  function conta(path,titolo){try{if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:path,title:titolo||path,event:true})}catch(x){}}
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href*="wa.me"]');if(!a)return;
+    var t='';try{t=decodeURIComponent((a.getAttribute('href').split('text=')[1]||'')).replace(/\s+/g,' ').trim()}catch(x){}
+    conta('clic/'+(a.getAttribute('data-conta')||t||'whatsapp'),t||'WhatsApp');
+  });
+  if(!('IntersectionObserver' in window))return;
+  var viste={};
+  var o=new IntersectionObserver(function(v){v.forEach(function(r){
+    if(r.isIntersecting&&!viste[r.target.id]){viste[r.target.id]=1;conta('sezione/'+r.target.id,'Sezione '+r.target.id);o.unobserve(r.target)}
+  })},{threshold:.2});
+  ['inizio','lavori','fasi','partner','come','servizi','prezzi','domande','contatti','loghi'].forEach(function(id){var s=document.getElementById(id);if(s)o.observe(s)});
+})();
+</script>
 <script>
 // Contatore dei «Prenota un’anteprima» del Virtual Assistant (scelta di Niccolò, 14/11): a ogni tocco aggiunge 1 al contatore
 // gratuito Abacus (abacus.jasoncameron.dev, niente account). È l'unica richiesta esterna del sito e parte solo al tocco, mai
