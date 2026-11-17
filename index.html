@@ -471,7 +471,7 @@ html.fermo .dichiara .pf::after{content:"";position:absolute;left:50%;bottom:.2e
   /* meno vuoto tra una sezione e l'altra (era 72 px sopra e sotto) */
   .partner,.servizi,.domande,.chiusura{padding-top:52px;padding-bottom:52px}
   /* contatti: pulsanti larghi come nella prima schermata */
-  .chiusura .azioni{flex-direction:column;align-items:stretch;width:100%;max-width:360px}
+  .chiusura .azioni{flex-direction:column;align-items:stretch;width:100%;max-width:none} /* larghi come i riquadri sotto (17/11) */
   .chiusura .azioni .btn{width:100%;min-height:54px}
 }
 /* Come funziona sul telefono: il palco è alto quanto il suo contenuto e si ferma a metà schermo solo mentre le carte scorrono
@@ -593,6 +593,28 @@ html.fermo .binario::after{display:none}
   .dettagli.apre .pacchetto-elenco li,.dettagli.apre .pacchetto-elenco .i,.dettagli.apre .btn,.sp-elenco.spunta .pacchetto-elenco .i,.speciale-tag::before{animation:none!important}
   .sp-elenco.attesa .pacchetto-elenco .i{stroke-dashoffset:0}
 }
+
+/* ===== Sito Web (17/11): le schermate di jueclub.it dentro un telefono disegnato, come quando apri un sito dal telefono
+   (prima il sito prendeva tutto lo schermo, senza cornice). .tel decide la larghezza ed è il contenitore delle misure
+   (cqw = 1% della larghezza del telefono); .tel-c è la cornice nera; sopra la schermata l'ora, l'isola, la batteria e la
+   barra dell'indirizzo. Il riquadro taglia il telefono in basso, come prima. ===== */
+.m-sito .tel{container-type:inline-size;display:block;flex:none;align-self:flex-start;width:72%}
+.m-sito .tel+.tel{display:none}
+.m-sito .tel-c{display:block;padding:3.4cqw 3.4cqw 0;background:#050504;border-radius:15cqw 15cqw 0 0;
+  box-shadow:inset 0 0 0 .5cqw #2b2a25,0 0 0 1px rgba(245,244,239,.08)}
+.m-sito .tel-su{position:relative;display:flex;align-items:center;justify-content:space-between;height:11cqw;padding:1cqw 7.5cqw 0 9cqw;
+  background:#0b0a08;border-radius:11.6cqw 11.6cqw 0 0;font:600 4.6cqw/1 -apple-system,"SF Pro Text",system-ui,sans-serif;color:#f5f4ef;letter-spacing:.01em}
+.m-sito .tel-su b{font-weight:600}
+.m-sito .isola{position:absolute;left:50%;top:2.6cqw;width:27cqw;height:7.6cqw;margin-left:-13.5cqw;border-radius:99px;background:#000}
+.m-sito .batt{position:relative;width:7.6cqw;height:3.8cqw;border-radius:1.2cqw;box-shadow:inset 0 0 0 .5cqw rgba(245,244,239,.5)}
+.m-sito .batt::before{content:"";position:absolute;left:.9cqw;top:.9cqw;bottom:.9cqw;width:4.2cqw;border-radius:.5cqw;background:#f5f4ef}
+.m-sito .batt::after{content:"";position:absolute;right:-1.3cqw;top:1.2cqw;width:.8cqw;height:1.4cqw;border-radius:0 .5cqw .5cqw 0;background:rgba(245,244,239,.5)}
+.m-sito .tel-url{display:flex;justify-content:center;padding:1.4cqw 5cqw 2.4cqw;background:#0b0a08}
+.m-sito .tel-url span{display:block;width:100%;padding:2.2cqw 0;border-radius:99px;background:#23221d;text-align:center;
+  font:500 4cqw/1 -apple-system,"SF Pro Text",system-ui,sans-serif;color:#d9d7cf}
+.m-sito .tel img{display:block;width:100%;height:auto;margin:0;border-radius:0;outline:0;align-self:auto}
+@media (min-width:600px){.m-sito .tel{width:38%}.m-sito .tel+.tel{display:block;margin-top:22px}}
+@media (min-width:1024px){.m-sito .tel{width:36%}}
 </style>
 <noscript><style>.apertura>.copertina{position:relative}.scena{display:none}.dichiara .pf{color:inherit}.macchia{display:none}</style></noscript>
 <script type="application/ld+json">
@@ -769,7 +791,7 @@ html.fermo .binario::after{display:none}
             <details class="dettagli"><summary>Scopri i dettagli</summary><ul class="pacchetto-elenco"><li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><span>Creazione di contenuti con l’IA</span></li><li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><span>Editing di foto e video</span></li><li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><span>Scheda Google</span></li><li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><span>Restyling dei profili Instagram e TikTok</span></li><li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><span>Stories per novità ed eventi</span></li></ul><a class="btn btn-linea chiedi" href="https://wa.me/393520338377?text=Ciao%2C%20mi%20interessa%20il%20pacchetto%20Creazione%20Contenuti" target="_blank" rel="noopener">Parliamone</a></details></div>
         </li>
         <li class="servizio">
-          <div class="m m-sito"><div class="in"><img src="img/sito-1.jpg" alt="La copertina di jueclub.it sul telefono" width="520" height="1125" loading="lazy"><img src="img/sito-4.jpg" alt="Il menù di jueclub.it sul telefono" width="520" height="1125" loading="lazy"></div></div>
+          <div class="m m-sito"><div class="in"><span class="tel"><span class="tel-c"><span class="tel-su" aria-hidden="true"><b>9:41</b><i class="isola"></i><i class="batt"></i></span><span class="tel-url" aria-hidden="true"><span>jueclub.it</span></span><img src="img/sito-1.jpg" alt="La copertina di jueclub.it sul telefono" width="520" height="1125" loading="lazy"></span></span><span class="tel"><span class="tel-c"><span class="tel-su" aria-hidden="true"><b>9:41</b><i class="isola"></i><i class="batt"></i></span><span class="tel-url" aria-hidden="true"><span>jueclub.it</span></span><img src="img/sito-4.jpg" alt="Il menù di jueclub.it sul telefono" width="520" height="1125" loading="lazy"></span></span></div></div>
           <div class="t"><div class="t-testa"><h3><span class="largo">Sito Web</span></h3><p class="riga">Chi sei, cosa fai e un tasto per chiamarti.</p></div>
             <details class="dettagli"><summary>Scopri i dettagli</summary><ul class="pacchetto-elenco"><li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><span>Creazione del sito sul tuo dominio</span></li><li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><span>Gestione attiva e manutenzione</span></li><li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><span>Scheda Google</span></li></ul><a class="btn btn-linea chiedi" href="https://wa.me/393520338377?text=Ciao%2C%20mi%20interessa%20il%20pacchetto%20Sito%20Web" target="_blank" rel="noopener">Parliamone</a></details></div>
         </li>
