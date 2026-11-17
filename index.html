@@ -1491,7 +1491,10 @@ addEventListener('DOMContentLoaded',function(){
     var staz=[].slice.call(rot.querySelectorAll('.stazione')),decidi=binario.querySelector('h2 em');
     if(pc){rot.style.width=(2*(vg[0].offsetWidth+20))+'px'}else rot.style.width='';
     var rW=rot.clientWidth;
-    function rotaia(pos){var q=pos/2;pieno.style.transform='scaleX('+q.toFixed(4)+')';treno.style.transform='translateX('+(q*rW).toFixed(1)+'px)';
+    // il treno va dal centro del primo pallino al centro dell'ultimo (17/11: prima andava da bordo a bordo della linea e
+    // all'arrivo si fermava mezzo pallino più in là di «Online», alla partenza mezzo pallino prima di «Ci scrivi»)
+    var rR=(staz[0].querySelector('i').offsetWidth||11)/2;
+    function rotaia(pos){var q=pos/2;pieno.style.transform='scaleX('+q.toFixed(4)+')';treno.style.transform='translateX('+(rR+q*(rW-2*rR)).toFixed(1)+'px)';
       staz.forEach(function(s,i){s.style.setProperty('--on',clamp((pos-i)*4+1).toFixed(3))});decidi.style.opacity=(.3+.7*clamp((pos-1.55)*2.4)).toFixed(3)}
     if(!pc){
       var vw=vg[0].offsetWidth,passo=vw+12,x0=innerWidth/2-(20+vw/2);
