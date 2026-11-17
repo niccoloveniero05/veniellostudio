@@ -564,6 +564,35 @@ html.fermo .binario::after{display:none}
   .sp-elenco .pacchetto-elenco li b{font-size:18px;margin-bottom:4px}
   .sp-elenco .pacchetto-elenco li .i{width:17px;height:17px;margin-top:5px}
 }
+
+/* ===== Animazioni dei pacchetti (17/11): si muove solo quello che tocchi (niente che spunta scorrendo, bocciato il 16/10).
+   1) computer, mouse sopra una scheda: la scheda si schiarisce e l'immagine si avvicina piano;
+   2) «Scopri i dettagli»: la tendina si apre e si chiude morbida (altezza, script in fondo), le voci entrano una dopo
+      l'altra, le spunte arancio si disegnano, il «+» diventa arancio;
+   3) Campagna 360°: il puntino di «Pacchetto speciale» pulsa piano; le spunte si disegnano una volta quando la scheda
+      si vede (il testo c'è sempre). Con «Riduci movimento» tutto fermo. ===== */
+@media (hover:hover){
+  .griglia-s .servizio{transition:background-color .35s ease}
+  .griglia-s .servizio:hover{background:var(--surf2)}
+  .servizio .m>img,.servizio .m>video,.servizio .m>.in{transition:transform 1s cubic-bezier(.16,1,.3,1)}
+  .servizio:hover .m>img,.servizio:hover .m>video,.servizio:hover .m>.in{transform:scale(1.045)}
+}
+.servizio .dettagli[open] summary::after{color:var(--rec)}
+.pacchetto-elenco .i{stroke-dasharray:22}
+.dettagli.apre .pacchetto-elenco li{animation:pk-voce .55s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--n,0)*55ms + 70ms)}
+.dettagli.apre .pacchetto-elenco .i{animation:pk-spunta .45s cubic-bezier(.45,0,.2,1) both;animation-delay:calc(var(--n,0)*55ms + 170ms)}
+.dettagli.apre .btn{animation:pk-voce .55s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--quante,4)*55ms + 120ms)}
+.sp-elenco.attesa .pacchetto-elenco .i{stroke-dashoffset:22}
+.sp-elenco.spunta .pacchetto-elenco .i{animation:pk-spunta .5s cubic-bezier(.45,0,.2,1) both;animation-delay:calc(var(--n,0)*220ms + 150ms)}
+.speciale-tag::before{animation:pk-polso 2.6s ease-out infinite}
+@keyframes pk-voce{from{opacity:0;transform:translateY(8px)}}
+@keyframes pk-spunta{from{stroke-dashoffset:22}to{stroke-dashoffset:0}}
+@keyframes pk-polso{0%{box-shadow:0 0 0 0 rgba(255,90,31,.55)}70%,100%{box-shadow:0 0 0 8px rgba(255,90,31,0)}}
+@media (prefers-reduced-motion:reduce){
+  .griglia-s .servizio,.servizio .m>img,.servizio .m>video,.servizio .m>.in{transition:none!important;transform:none!important}
+  .dettagli.apre .pacchetto-elenco li,.dettagli.apre .pacchetto-elenco .i,.dettagli.apre .btn,.sp-elenco.spunta .pacchetto-elenco .i,.speciale-tag::before{animation:none!important}
+  .sp-elenco.attesa .pacchetto-elenco .i{stroke-dashoffset:0}
+}
 </style>
 <noscript><style>.apertura>.copertina{position:relative}.scena{display:none}.dichiara .pf{color:inherit}.macchia{display:none}</style></noscript>
 <script type="application/ld+json">
@@ -1823,6 +1852,37 @@ addEventListener('DOMContentLoaded',function(){
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-conta]');if(!a)return;
   try{fetch('https://abacus.jasoncameron.dev/hit/veniellostudio/'+a.getAttribute('data-conta'),{mode:'no-cors',keepalive:true,cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'}).catch(function(){})}catch(x){}
 });
+</script>
+<script>
+// Animazioni dei pacchetti (17/11): la tendina «Scopri i dettagli» si apre e si chiude morbida (altezza) e mette la classe
+// «apre» che fa entrare voci, spunte e pulsante (stile «Animazioni dei pacchetti»); nella Campagna 360° le spunte si
+// disegnano una volta quando la scheda si vede. Con «Riduci movimento» o senza Web Animations: tendine normali, tutto fermo.
+// Lo script dei video ascolta lo stesso tocco prima di questo (riparte il video della scheda): qui non serve altro.
+(function(){
+  var fermo=false;try{fermo=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(x){}
+  var ok=!fermo&&!!document.documentElement.animate,CURVA='cubic-bezier(.16,1,.3,1)';
+  [].forEach.call(document.querySelectorAll('.pacchetto-elenco'),function(ul){
+    [].forEach.call(ul.children,function(li,i){li.style.setProperty('--n',i)})});
+  [].forEach.call(document.querySelectorAll('.servizio .dettagli'),function(d){
+    var sm=d.querySelector('summary'),anim=null,aperta=d.open; // aperta = come deve finire (anche a metà movimento)
+    d.style.setProperty('--quante',d.querySelectorAll('.pacchetto-elenco li').length);
+    sm.addEventListener('click',function(e){
+      if(!ok)return;
+      e.preventDefault();
+      var da=d.offsetHeight,apri=!aperta,a,an;aperta=apri;   // da: altezza di adesso, anche a metà movimento
+      if(anim){anim.cancel();anim=null}
+      if(apri){d.open=true;d.classList.remove('apre');void d.offsetWidth;d.classList.add('apre');a=d.offsetHeight}
+      else{d.classList.remove('apre');d.open=false;a=d.offsetHeight;d.open=true}  // misura chiusa, resta aperta finché scorre
+      d.style.overflow='hidden';
+      an=anim=d.animate({height:[da+'px',a+'px']},{duration:apri?460:340,easing:CURVA});
+      an.onfinish=function(){if(anim!==an)return;anim=null;d.style.overflow='';if(!apri)d.open=false};
+    });
+  });
+  var sp=document.querySelector('.sp-elenco');
+  if(sp&&ok&&'IntersectionObserver' in window){sp.classList.add('attesa');
+    var o=new IntersectionObserver(function(v){if(v[0].isIntersecting){sp.classList.remove('attesa');sp.classList.add('spunta');o.disconnect()}},{threshold:.6});
+    o.observe(sp)}
+})();
 </script>
 </body>
 </html>
