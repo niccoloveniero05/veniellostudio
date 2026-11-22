@@ -262,6 +262,7 @@ a.recapito:hover{background:var(--bg4)}
 @media (min-width:600px){.contatti .pillole{flex-direction:row;flex-wrap:wrap}}
 @media (min-width:900px){.contatti .wrap{grid-template-columns:1.15fr 1fr;align-items:center;gap:var(--s5) 80px}}
 .piede{padding:var(--s5) 0 calc(var(--s6) + env(safe-area-inset-bottom));border-top:var(--linea-sezione)}
+.piede-nota{margin:0 0 var(--s5);max-width:40em}
 .piede-marchio{font-size:clamp(36px,10.6vw,46px)}
 .piede-marchio .vv{-webkit-text-stroke:.04em currentColor}
 .piede-marchio .pt{width:.21em;height:.21em;margin:0 .035em 0 .045em}
@@ -1381,7 +1382,6 @@ sup.ast{font-size:.7em;line-height:0;color:var(--rec)}
           </details>
         </li>
       </ul>
-      <p class="nota">Siti, video e grafiche: lavori veri fatti per il Jué Club di Montecatini Terme. La scheda Google e il Virtual Assistant sono&nbsp;esempi.</p>
     </div>
   </section>
 
@@ -1549,6 +1549,7 @@ sup.ast{font-size:.7em;line-height:0;color:var(--rec)}
 </main>
 
 <footer class="piede" id="piede">
+  <div class="wrap"><p class="nota piede-nota">Siti, video e grafiche: lavori veri fatti per il Jué Club di Montecatini Terme. La scheda Google e il Virtual Assistant sono&nbsp;esempi.</p></div>
   <div class="wrap">
     <p class="marchio piede-marchio" role="img" aria-label="Veniello Studio"><span class="vv" aria-hidden="true">V</span><span aria-hidden="true">eniello</span><i class="pl" id="piede-pl" aria-hidden="true"></i><span aria-hidden="true">studio</span></p>
     <div class="piede-legale">
