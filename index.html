@@ -1651,7 +1651,7 @@ sup.ast{font-size:.7em;line-height:0;color:var(--rec)}
   }
   try {
     var forzaJS = /[?&]volo=js(?:&|$)/.test(location.search);
-    var conCSS = !forzaJS && !!(window.CSS && CSS.supports && CSS.supports("animation-timeline: scroll()") && CSS.supports("animation-range: 0px 1px"));
+    var conCSS = !forzaJS && !/Apple/.test(navigator.vendor || "") && !!(window.CSS && CSS.supports && CSS.supports("animation-timeline: scroll()") && CSS.supports("animation-range: 0px 1px"));
     var FINE_V = 0.5, INIZIO_P = 0.08, FINE_P = 0.6, N = 64, SPEGNI_V = 0.985;
     var fv = hv.cloneNode(true), fp = hp.cloneNode(true);
     fv.id = "volo-v";
