@@ -438,6 +438,9 @@ main .sez h2{font-size:min(7.6vw,31px)}
 /* PIANI tra 900 e 1023 px: colonne che non superano lo schermo (prima la pagina scorreva di lato) */
 @media (min-width:900px){.piani{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (min-width:900px) and (max-width:1023px){.piano-testa{flex-direction:column-reverse;align-items:flex-start;gap:12px}}
+</style><style>
+/* A CAPO dei titoli (24/11): su Safari per iPhone «text-wrap:balance» con la spaziatura negativa a volte crea una riga in più. A capo normale */
+h2{text-wrap:wrap}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -551,7 +554,7 @@ main .sez h2{font-size:min(7.6vw,31px)}
   <section class="sez" id="aggiuntivi" aria-labelledby="t-agg">
     <div class="wrap">
       <span class="etichetta">Servizi</span>
-      <h2 id="t-agg">Prendi solo quello che ti <em>serve</em>.</h2>
+      <h2 id="t-agg">Prendi solo quello che&nbsp;ti&nbsp;<em>serve</em>.</h2>
       <p class="sotto">Servizi a parte, da pagare una volta sola.</p>
       <div class="pila" id="pila">
         <article class="agg" id="a-sito" style="--n:0">
