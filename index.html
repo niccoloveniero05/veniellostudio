@@ -1114,7 +1114,16 @@ sup.ast{font-size:.7em;line-height:0;color:var(--rec)}
   box-shadow:0 calc(var(--sa-th) * .075) 0 #9A421A,0 calc(var(--sa-th) * .15) 0 #9A421A,
     calc(var(--sa-tw) * 1.022) calc(var(--sa-th) * .09) 0 #8A3A14,calc(var(--sa-tw) * 1.022) calc(var(--sa-th) * .33) 0 #7C3311}
 </style>
-</head>
+<style>
+/* PARTNER come la bozza: nome in alto a sinistra, lavoro in basso a sinistra, luogo in basso a destra */
+#partner .card::before{background:
+  radial-gradient(150% 60% at 0% 0%,rgba(8,7,4,.9) 0%,rgba(8,7,4,.7) 26%,rgba(8,7,4,.3) 52%,rgba(8,7,4,0) 80%),
+  linear-gradient(0deg,rgba(8,7,4,.86) 0%,rgba(8,7,4,.5) 22%,rgba(8,7,4,0) 44%)}
+#partner .card-nome{text-align:left}
+#partner .card-piede{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+#partner .card-lavori{flex:1 1 auto;min-width:0;margin:0;text-wrap:pretty}
+#partner .card-luogo{flex:0 1 auto;max-width:38%;margin:0;text-align:right;font:400 11px/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:rgba(245,244,239,.82);text-shadow:0 1px 10px rgba(8,7,4,.8)}
+</style></head>
 <body>
 <a class="salta" href="#contenuto">Vai al contenuto</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1487,33 +1496,33 @@ sup.ast{font-size:.7em;line-height:0;color:var(--rec)}
       <div class="carosello">
         <a class="card" data-anima href="https://jueclub.it" target="_blank" rel="noopener">
           <img class="lento" src="img/jue-bancone.jpg" alt="Il bancone del Jué Club" width="900" height="1200" loading="lazy">
-          <div class="card-nome"><h3>Jué Club</h3><p>Cocktail bar ·&nbsp;Montecatini&nbsp;Terme</p></div>
-          <div class="card-piede"><p class="card-lavori"><small>Cosa facciamo</small>Sito &amp; Gestione Social</p></div>
+          <div class="card-nome"><h3>Jué Club</h3></div>
+          <div class="card-piede"><p class="card-lavori">Sito &amp; Gestione Social</p><p class="card-luogo">Montecatini Terme</p></div>
         </a>
         <a class="card" data-anima href="https://www.instagram.com/azianoparfums.com/" target="_blank" rel="noopener">
           <img class="lento" src="img/aziano.jpg" alt="Il logo di Aziano Parfums" width="936" height="1170" loading="lazy">
-          <div class="card-nome"><h3>Aziano Parfums</h3><p>Profumi ·&nbsp;Stati&nbsp;Uniti</p></div>
-          <div class="card-piede"><p class="card-lavori"><small>Cosa facciamo</small>E-commerce</p></div>
+          <div class="card-nome"><h3>Aziano Parfums</h3></div>
+          <div class="card-piede"><p class="card-lavori">E-commerce</p><p class="card-luogo">Stati Uniti</p></div>
         </a>
         <a class="card" data-anima href="https://cashthehouse.com" target="_blank" rel="noopener">
           <img class="lento" src="img/cashthehouse.jpg" alt="Il logo di Cash the House" width="936" height="1170" loading="lazy">
-          <div class="card-nome"><h3>Cash the House</h3><p>Acquisto case ·&nbsp;New&nbsp;Jersey</p></div>
-          <div class="card-piede"><p class="card-lavori"><small>Cosa facciamo</small>Landing page</p></div>
+          <div class="card-nome"><h3>Cash the House</h3></div>
+          <div class="card-piede"><p class="card-lavori">Landing page</p><p class="card-luogo">New Jersey</p></div>
         </a>
         <div class="card" data-anima>
           <img class="lento" src="img/gb-gioielli.jpg" alt="L’anello Loggia Uno nel negozio online di GB Gioielli" width="780" height="976" loading="lazy">
-          <div class="card-nome"><h3>GB Gioielli</h3><p>Gioielleria ·&nbsp;Città di&nbsp;Castello</p></div>
-          <div class="card-piede"><p class="card-lavori"><small>Cosa facciamo</small>E-commerce</p></div>
+          <div class="card-nome"><h3>GB Gioielli</h3></div>
+          <div class="card-piede"><p class="card-lavori">E-commerce</p><p class="card-luogo">Città di Castello</p></div>
         </div>
         <a class="card" data-anima href="https://www.elenabaldiwp.it/" target="_blank" rel="noopener">
           <img class="lento" src="img/elena-dettagli.jpg" alt="Fedi, partecipazioni e fiori di un matrimonio curato da Elena Baldi" width="720" height="1080" loading="lazy" style="object-position:50% 35%">
-          <div class="card-nome"><h3>Elena Baldi<br><em>Wedding Planner</em></h3><p>Matrimoni ·&nbsp;Montecatini&nbsp;Terme</p></div>
-          <div class="card-piede"><p class="card-lavori"><small>Cosa facciamo</small>Social e video</p></div>
+          <div class="card-nome"><h3>Elena Baldi<br><em>Wedding Planner</em></h3></div>
+          <div class="card-piede"><p class="card-lavori">Social e video</p><p class="card-luogo">Montecatini Terme</p></div>
         </a>
         <a class="card" data-anima href="https://mattiamalpeli.com" target="_blank" rel="noopener">
           <img class="lento" src="img/malpeli.jpg" alt="La prima pagina del sito di Mattia Malpeli" width="780" height="976" loading="lazy">
-          <div class="card-nome"><h3>Mattia Malpeli</h3><p>Ristrutturazioni e investimenti ·&nbsp;Italia</p></div>
-          <div class="card-piede"><p class="card-lavori"><small>Cosa facciamo</small>Sito personale in tre lingue</p></div>
+          <div class="card-nome"><h3>Mattia Malpeli</h3></div>
+          <div class="card-piede"><p class="card-lavori">Sito personale in tre lingue</p><p class="card-luogo">Italia</p></div>
         </a>
       </div>
     </div>
