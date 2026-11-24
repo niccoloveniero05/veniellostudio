@@ -8,14 +8,14 @@
 <link rel="canonical" href="https://www.veniellostudio.it/abbonamenti/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Abbonamenti · Veniello Studio">
-<meta property="og:description" content="Veniello Studio porta la tua attività online e la fa crescere: siti, scheda Google, social e video con l’IA, in un abbonamento al mese.">
+<meta property="og:description" content="Abbonamenti mensili da 430 € per social, scheda Google e video, senza vincoli. Sito, video con l’IA e Virtual Assistant a parte, con anteprima o demo gratuita.">
 <meta property="og:image" content="https://www.veniellostudio.it/img/og.jpg">
 <meta property="og:url" content="https://www.veniellostudio.it/abbonamenti/">
 <meta name="twitter:card" content="summary_large_image">
 
 <meta name="theme-color" content="#100F09">
 <title>Abbonamenti · Veniello Studio</title>
-<meta name="description" content="Veniello Studio porta la tua attività online e la fa crescere: siti, scheda Google, social e video con l’IA, in un abbonamento al mese.">
+<meta name="description" content="Abbonamenti mensili da 430 € per social, scheda Google e video, senza vincoli. Sito, video con l’IA e Virtual Assistant a parte, con anteprima o demo gratuita.">
 <link rel="icon" href="img/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
@@ -370,6 +370,74 @@ html,body{overscroll-behavior-y:none}
 .eroe h1 em{font-style:normal;font-weight:600;color:var(--testo);letter-spacing:-.034em}
 .eroe h1 .pt{width:.2em;height:.2em;margin-left:.04em}
 @media (min-width:1024px){.eroe h1{font-size:clamp(58px,6vw,84px)}}
+</style><style>
+/* TESTATA uguale alla bozza (misurata online il 24/11 a 390 e 1440): altezza 60/64/72 px, logo e «Scrivici» con le stesse misure,
+   stessa posizione (larghezza massima 1180 px, margini 24 px al telefono e 40 px da 900 px), fondo e bordo dopo 30 px di scorrimento. Nessun menu. */
+@media (min-width:900px){:root{--testata:64px}}
+@media (min-width:1024px){:root{--testata:72px}}
+.testata,.testata.piena{background:none;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none}
+.testata::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(16,15,9,.95);-webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);border-bottom:1px solid rgba(245,244,239,.085);opacity:0;transition:opacity .25s ease}
+.testata.piena::before{opacity:1}
+.testata .wrap{max-width:1180px;padding:0 24px;gap:16px}
+.testata .marchio{min-height:44px;font:700 20px/1 var(--marchio);letter-spacing:-.05em}
+.testata .marchio .vv{-webkit-text-stroke:.05em currentColor}
+#testata-contatta{position:relative;min-height:0;height:34px;padding:0 16px;gap:8px;font:500 14px/1 var(--sans);letter-spacing:-.01em;background:rgba(245,244,239,.04);color:var(--testo);box-shadow:inset 0 0 0 1px rgba(245,244,239,.18);transition:background-color .2s ease,box-shadow .2s ease}
+#testata-contatta::before{content:"";position:absolute;inset:-5px -4px}
+#testata-contatta:hover{background:rgba(245,244,239,.08);box-shadow:inset 0 0 0 1px rgba(245,244,239,.32)}
+#testata-contatta:active{transform:scale(.97)}
+#testata-contatta .i{width:15px;height:15px}
+@media (min-width:900px){.testata .wrap{padding:0 40px}}
+@media (min-width:1024px){
+  .testata .marchio{font-size:25px}
+  #testata-contatta{height:40px;padding:0 20px;gap:9px;font-size:16px}
+  #testata-contatta .i{width:17px;height:17px}
+}
+</style><style>
+/* TITOLI DI SEZIONE: tutti gli h2 di sezione della stessa grandezza della bozza (non lo slogan h1, non i nomi nelle schede, non il titolo del pannello) */
+main .sez h2{font-size:min(7.6vw,31px)}
+@media (min-width:900px){main .sez h2{font-size:clamp(34px,3.1vw,46px)}}
+</style><style>
+/* FRECCE come la bozza: carattere «→» nel testo, stessa grandezza del link e uno spazio prima; al passaggio del mouse si sposta di 3 px come prima */
+.freccia{display:inline-block}
+.freccia .fr{display:inline-block;transition:transform .25s var(--curva)}
+.freccia:hover .fr,.freccia:active .fr{transform:translateX(3px)}
+@media (min-width:1024px){
+  .piano .btn,.piano .btn.btn-pieno,.piano .btn.btn-linea{gap:0}
+  .piano .btn::after{content:"\00a0\2192";width:auto;height:auto;background:none;-webkit-mask:none;mask:none;font:inherit;line-height:1}
+}
+.ab-pannello-azione a{gap:0}
+.ab-pannello-azione a::after{content:"\00a0\2192";width:auto;height:auto;background:none;-webkit-mask:none;mask:none;font:inherit;line-height:1}
+</style><style>
+/* PARTNER 6 in fila (da 1400 px): il lavoro occupa tutta la riga in basso a sinistra, il luogo va su una riga sua sotto, a destra,
+   in maiuscoletto mono a 11 px (mai sotto); il fondo delle 6 schede resta allineato. Telefono e 3+3 restano come prima. */
+@media (min-width:1400px){
+ #partner .card-piede{flex-direction:column;align-items:stretch;justify-content:flex-end;gap:8px}
+ #partner .card-lavori{flex:none;text-align:left}
+ #partner .card-luogo{flex:none;align-self:flex-end;width:auto;max-width:100%;text-align:right;font-size:11px;letter-spacing:.12em;white-space:nowrap}
+}
+</style><style>
+/* CONTATTI in fondo come la sezione contatti della bozza (.ct-dati): etichetta mono maiuscola sopra, valore Inter 17 px sottolineato e cliccabile */
+.chiusura .ct-dati{display:grid;gap:4px;margin:28px 0 0;justify-items:start}
+.chiusura .ct-dati dt{margin-top:14px;font:400 11px/1.4 var(--mono);letter-spacing:.12em;word-spacing:0;text-transform:uppercase;color:var(--testo3)}
+.chiusura .ct-dati dt:first-child{margin-top:0}
+.chiusura .ct-dati dd{margin:0;font:450 17px/1.4 var(--sans);color:var(--testo)}
+.chiusura .ct-dati a{color:var(--testo);text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(245,244,239,.16)}
+</style><style>
+/* AREA TOCCABILE alta almeno 44 px per i link di testo, senza cambiare l'aspetto: uno strato invisibile centrato sul link */
+.freccia,.chiusura .ct-dati a,.piede .titolare a,.piede .riga a,.ab-pannello-azione a,.piano .btn{position:relative}
+.freccia::before,.chiusura .ct-dati a::before,.piede .titolare a::before,.piede .riga a::before,.ab-pannello-azione a::before,.piano .btn::before{content:"";position:absolute;left:0;right:0;top:50%;height:max(44px,100%);transform:translateY(-50%)}
+</style><style>
+/* Testata al computer allineata ai margini della landing (decisione 24/11, 1a); al telefono resta come la bozza */
+@media (min-width:900px){.testata .wrap{max-width:var(--max);padding:0 var(--lato)}}
+/* Partner 6 in fila: fondo più scuro in basso, così il testo non tocca le scritte dentro le foto (Malpeli) */
+@media (min-width:1400px){#partner .card::before{background:radial-gradient(150% 60% at 0% 0%,rgba(8,7,4,.9) 0%,rgba(8,7,4,.7) 26%,rgba(8,7,4,.3) 52%,rgba(8,7,4,0) 80%),linear-gradient(0deg,rgba(8,7,4,.95) 0%,rgba(8,7,4,.8) 30%,rgba(8,7,4,.35) 48%,rgba(8,7,4,0) 62%)}}
+</style><style>
+/* Malpeli 6 in fila: foto spostata un po in alto, così la frase della foto non tocca il testo della scheda */
+@media (min-width:1400px){#pa-malpeli img{translate:0 -11%}}
+</style><style>
+/* PIANI tra 900 e 1023 px: colonne che non superano lo schermo (prima la pagina scorreva di lato) */
+@media (min-width:900px){.piani{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:900px) and (max-width:1023px){.piano-testa{flex-direction:column-reverse;align-items:flex-start;gap:12px}}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -441,6 +509,7 @@ html,body{overscroll-behavior-y:none}
             <p class="titoletto">Comprende</p>
             <ul class="lista">
               <li class="voce-sito" id="crescita-sito-voce"><button type="button" tabindex="-1" aria-label="Togli sito web o e-commerce"><span class="opz-segno" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span><span>Sito web o <span class="nw">e-commerce</span> <span class="meno">−10%</span></span></button></li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><span>Scheda Google</span></li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><span>Crescita del profilo social<small>Con report mensile sulle conversioni</small></span></li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><span>Riprese dal vivo</span></li>
               <li><svg class="i" aria-hidden="true"><use href="#i-ok"/></svg><span>Editing di video e foto</span></li>
@@ -495,7 +564,7 @@ html,body{overscroll-behavior-y:none}
           <div class="agg-dx">
             <div class="agg-icona" aria-hidden="true"><svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="rgba(245,244,239,.85)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="34" width="200" height="140" rx="2"/><path d="M40 56H240"/><circle cx="54" cy="45" r="2.4"/><circle cx="63" cy="45" r="2.4"/><circle cx="72" cy="45" r="2.4"/><rect x="58" y="74" width="120" height="56" rx="1" stroke="#FF5A1F"/><path d="M58 150H130"/><rect x="214" y="96" width="70" height="128" rx="2" fill="#18170F"/><path d="M238 106H260"/><rect x="224" y="122" width="50" height="34" rx="0" stroke="#FF5A1F"/><rect x="224" y="196" width="50" height="14" rx="1"/></g></svg></div>
             <p class="prezzo"><b>450&nbsp;€</b><span>una volta sola</span></p>
-            <a class="freccia" href="https://wa.me/393520338377?text=Ciao%2C%20mi%20interessa%20un%20sito%20web%20o%20un%20e-commerce" target="_blank" rel="noopener">Contattaci<svg class="i" aria-hidden="true"><use href="#i-dx"/></svg></a>
+            <a class="freccia" href="https://wa.me/393520338377?text=Ciao%2C%20mi%20interessa%20un%20sito%20web%20o%20un%20e-commerce" target="_blank" rel="noopener">Contattaci <span class="fr" aria-hidden="true">→</span></a>
           </div>
         </article>
         <article class="agg" id="a-video" style="--n:1">
@@ -507,7 +576,7 @@ html,body{overscroll-behavior-y:none}
           <div class="agg-dx">
             <div class="agg-icona" aria-hidden="true"><svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="rgba(245,244,239,.85)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="150" y="16" width="104" height="190" rx="2"/><rect x="116" y="38" width="104" height="190" rx="2" fill="#18170F"/><path d="M156 118L186 134L156 150Z"/><path d="M132 208H204" stroke="rgba(245,244,239,.3)"/><path d="M132 208H162"/><path d="M74 62 C77.6 78.4 77.6 78.4 94 82 C77.6 85.6 77.6 85.6 74 102 C70.4 85.6 70.4 85.6 54 82 C70.4 78.4 70.4 78.4 74 62 Z" stroke="#FF5A1F"/></g></svg></div>
             <p class="prezzo"><span>da</span><b>100&nbsp;€</b><span>a video</span></p>
-            <a class="freccia" href="https://wa.me/393520338377?text=Ciao%2C%20mi%20interessa%20un%20video%20con%20l%E2%80%99IA" target="_blank" rel="noopener">Contattaci<svg class="i" aria-hidden="true"><use href="#i-dx"/></svg></a>
+            <a class="freccia" href="https://wa.me/393520338377?text=Ciao%2C%20mi%20interessa%20un%20video%20con%20l%E2%80%99IA" target="_blank" rel="noopener">Contattaci <span class="fr" aria-hidden="true">→</span></a>
           </div>
         </article>
         <article class="agg" id="a-va" style="--n:2">
@@ -520,7 +589,7 @@ html,body{overscroll-behavior-y:none}
           <div class="agg-dx">
             <div class="agg-icona" aria-hidden="true"><svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg"><g transform="translate(-10 -78)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M170 100A80 80 0 1 0 250 180A60.4 60.4 0 1 1 170 100Z" stroke="rgba(245,244,239,.85)" stroke-width="1.4"/><circle cx="190" cy="170" r="8" fill="rgba(245,244,239,.9)"/><circle cx="222" cy="146" r="8" fill="rgba(245,244,239,.9)"/><path d="M178.4 100.4A80 80 0 0 1 249.6 171.6" stroke="#FF5A1F" stroke-width="2.25"/></g></svg></div>
             <p class="prezzo"><b>Su richiesta</b></p>
-            <a class="freccia" href="https://wa.me/393520338377?text=Ciao%2C%20vorrei%20provare%20la%20demo%20gratuita%20del%20Virtual%20Assistant%20per%20la%20mia%20attivit%C3%A0" target="_blank" rel="noopener">Prova la demo gratuita<svg class="i" aria-hidden="true"><use href="#i-dx"/></svg></a>
+            <a class="freccia" href="https://wa.me/393520338377?text=Ciao%2C%20vorrei%20provare%20la%20demo%20gratuita%20del%20Virtual%20Assistant%20per%20la%20mia%20attivit%C3%A0" target="_blank" rel="noopener">Prova la demo gratuita <span class="fr" aria-hidden="true">→</span></a>
           </div>
         </article>
       </div>
@@ -571,7 +640,7 @@ html,body{overscroll-behavior-y:none}
       <span class="etichetta">Domande</span>
       <h2 id="t-faq">Prima di <em>iniziare</em>.</h2>
       <div class="faq">
-        <div class="faq-v" id="d1"><button class="faq-d" aria-expanded="false" aria-controls="r1">Come si parte?<span class="piu" aria-hidden="true"></span></button><div class="faq-r" id="r1" role="region"><div><p>Premi Contattaci e scrivici su WhatsApp. Fissiamo la consulenza di partenza: studiamo la tua attività e il piano per farla crescere. Poi scegli l’abbonamento e si parte.</p></div></div></div>
+        <div class="faq-v" id="d1"><button class="faq-d" aria-expanded="false" aria-controls="r1">Come si parte?<span class="piu" aria-hidden="true"></span></button><div class="faq-r" id="r1" role="region"><div><p>Scrivici su WhatsApp o chiamaci: ci racconti la tua attività e, con una consulenza gratuita, capiamo insieme da dove conviene partire. Poi scegli l’abbonamento o il servizio e si parte.</p></div></div></div>
         <div class="faq-v" id="d2"><button class="faq-d" aria-expanded="false" aria-controls="r2">La consulenza è gratuita?<span class="piu" aria-hidden="true"></span></button><div class="faq-r" id="r2" role="region"><div><p>Sì, sempre e senza impegno: ci racconti la tua attività e capiamo insieme da dove&nbsp;partire.</p></div></div></div>
         <div class="faq-v" id="d6"><button class="faq-d" aria-expanded="false" aria-controls="r6">C’è un vincolo di durata?<span class="piu" aria-hidden="true"></span></button><div class="faq-r" id="r6" role="region"><div><p>No. Gli abbonamenti si disdicono di mese in mese, quando vuoi: basta un messaggio su WhatsApp e l’abbonamento finisce alla fine del mese già pagato.</p></div></div></div>
         <div class="faq-v" id="d4"><button class="faq-d" aria-expanded="false" aria-controls="r4">Che differenza c’è tra abbonamenti e servizi?<span class="piu" aria-hidden="true"></span></button><div class="faq-r" id="r4" role="region"><div><p>Gli abbonamenti si pagano ogni mese e comprendono il lavoro continuo: social, contenuti, report. I servizi sono lavori singoli, come un sito o un video, e si pagano una volta sola.</p></div></div></div>
@@ -586,7 +655,11 @@ html,body{overscroll-behavior-y:none}
       <h2 id="t-fine">Pronto a farti <em>scegliere</em>?</h2>
       <p class="sotto">Scrivici su WhatsApp il nome della tua attività: fissiamo la consulenza di partenza.</p>
       <a class="btn btn-pieno" href="https://wa.me/393520338377?text=Ciao%2C%20vorrei%20informazioni%20sugli%20abbonamenti%20di%20Veniello%20Studio" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-wa"/></svg>Contattaci su WhatsApp</a>
-      <p class="recapito">Telefono e WhatsApp · Giuseppe Fusciello<br><a href="tel:+393520338377">+39 352 033 8377</a></p>
+      <dl class="ct-dati">
+        <dt>Referente</dt><dd>Giuseppe Fusciello</dd>
+        <dt>Telefono e WhatsApp</dt><dd><a href="tel:+393520338377">+39 352 033 8377</a></dd>
+        <dt>Email</dt><dd><a href="mailto:giuseppe@veniellostudio.it">giuseppe@veniellostudio.it</a></dd>
+      </dl>
     </div>
   </section>
 </main>
@@ -601,7 +674,7 @@ html,body{overscroll-behavior-y:none}
 <script>
 (function(){
   var t=document.getElementById('testata');
-  function testata(){t.classList.toggle('piena',scrollY>8)}
+  function testata(){t.classList.toggle('piena',scrollY>30)}
   addEventListener('scroll',testata,{passive:true});testata();
   
   (function(){
