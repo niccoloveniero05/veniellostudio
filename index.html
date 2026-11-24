@@ -1123,6 +1123,20 @@ sup.ast{font-size:.7em;line-height:0;color:var(--rec)}
 #partner .card-piede{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
 #partner .card-lavori{flex:1 1 auto;min-width:0;margin:0;text-wrap:pretty}
 #partner .card-luogo{flex:0 1 auto;max-width:38%;margin:0;text-align:right;font:400 11px/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:rgba(245,244,239,.82);text-shadow:0 1px 10px rgba(8,7,4,.8)}
+</style><style>
+/* PARTNER al computer come la bozza: schede ferme; 3+3 fino a 1399 px, 6 in fila da 1400 px a tutta larghezza */
+#partner .card .lento,#partner .card:hover .lento,#partner .card.va .lento{animation:none!important;transform:none!important}
+@media (min-width:1400px){
+ #partner .wrap{max-width:none}
+ #partner .wrap > :not(.carosello){margin-left:calc((100% - (var(--max) - 2 * var(--lato))) / 2)}
+ #partner .carosello{grid-template-columns:repeat(6,minmax(0,1fr))}
+ #partner .card{container-type:inline-size}
+ #partner .card-nome{left:18px;right:18px;top:18px}
+ #partner .card-piede{left:18px;right:18px;bottom:18px}
+ #partner .card-nome h3{font-size:clamp(21px,1.65vw,30px)}
+ #partner .card-lavori{flex:1 1 auto;font-size:clamp(13.5px,1.05vw,16px)}
+ #partner .card-luogo{flex:0 0 auto;width:min-content;max-width:none;letter-spacing:.07em;font-size:clamp(9.5px,.72vw,11px)}
+}
 </style></head>
 <body>
 <a class="salta" href="#contenuto">Vai al contenuto</a>
